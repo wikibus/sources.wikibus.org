@@ -15,5 +15,6 @@
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
     <PackageReference Include="System.Configuration.Abstractions" Version="2.0.2.45" />
     <PackageReference Include="tpluscode.NoDocumentation.Ruleset" Version="1.2.0" />
+    <DotNetCliToolReference Include="T5.TextTransform.Tool" Version="1.1.0-*" />
   </ItemGroup>
 </Project>
