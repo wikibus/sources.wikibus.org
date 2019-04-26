@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+        <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+        <RootNamespace>Wikibus.Sources.EF</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Argolis.Hydra" Version="0.4.0-beta0001" />
+      <PackageReference Include="Fody" Version="4.2.1" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.4" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.2.4" />
+      <PackageReference Include="NullGuard.Fody" Version="1.8.7" />
+      <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
+      <PackageReference Include="tpluscode.NoDocumentation.Ruleset" Version="1.2.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\wikibus.common\wikibus.common.csproj" />
+      <ProjectReference Include="..\wikibus.sources\wikibus.sources.csproj" />
+    </ItemGroup>
+
+</Project>

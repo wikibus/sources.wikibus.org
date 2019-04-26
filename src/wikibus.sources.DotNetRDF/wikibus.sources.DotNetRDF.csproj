@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <RootNamespace>Wikibus.Sources.DotNetRDF</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\wikibus.sources\wikibus.sources.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Fody" Version="4.2.1" />
+      <PackageReference Include="NullGuard.Fody" Version="1.8.7" />
+      <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
+      <PackageReference Include="tpluscode.NoDocumentation.Ruleset" Version="1.2.0" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <RootNamespace>Wikibus.Nancy</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Argolis.Hydra" Version="0.4.0-beta0001" />
+    <PackageReference Include="Argolis.Hydra.Nancy" Version="0.4.0-beta0001" />
+    <PackageReference Include="Argolis.Nancy" Version="0.4.0-beta0001" />
+    <PackageReference Include="Fody" Version="4.2.1" />
+    <PackageReference Include="Imageflow.Net" Version="0.2.6" />
+    <PackageReference Include="Nancy.Bootstrappers.Autofac" Version="2.0.0-clinteastwood" />
+    <PackageReference Include="Nancy.Rdf" Version="0.4.0" />
+    <PackageReference Include="Nancy.Routing.UriTemplates" Version="1.2.0" />
+    <PackageReference Include="NullGuard.Fody" Version="1.8.7" />
+    <PackageReference Include="Resourcer.Fody" Version="1.7.3" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
+    <PackageReference Include="tpluscode.NoDocumentation.Ruleset" Version="1.2.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\wikibus.common\wikibus.common.csproj" />
+    <ProjectReference Include="..\wikibus.sources.DotNetRDF\wikibus.sources.DotNetRDF.csproj" />
+    <ProjectReference Include="..\wikibus.sources.EF\wikibus.sources.EF.csproj" />
+    <ProjectReference Include="..\wikibus.sources.images\wikibus.sources.images.csproj" />
+    <ProjectReference Include="..\wikibus.sources\wikibus.sources.csproj" />
+  </ItemGroup>
+</Project>
