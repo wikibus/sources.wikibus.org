@@ -1,0 +1,5 @@
+name: wikibus-brochures
+services: 
+  api:
+    type: dotnet
+    command: dotnet run --project src/app
