@@ -3,4 +3,4 @@ build:
     web: Dockerfile
 run:
   web:
-    dotnet app.dll --server.urls http://*:$PORT 
+    dotnet app.dll
