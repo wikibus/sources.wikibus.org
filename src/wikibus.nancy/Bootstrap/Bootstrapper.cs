@@ -72,12 +72,6 @@ namespace Wikibus.Nancy
                 });
                 _.For<ISourceImagesRepository>().Use<SourceImagesRepository>();
                 _.ForConcreteType<EntityFactory>();
-
-                _.Scan(scan =>
-                {
-                    scan.Assembly("Nancy.Rdf");
-                    scan.RegisterConcreteTypesAgainstTheFirstInterface();
-                });
             });
 
             base.ConfigureApplicationContainer(existingContainer);

@@ -4,6 +4,7 @@ using JsonLD.Entities;
 using Microsoft.Extensions.Configuration;
 using Nancy;
 using Nancy.Bootstrapper;
+using Nancy.Rdf.ModelBinding;
 using Nancy.Routing;
 using VDS.RDF.Query;
 using Wikibus.Common;
@@ -35,6 +36,7 @@ namespace Wikibus.Nancy
             }));
             this.Register<IFrameProvider>(new WikibusModelFrames());
             this.Register<DefaultRouteResolver>();
+            this.Register<IRdfConverter>(typeof(RdfConverter));
         }
     }
 }

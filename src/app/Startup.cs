@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Nancy.Owin;
+using Wikibus.Sources.EF;
 
 namespace Brochures.Wikibus.Org
 {
@@ -11,15 +13,15 @@ namespace Brochures.Wikibus.Org
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string domain = $"https://{Configuration["Auth0:Domain"]}/";
+            string domain = $"https://{this.Configuration["Auth0:Domain"]}/";
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -27,10 +29,11 @@ namespace Brochures.Wikibus.Org
             }).AddJwtBearer(options =>
             {
                 options.Authority = domain;
-                options.Audience = Configuration["Auth0:ApiIdentifier"];
+                options.Audience = this.Configuration["Auth0:ApiIdentifier"];
             });
 
-            services.AddMvc();
+            services.AddDbContext<SourceContext>(
+                options => options.UseSqlServer(this.Configuration["wikibus:sources:sql"]));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using StructureMap;
-using Wikibus.Sources.DotNetRDF;
 
 namespace Brochures.Wikibus.Org
 {
@@ -24,7 +23,8 @@ namespace Brochures.Wikibus.Org
         {
             existingContainer.Configure(_ =>
             {
-                _.For<ISourcesDatabaseSettings>().Use<Settings>();
+                _.For<global::Wikibus.Sources.DotNetRDF.ISourcesDatabaseSettings>().Use<Settings>();
+                _.Forward<Settings, global::Wikibus.Sources.ISourcesDatabaseSettings>();
                 _.For<IConfiguration>().Use(this.configuration);
             });
 

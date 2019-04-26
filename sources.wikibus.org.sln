@@ -16,6 +16,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wikibus.sources.images", "s
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wikibus.sources.DotNetRDF", "src\wikibus.sources.DotNetRDF\wikibus.sources.DotNetRDF.csproj", "{3EA67EF2-2D9E-4BCF-9C6F-A546FB2C8241}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wikibus.sources.nancy", "src\wikibus.sources.nancy\wikibus.sources.nancy.csproj", "{9F44117F-4456-4F79-88E2-B2C2E21DAED5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,5 +52,9 @@ Global
 		{3EA67EF2-2D9E-4BCF-9C6F-A546FB2C8241}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3EA67EF2-2D9E-4BCF-9C6F-A546FB2C8241}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3EA67EF2-2D9E-4BCF-9C6F-A546FB2C8241}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F44117F-4456-4F79-88E2-B2C2E21DAED5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F44117F-4456-4F79-88E2-B2C2E21DAED5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F44117F-4456-4F79-88E2-B2C2E21DAED5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F44117F-4456-4F79-88E2-B2C2E21DAED5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

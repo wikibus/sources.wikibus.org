@@ -4,6 +4,13 @@ namespace Wikibus.Sources.EF
 {
     public class SourceContext : DbContext, ISourceContext
     {
+        private readonly ISourcesDatabaseSettings configuration;
+
+        public SourceContext(ISourcesDatabaseSettings configuration)
+        {
+            this.configuration = configuration;
+        }
+
         public DbSet<BookEntity> Books { get; set; }
 
         public DbSet<BrochureEntity> Brochures { get; set; }
@@ -23,9 +30,16 @@ namespace Wikibus.Sources.EF
                 .HasForeignKey(issue => issue.MagIssueMagazine);
 
             modelBuilder.Entity<SourceEntity>()
-                .Property(e => e.Image).IsRequired();
+                .HasOne(e => e.Image).WithOne().HasForeignKey<ImageData>(e => e.Id);
 
             modelBuilder.Entity<ImageData>().ToTable("Source", "Sources");
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(
+                this.configuration.ConnectionString,
+                builder => builder.UseRowNumberForPaging());
         }
     }
 }

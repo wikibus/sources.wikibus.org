@@ -9,6 +9,7 @@
         <PackageReference Include="json-ld.net" Version="1.0.6" />
         <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
         <PackageReference Include="Nancy" Version="2.0.0-clinteastwood" />
+        <PackageReference Include="tpluscode.NoDocumentation.Ruleset" Version="1.2.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -17,6 +18,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\wikibus.nancy\wikibus.nancy.csproj" />
+      <ProjectReference Include="..\wikibus.sources.nancy\wikibus.sources.nancy.csproj" />
     </ItemGroup>
 
 </Project>

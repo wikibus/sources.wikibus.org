@@ -3,6 +3,8 @@
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
         <RootNamespace>Wikibus.Sources.Images</RootNamespace>
+        <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+        <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     </PropertyGroup>
 
     <ItemGroup>
