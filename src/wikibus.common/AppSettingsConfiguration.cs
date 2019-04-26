@@ -1,5 +1,5 @@
-﻿using System.Configuration;
-using Argolis.Models;
+﻿using Argolis.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace Wikibus.Common
 {
@@ -8,18 +8,25 @@ namespace Wikibus.Common
     /// </summary>
     public class AppSettingsConfiguration : IWikibusConfiguration, IBaseUriProvider
     {
-        private const string Prefix = "wikibus#";
+        private const string Prefix = "wikibus:";
 
         private const string BaseUrl = Prefix + "baseUrl";
         private const string ApiUrl = Prefix + "apiUrl";
         private const string WebUrl = Prefix + "websiteUrl";
+
+        private readonly IConfiguration configuration;
+
+        public AppSettingsConfiguration(IConfiguration configuration)
+        {
+            this.configuration = configuration;
+        }
 
         /// <summary>
         /// Gets the base namespace for data resources.
         /// </summary>
         public string BaseResourceNamespace
         {
-            get { return ConfigurationManager.AppSettings[BaseUrl]; }
+            get { return this.configuration[BaseUrl]; }
         }
 
         /// <summary>
@@ -27,7 +34,7 @@ namespace Wikibus.Common
         /// </summary>
         public string BaseApiNamespace
         {
-            get { return ConfigurationManager.AppSettings[ApiUrl]; }
+            get { return this.configuration[ApiUrl]; }
         }
 
         /// <summary>
@@ -35,7 +42,7 @@ namespace Wikibus.Common
         /// </summary>
         public string BaseWebNamespace
         {
-            get { return ConfigurationManager.AppSettings[WebUrl]; }
+            get { return this.configuration[WebUrl]; }
         }
 
         public string BaseResourceUri => this.BaseResourceNamespace;

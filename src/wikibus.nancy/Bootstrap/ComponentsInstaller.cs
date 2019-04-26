@@ -1,6 +1,7 @@
 ﻿using System;
 using Argolis.Models;
 using JsonLD.Entities;
+using Microsoft.Extensions.Configuration;
 using Nancy;
 using Nancy.Bootstrapper;
 using Nancy.Routing;
@@ -21,10 +22,10 @@ namespace Wikibus.Nancy
         /// </summary>
         /// <param name="databaseSettings">Database configuration provider</param>
         /// <param name="catalog">Nancy type catalog</param>
-        public ComponentsInstaller(ISourcesDatabaseSettings databaseSettings, ITypeCatalog catalog)
+        public ComponentsInstaller(ISourcesDatabaseSettings databaseSettings, ITypeCatalog catalog, IConfiguration c)
             : base(catalog)
         {
-            IWikibusConfiguration configuration = new AppSettingsConfiguration();
+            IWikibusConfiguration configuration = new AppSettingsConfiguration(c);
 
             this.Register(configuration);
             this.Register(new Lazy<ISparqlQueryProcessor>(() =>

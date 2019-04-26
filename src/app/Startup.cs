@@ -43,7 +43,12 @@ namespace Brochures.Wikibus.Org
 
             app.UseAuthentication();
 
-            app.UseOwin(owin => owin.UseNancy());
+            app.UseOwin(owin => owin.UseNancy(
+                new NancyOptions
+                {
+                    Bootstrapper = new Bootstrapper(this.Configuration)
+                }
+                ));
         }
     }
 }

@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Linq;
 using Argolis.Hydra;
-using Autofac;
+using Argolis.Models;
 using Nancy;
 using Nancy.Bootstrapper;
-using Nancy.Bootstrappers.Autofac;
+using Nancy.Bootstrappers.StructureMap;
 using Nancy.Configuration;
 using Nancy.Diagnostics;
 using Nancy.Responses.Negotiation;
 using Nancy.Routing.UriTemplates;
+using StructureMap;
 using Wikibus.Common;
 using Wikibus.Nancy.Hydra;
+using Wikibus.Sources;
 using Wikibus.Sources.EF;
 using Wikibus.Sources.Images;
 
@@ -19,7 +21,7 @@ namespace Wikibus.Nancy
     /// <summary>
     /// Bootstrapper for wikibus.org API app
     /// </summary>
-    public class Bootstrapper : AutofacNancyBootstrapper
+    public class Bootstrapper : StructureMapNancyBootstrapper
     {
         /// <summary>
         /// Gets overridden configuration
@@ -52,18 +54,30 @@ namespace Wikibus.Nancy
         /// Configures the application container.
         /// </summary>
         /// <param name="existingContainer">The existing container.</param>
-        protected override void ConfigureApplicationContainer(ILifetimeScope existingContainer)
+        protected override void ConfigureApplicationContainer(IContainer existingContainer)
         {
-            existingContainer.Update(builder =>
+            existingContainer.Configure(_ =>
             {
-                builder.RegisterType<AppSettingsConfiguration>().AsImplementedInterfaces();
-                builder.RegisterType<HydraDocumentationSettings>().As<IHydraDocumentationSettings>();
-                builder.RegisterType<ImageResizer>().As<IImageResizer>();
-                builder.RegisterAssemblyTypes(typeof(SourcesRepository).Assembly)
-                    .Where(t => t.Name.EndsWith("Repository"))
-                    .AsImplementedInterfaces();
-                builder.RegisterType<SourceImagesRepository>().AsImplementedInterfaces();
-                builder.RegisterType<EntityFactory>().AsSelf();
+                _.ForConcreteType<AppSettingsConfiguration>();
+                _.Forward<AppSettingsConfiguration, IWikibusConfiguration>();
+                _.Forward<AppSettingsConfiguration, IBaseUriProvider>();
+
+                _.For<IHydraDocumentationSettings>().Use<HydraDocumentationSettings>();
+                _.For<IImageResizer>().Use<ImageResizer>();
+                _.Scan(scan =>
+                {
+                    scan.Assembly(typeof(SourcesRepository).Assembly);
+                    scan.Include(t => t.Name.EndsWith("Repository"));
+                    scan.RegisterConcreteTypesAgainstTheFirstInterface();
+                });
+                _.For<ISourceImagesRepository>().Use<SourceImagesRepository>();
+                _.ForConcreteType<EntityFactory>();
+
+                _.Scan(scan =>
+                {
+                    scan.Assembly("Nancy.Rdf");
+                    scan.RegisterConcreteTypesAgainstTheFirstInterface();
+                });
             });
 
             base.ConfigureApplicationContainer(existingContainer);
@@ -74,11 +88,11 @@ namespace Wikibus.Nancy
         /// </summary>
         /// <param name="container">The container.</param>
         /// <param name="context">The context.</param>
-        protected override void ConfigureRequestContainer(ILifetimeScope container, NancyContext context)
+        protected override void ConfigureRequestContainer(IContainer container, NancyContext context)
         {
-            container.Update(builder =>
+            container.Configure(_ =>
             {
-                builder.RegisterType<SourceContext>().AsImplementedInterfaces();
+                _.For<ISourceContext>().Use<SourceContext>();
             });
 
             base.ConfigureRequestContainer(container, context);
