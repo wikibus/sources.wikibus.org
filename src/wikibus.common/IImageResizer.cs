@@ -1,4 +1,6 @@
-﻿namespace Wikibus.Common
+﻿using System.Threading.Tasks;
+
+namespace Wikibus.Common
 {
     /// <summary>
     /// Handles resizing images
@@ -10,6 +12,6 @@
         /// </summary>
         /// <param name="input">The image contents.</param>
         /// <param name="maxSize">The maximum size.</param>
-        byte[] Resize(byte[] input, int maxSize);
+        Task<byte[]> Resize(byte[] input, int maxSize);
     }
 }
