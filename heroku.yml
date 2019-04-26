@@ -1,6 +1,6 @@
 build:
   docker:
-    Dockerfile
+    web: Dockerfile
 run:
   web:
     dotnet run 
