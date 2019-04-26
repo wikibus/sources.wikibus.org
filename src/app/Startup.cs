@@ -47,8 +47,7 @@ namespace Brochures.Wikibus.Org
                 new NancyOptions
                 {
                     Bootstrapper = new Bootstrapper(this.Configuration)
-                }
-                ));
+                }));
         }
     }
 }
