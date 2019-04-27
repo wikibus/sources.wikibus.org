@@ -4,10 +4,7 @@
       "commandName": "Executable",
       "workingDirectory": "$(ProjectDir)",
       "executablePath": "dotnet",
-      "commandLineArgs": "watch run --environment Development",
-      "environmentVariables": {
-        "ASPNETCORE_URLS": "http://*:17899"
-      }
+      "commandLineArgs": "watch run --environment Development"
     }
   }
 }

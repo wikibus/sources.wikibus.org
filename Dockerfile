@@ -17,6 +17,4 @@ COPY --from=build-env /output .
 
 ENV wikibus:sources:test=xyz
 
-RUN echo "ASPNETCORE_URLS=http://0.0.0.0:\$PORT\nDOTNET_RUNNING_IN_CONTAINER=true" > /app/setup_heroku_env.sh && chmod +x /app/setup_heroku_env.sh
-
 CMD /app/setup_heroku_env.sh && dotnet app.dll

@@ -10,7 +10,7 @@ namespace Brochures.Wikibus.Org
         public static void Main(string[] args)
         {
             var configuration = new ConfigurationBuilder()
-                .AddCommandLine(args)
+                .AddEnvironmentVariables()
                 .Build();
             BuildWebHost(args, configuration).Run();
         }
@@ -19,6 +19,7 @@ namespace Brochures.Wikibus.Org
         {
             var webHostBuilder = WebHost.CreateDefaultBuilder(args)
                 .UseConfiguration(configuration)
+                .UseUrls($"http://*:{configuration.GetValue("PORT", 17899)}")
                 .UseStartup<Startup>();
 
             return webHostBuilder
