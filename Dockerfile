@@ -15,6 +15,6 @@ WORKDIR /app
 
 COPY --from=build-env /output .
 
-ENV wikibus:sources:test=xyz
+ENV FOO=BAR
 
 CMD dotnet app.dll
