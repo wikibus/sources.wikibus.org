@@ -17,4 +17,4 @@ COPY --from=build-env /output .
 
 ENV wikibus:sources:test=xyz
 
-CMD /app/setup_heroku_env.sh && dotnet app.dll
+CMD dotnet app.dll
