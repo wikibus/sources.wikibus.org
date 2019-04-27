@@ -1,0 +1,13 @@
+﻿{
+  "profiles": {
+    "rider watch": {
+      "commandName": "Executable",
+      "workingDirectory": "$(ProjectDir)",
+      "executablePath": "dotnet",
+      "commandLineArgs": "watch run --environment Development",
+      "environmentVariables": {
+        "ASPNETCORE_URLS": "http://*:17899"
+      }
+    }
+  }
+}
