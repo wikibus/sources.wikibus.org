@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore;
+﻿using System;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 
@@ -14,10 +15,14 @@ namespace Brochures.Wikibus.Org
             BuildWebHost(args, configuration).Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args, IConfiguration configuration) =>
-            WebHost.CreateDefaultBuilder(args)
+        public static IWebHost BuildWebHost(string[] args, IConfiguration configuration)
+        {
+            var webHostBuilder = WebHost.CreateDefaultBuilder(args)
                 .UseConfiguration(configuration)
-                .UseStartup<Startup>()
+                .UseStartup<Startup>();
+
+            return webHostBuilder
                 .Build();
+        }
     }
 }

@@ -15,6 +15,6 @@ WORKDIR /app
 
 COPY --from=build-env /output .
 
-# RUN echo "ASPNETCORE_URLS=http://0.0.0.0:\$PORT\nDOTNET_RUNNING_IN_CONTAINER=true" > /app/setup_heroku_env.sh && chmod +x /app/setup_heroku_env.sh
+RUN echo "ASPNETCORE_URLS=http://0.0.0.0:\$PORT\nDOTNET_RUNNING_IN_CONTAINER=true" > /app/setup_heroku_env.sh && chmod +x /app/setup_heroku_env.sh
 
-CMD dotnet app.dll --server.urls "http://*:$PORT"
+CMD /bin/bash -c "source /app/setup_heroku_env.sh && dotnet app.dll"
