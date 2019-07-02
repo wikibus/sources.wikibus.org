@@ -6,8 +6,8 @@
     <RootNamespace>Wikibus.Sources</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Argolis.Hydra" Version="0.4.2" />
-    <PackageReference Include="Argolis.Models" Version="0.4.2" />
+    <PackageReference Include="Argolis.Hydra" Version="0.4.3" />
+    <PackageReference Include="Argolis.Models" Version="0.4.3" />
     <PackageReference Include="Fody" Version="4.2.1" />
     <PackageReference Include="jetbrains.annotations" Version="2019.1.1" />
     <PackageReference Include="JetBrainsAnnotations.Fody" Version="2.13.0" />
