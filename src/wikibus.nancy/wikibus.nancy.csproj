@@ -11,7 +11,7 @@
     <PackageReference Include="Argolis.Nancy" Version="0.4.2" />
     <PackageReference Include="Fody" Version="4.2.1" />
     <PackageReference Include="Imageflow.Net" Version="0.2.6" />
-    <PackageReference Include="Nancy" Version="2.0.0" />
+    <PackageReference Include="Nancy" Version="2.0.0-clinteastwood" />
     <PackageReference Include="Nancy.Bootstrappers.StructureMap" Version="2.0.0-clinteastwood" />
     <PackageReference Include="Nancy.Rdf" Version="0.4.3" />
     <PackageReference Include="Nancy.Routing.UriTemplates" Version="1.2.0" />

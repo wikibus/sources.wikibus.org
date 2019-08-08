@@ -17,6 +17,7 @@ namespace Wikibus.Sources
     /// A bibliographical source of knowledge about public transport
     /// </summary>
     [SupportedClass(Wbo.Source)]
+    [NullGuard(ValidationFlags.ReturnValues)]
     public class Source
     {
         private Language[] languages = new Language[0];
@@ -40,30 +41,26 @@ namespace Wikibus.Sources
         /// <summary>
         /// Gets or sets the pages count.
         /// </summary>
-        [ReadOnly(true)]
-        [Range(Xsd.nonNegativeInteger)]
+        [Range(Xsd.integer)]
         public int? Pages { [return: AllowNull] get; set; }
 
         /// <summary>
         /// Gets or sets the publication date date.
         /// </summary>
-        [ReadOnly(true)]
         [Range(Xsd.date)]
         public DateTime? Date { [return: AllowNull] get; set; }
 
         /// <summary>
         /// Gets or sets the publication year.
         /// </summary>
-        [ReadOnly(true)]
         [Range(Xsd.gYear)]
-        public int? Year { [return: AllowNull] get; set; }
+        public short? Year { [return: AllowNull] get; set; }
 
         /// <summary>
         /// Gets or sets the publication month.
         /// </summary>
-        [ReadOnly(true)]
         [Range(Xsd.gMonth)]
-        public int? Month { [return: AllowNull] get; set; }
+        public byte? Month { [return: AllowNull] get; set; }
 
         /// <summary>
         /// Gets the image.
