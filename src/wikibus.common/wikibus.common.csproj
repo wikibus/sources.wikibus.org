@@ -7,7 +7,7 @@
     <AssemblyName>wikibus.common</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Argolis.Models" Version="0.4.3" />
+    <PackageReference Include="Argolis.Models" Version="0.5" />
     <PackageReference Include="Fody" Version="4.2.1" />
     <PackageReference Include="JsonLD.Entities" Version="0.3.5" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.2.0" />
