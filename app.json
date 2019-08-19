@@ -1,0 +1,31 @@
+{
+  "addons": [
+
+  ],
+  "buildpacks": [
+
+  ],
+  "env": {
+    "wikibus__apiUrl": {
+      "required": true
+    },
+    "wikibus__baseUrl": {
+      "required": true
+    },
+    "wikibus__sources__sparqlEndpoint": {
+      "required": true
+    },
+    "wikibus__sources__sql": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "name": "sources.wikibus.org",
+  "scripts": {
+  },
+  "stack": "container"
+}
