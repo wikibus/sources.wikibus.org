@@ -1,0 +1,13 @@
+{
+  "name": "sources-wikibus-tests",
+  "scripts": {
+    "test": "hydra-validator e2e --docs tests.json $wikibus__baseUrl"
+  },
+  "author": "Tomasz Pluskiewicz <awesome@hypermedia.app>",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "hydra-validator": "latest",
+    "hydra-validator-e2e": "latest"
+  }
+}
