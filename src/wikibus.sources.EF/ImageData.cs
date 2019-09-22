@@ -7,6 +7,6 @@ namespace Wikibus.Sources.EF
         [Key]
         public int Id { get; set; }
 
-        public byte[] Image { get; set; }
+        public byte[] Bytes { get; set; }
     }
 }

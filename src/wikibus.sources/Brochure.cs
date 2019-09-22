@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using Argolis.Hydra.Annotations;
 using Argolis.Hydra.Models;
 using Argolis.Models;
@@ -17,6 +18,7 @@ namespace Wikibus.Sources
     [SupportedClass(Wbo.Brochure)]
     [Identifier("brochure/{id}")]
     [CollectionIdentifier("brochures{?page}")]
+    [NullGuard(ValidationFlags.ReturnValues)]
     public class Brochure : Source
     {
         private string description;
@@ -25,13 +27,12 @@ namespace Wikibus.Sources
         /// <summary>
         /// Gets or sets the title.
         /// </summary>
-        [ReadOnly(true)]
+        [Required]
         public string Title { [return: AllowNull] get; set; }
 
         /// <summary>
         /// Gets or sets the description.
         /// </summary>
-        [ReadOnly(true)]
         public string Description
         {
             [return: AllowNull]

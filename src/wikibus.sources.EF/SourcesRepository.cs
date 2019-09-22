@@ -63,7 +63,7 @@ namespace Wikibus.Sources.EF
                           select new EntityWrapper<BrochureEntity>
                           {
                               Entity = b,
-                              HasImage = b.Image != null
+                              HasImage = b.Image.Bytes != null
                           }).SingleOrDefaultAsync();
 
             if (source == null)
@@ -89,7 +89,7 @@ namespace Wikibus.Sources.EF
                           select new EntityWrapper<BookEntity>
                           {
                               Entity = b,
-                              HasImage = b.Image != null
+                              HasImage = b.Image.Bytes != null
                           }).SingleOrDefaultAsync();
 
             if (source == null)
@@ -149,7 +149,7 @@ namespace Wikibus.Sources.EF
                            {
                                Entity = issue,
                                issue.Magazine,
-                               HasImage = issue.Image != null
+                               HasImage = issue.Image.Bytes != null
                            }).ToListAsync();
 
             var issues = results.Select(i => new EntityWrapper<MagazineIssueEntity>
@@ -187,7 +187,7 @@ namespace Wikibus.Sources.EF
                           {
                               Entity = i,
                               i.Magazine,
-                              HasImage = i.Image.Image != null
+                              HasImage = i.Image.Bytes != null
                           }).SingleOrDefaultAsync();
 
             if (result == null)

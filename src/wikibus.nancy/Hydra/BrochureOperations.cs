@@ -1,4 +1,6 @@
 ﻿using Argolis.Hydra.Discovery.SupportedOperations;
+using JsonLD.Entities;
+using Wikibus.Common;
 using Wikibus.Sources;
 
 namespace Wikibus.Nancy.Hydra
@@ -13,7 +15,8 @@ namespace Wikibus.Nancy.Hydra
         /// </summary>
         public BrochureOperations()
         {
-            this.Class.SupportsGet();
+            this.Class.SupportsGet(title: "Get brochure");
+            this.Class.SupportsPut("Update brochure", expects: (IriRef)Wbo.Brochure);
         }
     }
 }

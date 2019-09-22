@@ -23,7 +23,7 @@ namespace Wikibus.Sources.EF
             var entityWrappers = pageOfBrochures.Select(entity => new EntityWrapper<TEntity>
             {
                 Entity = entity,
-                HasImage = entity.Image.Image != null
+                HasImage = entity.Image.Bytes != null
             });
             var books = await entityWrappers.ToListAsync();
 

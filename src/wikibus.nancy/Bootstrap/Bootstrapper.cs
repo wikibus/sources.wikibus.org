@@ -67,7 +67,6 @@ namespace Wikibus.Nancy
                 _.Scan(scan =>
                 {
                     scan.Assembly(typeof(SourcesRepository).Assembly);
-                    scan.Include(t => t.Name.EndsWith("Repository"));
                     scan.RegisterConcreteTypesAgainstTheFirstInterface();
                 });
                 _.For<ISourceImagesRepository>().Use<SourceImagesRepository>();

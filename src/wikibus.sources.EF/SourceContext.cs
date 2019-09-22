@@ -32,7 +32,11 @@ namespace Wikibus.Sources.EF
             modelBuilder.Entity<SourceEntity>()
                 .HasOne(e => e.Image).WithOne().HasForeignKey<ImageData>(e => e.Id);
 
-            modelBuilder.Entity<ImageData>().ToTable("Source", "Sources");
+            modelBuilder.Entity<ImageData>()
+                .Property(img => img.Bytes).HasColumnName("Image").IsRequired();
+
+            modelBuilder.Entity<ImageData>()
+                .ToTable("Source", "Sources");
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

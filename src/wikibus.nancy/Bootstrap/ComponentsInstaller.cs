@@ -1,4 +1,5 @@
 ﻿using System;
+using Argolis.Hydra.Discovery.SupportedOperations;
 using Argolis.Models;
 using JsonLD.Entities;
 using Microsoft.Extensions.Configuration;
@@ -37,6 +38,7 @@ namespace Wikibus.Nancy
             this.Register<IFrameProvider>(new WikibusModelFrames());
             this.Register<DefaultRouteResolver>();
             this.Register<IRdfConverter>(typeof(RdfConverter));
+            this.RegisterAll<ISupportedOperations>(Lifetime.PerRequest);
         }
     }
 }
