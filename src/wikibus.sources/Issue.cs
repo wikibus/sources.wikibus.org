@@ -46,9 +46,11 @@ namespace Wikibus.Sources
                     yield return type;
                 }
 
-                yield return Schema.PublicationIssue;
+                yield return Type;
             }
         }
+
+        private static string Type => Schema.PublicationIssue;
 
         [UsedImplicitly]
         private static new JToken Context

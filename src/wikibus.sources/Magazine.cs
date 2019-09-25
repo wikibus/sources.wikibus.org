@@ -59,12 +59,14 @@ namespace Wikibus.Sources
             }
         }
 
+        private static string Type => Wbo.Magazine;
+
         [JsonProperty, UsedImplicitly]
         private IEnumerable<string> Types
         {
             get
             {
-                yield return Wbo.Magazine;
+                yield return Type;
                 yield return Schema.Periodical;
             }
         }

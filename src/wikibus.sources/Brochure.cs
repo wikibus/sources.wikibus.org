@@ -95,13 +95,15 @@ namespace Wikibus.Sources
         {
             get
             {
-                ////foreach (var type in base.Types)
-                ////{
-                ////    yield return type;
-                ////}
+                foreach (var type in base.Types)
+                {
+                    yield return type;
+                }
 
-                yield return Wbo.Brochure;
+                yield return Type;
             }
         }
+
+        private static string Type => Wbo.Brochure;
     }
 }

@@ -51,11 +51,13 @@ namespace Wikibus.Sources
                     yield return type;
                 }
 
-                yield return Wbo.Book;
+                yield return Type;
                 yield return Schema.Book;
                 yield return Bibo.Book;
             }
         }
+
+        private static string Type => Wbo.Book;
 
         [UsedImplicitly]
         private static new JObject Context
