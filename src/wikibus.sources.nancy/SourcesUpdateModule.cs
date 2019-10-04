@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Argolis.Models;
 using Argolis.Nancy;
 using Nancy.ModelBinding;
+using Nancy.Security;
 
 namespace Wikibus.Sources.Nancy
 {
@@ -17,6 +18,8 @@ namespace Wikibus.Sources.Nancy
             IUriTemplateExpander expander)
             : base(modelTemplateProvider)
         {
+            this.RequiresAuthentication();
+
             this.expander = expander;
             this.Put<Brochure>(async r => await this.PutSingle(persistence.SaveBrochure, repository.GetBrochure));
         }
