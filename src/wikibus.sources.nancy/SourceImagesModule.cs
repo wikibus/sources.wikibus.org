@@ -26,31 +26,19 @@ namespace Wikibus.Sources.Nancy
             this.Get("/book/{id}/image", request => this.GetImage((int)request.id));
             this.Get("/brochure/{id}/image", request => this.GetImage((int)request.id));
             this.Get("/magazine/{mag}/issue/{issue}/image", request => this.GetImage((string)request.mag, (string)request.issue));
-            this.Get("/book/{id}/image/small", request => this.GetImage((int)request.id, resize: true));
-            this.Get("/brochure/{id}/image/small", request => this.GetImage((int)request.id, resize: true));
-            this.Get("/magazine/{mag}/issue/{issue}/image/small", request => this.GetImage((string)request.mag, (string)request.issue, true));
+            this.Get("/book/{id}/image/small", request => this.GetImage((int)request.id));
+            this.Get("/brochure/{id}/image/small", request => this.GetImage((int)request.id));
+            this.Get("/magazine/{mag}/issue/{issue}/image/small", request => this.GetImage((string)request.mag, (string)request.issue));
         }
 
-        private async Task<byte[]> GetImage(string magazineName, string issueNumber, bool resize = false)
+        private byte[] GetImage(string magazineName, string issueNumber)
         {
-            var imageBytes = this.repository.GetImageBytes(magazineName, issueNumber);
-            if (resize)
-            {
-                return await this.resizer.Resize(imageBytes, SmallImageSize);
-            }
-
-            return imageBytes;
+            return this.repository.GetImageBytes(magazineName, issueNumber);
         }
 
-        private async Task<byte[]> GetImage(int sourceId, bool resize = false)
+        private byte[] GetImage(int sourceId)
         {
-            var imageBytes = this.repository.GetImageBytes(sourceId);
-            if (resize)
-            {
-                return await this.resizer.Resize(imageBytes, SmallImageSize);
-            }
-
-            return imageBytes;
+            return this.repository.GetImageBytes(sourceId);
         }
     }
 }
