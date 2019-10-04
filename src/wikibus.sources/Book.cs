@@ -18,6 +18,7 @@ namespace Wikibus.Sources
     [SupportedClass(Wbo.Book)]
     [Identifier("book/{id}")]
     [CollectionIdentifier("books{/page}")]
+    [Description("Book")]
     public class Book : Source
     {
         /// <summary>

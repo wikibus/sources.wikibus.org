@@ -5,6 +5,7 @@ using JsonLD.Entities;
 using JsonLD.Entities.Context;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Vocab;
 
 namespace Wikibus.Sources
 {
@@ -15,6 +16,9 @@ namespace Wikibus.Sources
 
         [JsonProperty("hex:currentMappings")]
         public Dictionary<string, string> CurrentMappings { get; set; }
+
+        [JsonProperty(Rdfs.label)]
+        public string Title { get; set; } = "Collection";
 
         [JsonProperty]
         private static JToken Context => Collection<T>.Context.MergeWith(Hex.Context);

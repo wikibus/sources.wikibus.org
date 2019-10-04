@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Argolis.Hydra;
+using Argolis.Hydra.Discovery.SupportedClasses;
 using Argolis.Hydra.Resources;
 using Argolis.Models;
 using Argolis.Nancy;
@@ -21,6 +22,7 @@ namespace Wikibus.Sources.Nancy
 
         private readonly IUriTemplateExpander expander;
         private readonly IIriTemplateFactory templateFactory;
+        private readonly ISupportedClassMetaProvider supportedClass;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SourcesModule" /> class.
@@ -29,12 +31,14 @@ namespace Wikibus.Sources.Nancy
             ISourcesRepository repository,
             IUriTemplateExpander expander,
             IIriTemplateFactory templateFactory,
-            IModelTemplateProvider modelTemplateProvider)
+            IModelTemplateProvider modelTemplateProvider,
+            ISupportedClassMetaProvider supportedClass)
             : base(modelTemplateProvider)
         {
             this.expander = expander;
             this.expander = expander;
             this.templateFactory = templateFactory;
+            this.supportedClass = supportedClass;
 
             this.ReturnNotFoundWhenModelIsNull();
 
@@ -92,6 +96,7 @@ namespace Wikibus.Sources.Nancy
 
             var filter = this.Bind<TFilter>();
             var collection = await getPage(collectionId, filter, page.Value, PageSize);
+            collection.Title = this.supportedClass.GetMeta(typeof(T)).Description + " collection";
 
             collection.Views = new IView[]
             {
