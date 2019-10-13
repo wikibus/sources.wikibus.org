@@ -31,6 +31,12 @@ namespace Wikibus.Nancy
         /// </summary>
         public string Id { get; private set; }
 
+        [JsonProperty(Vocab.Hydra.title)]
+        public string Title { get; set; }
+
+        [JsonProperty(Vocab.Hydra.description)]
+        public string Description { get; set; }
+
         /// <summary>
         /// Gets the brochures Uri.
         /// </summary>
