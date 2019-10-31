@@ -19,6 +19,7 @@ namespace Wikibus.Sources
     [Identifier("brochure/{id}")]
     [CollectionIdentifier("brochures{?page}")]
     [NullGuard(ValidationFlags.ReturnValues)]
+    [Description("Public transport brochure")]
     public class Brochure : Source
     {
         private string description;

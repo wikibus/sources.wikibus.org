@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using Argolis.Hydra.Annotations;
+using Argolis.Hydra.Core;
 using JetBrains.Annotations;
 using JsonLD.Entities;
 using JsonLD.Entities.Context;
@@ -30,12 +31,19 @@ namespace Wikibus.Nancy
         /// </summary>
         public string Id { get; private set; }
 
+        [JsonProperty(Vocab.Hydra.title)]
+        public string Title { get; set; }
+
+        [JsonProperty(Vocab.Hydra.description)]
+        public string Description { get; set; }
+
         /// <summary>
         /// Gets the brochures Uri.
         /// </summary>
         [Link]
         [ReadOnly(true)]
         [Range(Vocab.Hydra.Collection)]
+        [Description("Brochures and other promotional publications")]
         public IriRef Brochures
         {
             get { return (IriRef)"brochures"; }
@@ -47,6 +55,7 @@ namespace Wikibus.Nancy
         [Link]
         [ReadOnly(true)]
         [Range(Vocab.Hydra.Collection)]
+        [Description("Books about public transport history and manufacturers, etc.")]
         public IriRef Books
         {
             get { return (IriRef)"books"; }
@@ -58,6 +67,7 @@ namespace Wikibus.Nancy
         [Link]
         [ReadOnly(true)]
         [Range(Vocab.Hydra.Collection)]
+        [Description("Periodicals such as weekly/monthly magazines as well as yearly catalogs")]
         public IriRef Magazines
         {
             get { return (IriRef)"magazines"; }
