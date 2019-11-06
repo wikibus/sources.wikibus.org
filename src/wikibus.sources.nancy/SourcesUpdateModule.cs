@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Argolis.Hydra.Resources;
 using Argolis.Models;
 using Argolis.Nancy;
+using Nancy;
 using Nancy.ModelBinding;
-using Nancy.Security;
+using Wikibus.Common;
+using Wikibus.Nancy;
 
 namespace Wikibus.Sources.Nancy
 {
@@ -18,10 +21,35 @@ namespace Wikibus.Sources.Nancy
             IUriTemplateExpander expander)
             : base(modelTemplateProvider)
         {
-            this.RequiresAuthentication();
+            this.RequiresPermissions(Permissions.WriteSources);
 
             this.expander = expander;
             this.Put<Brochure>(async r => await this.PutSingle(persistence.SaveBrochure, repository.GetBrochure));
+            using (this.Templates)
+            {
+                this.Post<Collection<Brochure>>(async r => await this.CreateBrochure(persistence.CreateBrochure, repository.GetBrochure));
+            }
+        }
+
+        private async Task<dynamic> CreateBrochure(
+            Func<Brochure, Task> saveResource,
+            Func<Uri, Task<Brochure>> getResource)
+        {
+            var brochure = this.BindAndValidate<Brochure>(new BindingConfig
+            {
+                BodyOnly = true,
+            });
+            if (this.Context.ModelValidationResult.IsValid == false)
+            {
+                return HttpStatusCode.BadRequest;
+            }
+
+            await saveResource(brochure);
+
+            return this.Negotiate
+                .WithStatusCode(HttpStatusCode.Created)
+                .WithHeader("Location", brochure.Id.ToString())
+                .WithModel(brochure);
         }
 
         private async Task<T> PutSingle<T>(

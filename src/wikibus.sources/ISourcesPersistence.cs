@@ -5,5 +5,7 @@ namespace Wikibus.Sources
     public interface ISourcesPersistence
     {
         Task SaveBrochure(Brochure brochure);
+
+        Task CreateBrochure(Brochure brochure);
     }
 }

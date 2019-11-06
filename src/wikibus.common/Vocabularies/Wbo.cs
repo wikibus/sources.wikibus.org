@@ -14,30 +14,35 @@ namespace Wikibus.Common
         /// https://wikibus.org/ontology#
         /// </summary>
         public const string BaseUri="https://wikibus.org/ontology#";
-        
+
         /// <summary>
         /// Any source material for wikibus.org (books, brochures, etc).
         /// </summary>
         public const string Source = BaseUri + "Source";
-        
+
         /// <summary>
         /// A book about public transport.
         /// </summary>
         public const string Book = BaseUri + "Book";
-        
+
         /// <summary>
         /// A promotional brochure about public transport.
         /// </summary>
         public const string Brochure = BaseUri + "Brochure";
-        
+
         /// <summary>
         /// A periodical publication about public transport.
         /// </summary>
         public const string Magazine = BaseUri + "Magazine";
-        
+
         /// <summary>
         /// An issue of a magazine.
         /// </summary>
         public const string MagazineIssue = BaseUri + "MagazineIssue";
+
+        /// <summary>
+        /// A collection of brochures
+        /// </summary>
+        public const string BrochureCollection = BaseUri + "BrochureCollection";
     }
 }

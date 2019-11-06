@@ -102,7 +102,7 @@ namespace Wikibus.Sources.EF
 
         public async Task<SearchableCollection<Book>> GetBooks(Uri identifier, BookFilters filters, int page, int pageSize = 10)
         {
-            return await this.context.Books.GetCollectionPage(
+            return await this.context.Books.GetCollectionPage<Book, BookEntity, SearchableCollection<Book>>(
                 identifier,
                 entity => entity.BookTitle,
                 this.FilterBooks(filters),
@@ -113,7 +113,7 @@ namespace Wikibus.Sources.EF
 
         public async Task<SearchableCollection<Brochure>> GetBrochures(Uri identifier, BrochureFilters filters, int page, int pageSize = 10)
         {
-            return await this.context.Brochures.GetCollectionPage(
+            return await this.context.Brochures.GetCollectionPage<Brochure, BrochureEntity, BrochureCollection>(
                 identifier,
                 entity => entity.FolderName,
                 this.FilterBrochures(filters),
@@ -124,7 +124,7 @@ namespace Wikibus.Sources.EF
 
         public async Task<SearchableCollection<Magazine>> GetMagazines(Uri identifier, MagazineFilters filters, int page, int pageSize = 10)
         {
-            return await this.context.Magazines.GetCollectionPage(
+            return await this.context.Magazines.GetCollectionPage<Magazine, MagazineEntity, SearchableCollection<Magazine>>(
                 identifier,
                 entity => entity.Name,
                 this.FilterMagazines(filters),

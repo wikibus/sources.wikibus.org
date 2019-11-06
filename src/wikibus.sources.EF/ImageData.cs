@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using NullGuard;
 
 namespace Wikibus.Sources.EF
 {
@@ -7,6 +8,6 @@ namespace Wikibus.Sources.EF
         [Key]
         public int Id { get; set; }
 
-        public byte[] Bytes { get; set; }
+        public byte[] Bytes { [return: AllowNull] get; set; }
     }
 }
