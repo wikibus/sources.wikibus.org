@@ -15,7 +15,7 @@ namespace Wikibus.Nancy
         private const string AccessControlExposeHeaders = "Access-Control-Expose-Headers";
 
         /// <summary>
-        /// Append CORS headers to reponses
+        /// Append CORS headers to responses
         /// </summary>
         public void Initialize(IPipelines pipelines)
         {
@@ -27,9 +27,9 @@ namespace Wikibus.Nancy
             context.Response
              .WithHeader(AllowOriginHeader, "*")
              .WithHeader(AllowMethodHeader, "POST, GET, DELETE, PUT, OPTIONS")
-             .WithHeader(AllowHeadersHeader, "Accept, Origin, Content-type, X-Requested-With")
+             .WithHeader(AllowHeadersHeader, "Accept, Origin, Content-type, X-Requested-With, Authorization")
              .WithHeader(AllowHeader, "POST, GET, DELETE, PUT, OPTIONS")
-             .WithHeader(AccessControlExposeHeaders, "Link, Content-Location");
+             .WithHeader(AccessControlExposeHeaders, "Link, Content-Location, Location");
         }
     }
 }

@@ -25,6 +25,10 @@ namespace Wikibus.Sources.EF
                 .HasValue<BrochureEntity>("folder")
                 .HasValue<MagazineIssueEntity>("magissue");
 
+            modelBuilder.Entity<SourceEntity>()
+                .Property(p => p.Id)
+                .ForSqlServerUseSequenceHiLo("SourcesSequenceHiLo", "Sources");
+
             modelBuilder.Entity<MagazineEntity>()
                 .HasMany(t => t.Issues).WithOne(issue => issue.Magazine).IsRequired()
                 .HasForeignKey(issue => issue.MagIssueMagazine);

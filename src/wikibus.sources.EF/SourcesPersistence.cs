@@ -7,11 +7,13 @@ namespace Wikibus.Sources.EF
     {
         private readonly SourceContext context;
         private readonly IUriTemplateMatcher matcher;
+        private readonly IUriTemplateExpander expander;
 
-        public SourcesPersistence(SourceContext context, IUriTemplateMatcher matcher)
+        public SourcesPersistence(SourceContext context, IUriTemplateMatcher matcher, IUriTemplateExpander expander)
         {
             this.context = context;
             this.matcher = matcher;
+            this.expander = expander;
         }
 
         public async Task SaveBrochure(Brochure brochure)
@@ -19,6 +21,27 @@ namespace Wikibus.Sources.EF
             var id = this.matcher.Match<Brochure>(brochure.Id).Get<int>("id");
             var brochureEntity = this.context.Brochures.Find(id);
 
+            UpdateEntity(brochure, brochureEntity);
+
+            await this.context.SaveChangesAsync();
+        }
+
+        public async Task CreateBrochure(Brochure brochure)
+        {
+            var brochureEntity = new BrochureEntity
+            {
+                Image = new ImageData()
+            };
+            UpdateEntity(brochure, brochureEntity);
+
+            await this.context.Brochures.AddAsync(brochureEntity);
+            await this.context.SaveChangesAsync();
+
+            brochure.Id = this.expander.ExpandAbsolute<Brochure>(new { id = brochureEntity.Id });
+        }
+
+        private static void UpdateEntity(Brochure brochure, BrochureEntity brochureEntity)
+        {
             brochureEntity.FolderName = brochure.Title;
             brochureEntity.Notes = brochure.Description;
             if (brochure.Date.HasValue)
@@ -51,8 +74,6 @@ namespace Wikibus.Sources.EF
             }*/
 
             brochureEntity.Pages = brochure.Pages;
-
-            await this.context.SaveChangesAsync();
         }
     }
 }

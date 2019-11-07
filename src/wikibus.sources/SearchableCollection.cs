@@ -21,6 +21,6 @@ namespace Wikibus.Sources
         public string Title { get; set; } = "Collection";
 
         [JsonProperty]
-        private static JToken Context => Collection<T>.Context.MergeWith(Hex.Context);
+        protected static new JToken Context => Collection<T>.Context.MergeWith(Hex.Context);
     }
 }

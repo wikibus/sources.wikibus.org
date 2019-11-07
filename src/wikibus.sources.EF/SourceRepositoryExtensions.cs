@@ -8,7 +8,7 @@ namespace Wikibus.Sources.EF
 {
     public static class SourceRepositoryExtensions
     {
-        public static async Task<SearchableCollection<T>> GetCollectionPage<T, TEntity>(
+        public static async Task<TCollection> GetCollectionPage<T, TEntity, TCollection>(
             this DbSet<TEntity> dbSet,
             Uri identifier,
             Expression<Func<TEntity, object>> ordering,
@@ -17,6 +17,7 @@ namespace Wikibus.Sources.EF
             int pageSize,
             Func<EntityWrapper<TEntity>, T> resourceFactory)
             where TEntity : class, IHasImage
+            where TCollection : SearchableCollection<T>, new()
         {
             var entireCollection = applyFilters(dbSet.AsNoTracking()).OrderBy(ordering);
             var pageOfBrochures = entireCollection.Skip((page - 1) * pageSize).Take(pageSize);
@@ -27,7 +28,7 @@ namespace Wikibus.Sources.EF
             });
             var books = await entityWrappers.ToListAsync();
 
-            return new SearchableCollection<T>
+            return new TCollection
             {
                 Id = identifier,
                 Members = books.ToList().Select(resourceFactory).ToArray(),
@@ -35,7 +36,7 @@ namespace Wikibus.Sources.EF
             };
         }
 
-        public static async Task<SearchableCollection<T>> GetCollectionPage<T, TEntity>(
+        public static async Task<TCollection> GetCollectionPage<T, TEntity, TCollection>(
             this DbSet<TEntity> dbSet,
             Uri identifier,
             Expression<Func<TEntity, object>> ordering,
@@ -44,12 +45,13 @@ namespace Wikibus.Sources.EF
             int pageSize,
             Func<TEntity, T> resourceFactory)
             where TEntity : class
+            where TCollection : SearchableCollection<T>, new()
         {
             var entireCollection = applyFilters(dbSet.AsNoTracking()).OrderBy(ordering);
             var pageOfBrochures = entireCollection.Skip((page - 1) * pageSize).Take(pageSize);
             var books = await pageOfBrochures.ToListAsync();
 
-            return new SearchableCollection<T>
+            return new TCollection
             {
                 Id = identifier,
                 Members = books.ToList().Select(resourceFactory).ToArray(),
