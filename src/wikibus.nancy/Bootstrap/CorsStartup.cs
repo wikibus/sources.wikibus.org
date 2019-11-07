@@ -24,12 +24,14 @@ namespace Wikibus.Nancy
 
         private void AppendCorsHeaders(NancyContext context)
         {
+            /*
             context.Response
              .WithHeader(AllowOriginHeader, "*")
              .WithHeader(AllowMethodHeader, "POST, GET, DELETE, PUT, OPTIONS")
              .WithHeader(AllowHeadersHeader, "Accept, Origin, Content-type, X-Requested-With, Authorization")
              .WithHeader(AllowHeader, "POST, GET, DELETE, PUT, OPTIONS")
              .WithHeader(AccessControlExposeHeaders, "Link, Content-Location, Location");
+             */
         }
     }
 }
