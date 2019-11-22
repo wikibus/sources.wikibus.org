@@ -14,30 +14,35 @@ namespace Wikibus.Common
         /// https://wikibus.org/api#
         /// </summary>
         public const string BaseUri="https://wikibus.org/api#";
-        
+
         /// <summary>
         /// The API entry point
         /// </summary>
         public const string EntryPoint = BaseUri + "EntryPoint";
-        
+
         /// <summary>
         /// Link to brochure collection.
         /// </summary>
         public const string brochures = BaseUri + "brochures";
-        
+
         /// <summary>
         /// Link to book collection.
         /// </summary>
         public const string books = BaseUri + "books";
-        
+
         /// <summary>
         /// Link to magazine collection.
         /// </summary>
         public const string magazines = BaseUri + "magazines";
-        
+
         /// <summary>
         /// Link to magazine's issues.
         /// </summary>
         public const string issues = BaseUri + "issues";
+
+        /// <summary>
+        /// Link to image collection
+        /// </summary>
+        public const string images = BaseUri + "images";
     }
 }

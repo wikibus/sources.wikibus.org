@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Argolis.Models;
 using Wikibus.Common;
+using Wikibus.Sources.Images;
 
 namespace Wikibus.Sources.EF
 {
@@ -167,9 +168,11 @@ namespace Wikibus.Sources.EF
         {
             if (entity.HasImage)
             {
-                source.Image = new Image
+                source.CoverImage = new LegacyImage
                 {
-                    ContentUrl = source.Id.ToString().Replace(this.configuration.BaseResourceNamespace, this.configuration.BaseApiNamespace) + "/image"
+                    ContentUrl = source.Id.ToString().Replace(
+                                     this.configuration.BaseResourceNamespace,
+                                     this.configuration.BaseApiNamespace) + "/image"
                 };
             }
         }
