@@ -58,12 +58,12 @@ namespace Wikibus.Sources.EF
                 return null;
             }
 
-            var source = await (from b in this.context.Brochures
+            var source = await (from b in this.context.Brochures.Include(b => b.Images)
                           where b.Id == id
                           select new EntityWrapper<BrochureEntity>
                           {
                               Entity = b,
-                              HasImage = b.Image.Bytes != null
+                              HasLegacyImage = b.Image.Bytes != null
                           }).SingleOrDefaultAsync();
 
             if (source == null)
@@ -84,12 +84,12 @@ namespace Wikibus.Sources.EF
                 return null;
             }
 
-            var source = await (from b in this.context.Books
+            var source = await (from b in this.context.Books.Include(b => b.Images)
                           where b.Id == id
                           select new EntityWrapper<BookEntity>
                           {
                               Entity = b,
-                              HasImage = b.Image.Bytes != null
+                              HasLegacyImage = b.Image.Bytes != null
                           }).SingleOrDefaultAsync();
 
             if (source == null)
@@ -102,7 +102,9 @@ namespace Wikibus.Sources.EF
 
         public async Task<SearchableCollection<Book>> GetBooks(Uri identifier, BookFilters filters, int page, int pageSize = 10)
         {
-            return await this.context.Books.GetCollectionPage<Book, BookEntity, SearchableCollection<Book>>(
+            this.factory.OnlyCoverImage = true;
+            var books = this.context.Books.Include(b => b.Images);
+            return await books.GetCollectionPage<Book, BookEntity, SearchableCollection<Book>>(
                 identifier,
                 entity => entity.BookTitle,
                 this.FilterBooks(filters),
@@ -113,7 +115,9 @@ namespace Wikibus.Sources.EF
 
         public async Task<SearchableCollection<Brochure>> GetBrochures(Uri identifier, BrochureFilters filters, int page, int pageSize = 10)
         {
-            return await this.context.Brochures.GetCollectionPage<Brochure, BrochureEntity, BrochureCollection>(
+            this.factory.OnlyCoverImage = true;
+            var brochures = this.context.Brochures.Include(b => b.Images);
+            return await brochures.GetCollectionPage<Brochure, BrochureEntity, BrochureCollection>(
                 identifier,
                 entity => entity.FolderName,
                 this.FilterBrochures(filters),
@@ -124,6 +128,7 @@ namespace Wikibus.Sources.EF
 
         public async Task<SearchableCollection<Magazine>> GetMagazines(Uri identifier, MagazineFilters filters, int page, int pageSize = 10)
         {
+            this.factory.OnlyCoverImage = true;
             return await this.context.Magazines.GetCollectionPage<Magazine, MagazineEntity, SearchableCollection<Magazine>>(
                 identifier,
                 entity => entity.Name,
@@ -135,6 +140,7 @@ namespace Wikibus.Sources.EF
 
         public async Task<Collection<Issue>> GetMagazineIssues(Uri uri)
         {
+            this.factory.OnlyCoverImage = true;
             var name = this.matcher.Match<Collection<Issue>>(uri).Get<string>("name");
 
             if (name == null)
@@ -142,7 +148,7 @@ namespace Wikibus.Sources.EF
                 return new Collection<Issue>();
             }
 
-            var results = await (from m in this.context.Magazines
+            var results = await (from m in this.context.Magazines.Include("Issues/Images")
                            where m.Name == name
                            from issue in m.Issues
                            select new
@@ -155,7 +161,7 @@ namespace Wikibus.Sources.EF
             var issues = results.Select(i => new EntityWrapper<MagazineIssueEntity>
             {
                 Entity = i.Entity,
-                HasImage = i.HasImage
+                HasLegacyImage = i.HasImage
             }).ToList();
 
             return new Collection<Issue>
@@ -179,7 +185,7 @@ namespace Wikibus.Sources.EF
             var magazineName = matches.Get<string>("name");
             var issueNumber = matches.Get<int>("number");
 
-            var result = await (from m in this.context.Magazines
+            var result = await (from m in this.context.Magazines.Include("Issues/Images")
                           where m.Name == magazineName
                           from i in m.Issues
                           where i.MagIssueNumber == issueNumber
@@ -198,7 +204,7 @@ namespace Wikibus.Sources.EF
             var source = new EntityWrapper<MagazineIssueEntity>
             {
                 Entity = result.Entity,
-                HasImage = result.HasImage
+                HasLegacyImage = result.HasImage
             };
 
             return this.factory.CreateMagazineIssue(source);

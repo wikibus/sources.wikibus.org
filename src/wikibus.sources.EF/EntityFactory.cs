@@ -18,6 +18,8 @@ namespace Wikibus.Sources.EF
             this.configuration = configuration;
         }
 
+        public bool OnlyCoverImage { get; set; }
+
         public Book CreateBook(EntityWrapper<BookEntity> bookEntity)
         {
             var book = new Book
@@ -165,16 +167,43 @@ namespace Wikibus.Sources.EF
         }
 
         private void CreateImageLinks<TEntity>(Source source, EntityWrapper<TEntity> entity)
+            where TEntity : SourceEntity
         {
-            if (entity.HasImage)
+            var images = entity.Entity.Images.Select((image, index) => new Image
             {
-                source.CoverImage = new LegacyImage
+                Id = $"{this.configuration.BaseResourceNamespace}image/{image.ExternalId}",
+                ContentUrl = image.OriginalUrl,
+                OrderIndex = index,
+                Thumbnail = new Image
+                {
+                    ContentUrl = image.ThumbnailUrl
+                }
+            });
+
+            if (!this.OnlyCoverImage)
+            {
+                source.Images.Members = images.ToArray();
+                source.Images.TotalItems = source.Images.Members.Length;
+            }
+            else
+            {
+                source.Images.Members = new Image[0];
+                source.Images.TotalItems = images.Count();
+            }
+
+            if (entity.HasLegacyImage)
+            {
+                var legacyImage = new LegacyImage
                 {
                     ContentUrl = source.Id.ToString().Replace(
                                      this.configuration.BaseResourceNamespace,
                                      this.configuration.BaseApiNamespace) + "/image"
                 };
+                source.Images.Members = new[] { legacyImage }.Concat(source.Images.Members).ToArray();
+                source.Images.TotalItems += 1;
             }
+
+            source.CoverImage = source.Images.Members.FirstOrDefault();
         }
     }
 }

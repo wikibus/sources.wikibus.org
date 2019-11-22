@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using NullGuard;
 
@@ -24,5 +25,7 @@ namespace Wikibus.Sources.EF
         public byte? Day { get; set; }
 
         public virtual ImageData Image { get; set; }
+
+        public IList<ImageEntity> Images { get; set; } = new List<ImageEntity>();
     }
 }

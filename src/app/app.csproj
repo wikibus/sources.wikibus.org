@@ -18,6 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\wikibus.images.Cloudinary\wikibus.images.Cloudinary.csproj" />
       <ProjectReference Include="..\wikibus.nancy\wikibus.nancy.csproj" />
       <ProjectReference Include="..\wikibus.sources.nancy\wikibus.sources.nancy.csproj" />
     </ItemGroup>

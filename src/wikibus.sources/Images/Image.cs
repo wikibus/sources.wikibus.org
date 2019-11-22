@@ -9,9 +9,11 @@ namespace Wikibus.Sources.Images
     /// Represents a schema.org ImageObject
     /// </summary>
     [NullGuard(ValidationFlags.AllPublic ^ ValidationFlags.Properties)]
-    public abstract class Image
+    public class Image
     {
         private int? orderIndex;
+
+        public string Id { get; set; }
 
         /// <summary>
         /// Gets or sets the content URL.
@@ -19,7 +21,7 @@ namespace Wikibus.Sources.Images
         public string ContentUrl { get; set; }
 
         [UsedImplicitly]
-        public virtual Image Thumbnail { get; private set; }
+        public virtual Image Thumbnail { get; set; }
 
         [JsonProperty("http://www.linkedmodel.org/schema/dtype#orderIndex")]
         public int? OrderIndex

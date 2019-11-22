@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <assembly name="wikibus.sources">
+  <member name="P:Wikibus.Sources.Images.Image.Thumbnail">
+    <attribute ctor="M:JetBrains.Annotations.UsedImplicitlyAttribute.#ctor" />
+  </member>
   <member name="P:Wikibus.Sources.Source.Context">
     <attribute ctor="M:JetBrains.Annotations.UsedImplicitlyAttribute.#ctor" />
   </member>

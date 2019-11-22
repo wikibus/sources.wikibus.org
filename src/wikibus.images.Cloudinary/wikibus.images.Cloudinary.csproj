@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\wikibus.sources\wikibus.sources.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="CloudinaryDotNet" Version="1.9.1" />
+    </ItemGroup>
+
+</Project>

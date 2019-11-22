@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using StructureMap;
+using wikibus.images.Cloudinary;
 
 namespace Brochures.Wikibus.Org
 {
@@ -25,6 +26,7 @@ namespace Brochures.Wikibus.Org
             {
                 _.For<global::Wikibus.Sources.DotNetRDF.ISourcesDatabaseSettings>().Use<Settings>();
                 _.Forward<Settings, global::Wikibus.Sources.ISourcesDatabaseSettings>();
+                _.Forward<Settings, ICloudinarySettings>();
                 _.For<IConfiguration>().Use(this.configuration);
             });
 

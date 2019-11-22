@@ -70,7 +70,7 @@ namespace Wikibus.Nancy
                     scan.RegisterConcreteTypesAgainstTheFirstInterface();
                 });
                 _.For<ISourceImagesRepository>().Use<SourceImagesRepository>();
-                _.ForConcreteType<EntityFactory>();
+                _.ForConcreteType<EntityFactory>().Configure.Transient();
             });
 
             base.ConfigureApplicationContainer(existingContainer);
