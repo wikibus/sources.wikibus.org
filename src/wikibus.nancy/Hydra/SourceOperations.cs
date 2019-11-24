@@ -1,5 +1,6 @@
 ﻿using Argolis.Hydra.Discovery.SupportedOperations;
 using Argolis.Hydra.Nancy;
+using JsonLD.Entities;
 using Wikibus.Common;
 using Wikibus.Sources;
 
@@ -18,7 +19,10 @@ namespace Wikibus.Nancy.Hydra
             if (context.HasPermission(Permissions.WriteSources))
             {
                 this.Property(s => s.Images)
-                .SupportsPost("Upload image");
+                    .SupportsPost("Upload image", expects: (IriRef)Api.ImageUpload);
+
+                this.Property(s => s.Image)
+                    .SupportsDelete("Remove image");
             }
         }
     }

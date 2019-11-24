@@ -25,11 +25,12 @@ namespace Wikibus.Sources.Nancy
             this.storage = storage;
             this.data = data;
 
-            this.Delete("image/{publicId*}", request => this.DeleteImage(request.publicId));
+            this.Delete("image/{publicId*}", this.DeleteImage);
         }
 
-        private async Task<dynamic> DeleteImage(string publicId)
+        private async Task<HttpStatusCode> DeleteImage(dynamic request)
         {
+            string publicId = request.publicId;
             var image = await this.data.Images.Where(i => i.ExternalId == publicId).SingleOrDefaultAsync();
 
             if (image == null)

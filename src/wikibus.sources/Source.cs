@@ -84,6 +84,11 @@ namespace Wikibus.Sources
         [Writeable(false)]
         public Image CoverImage { get; set; }
 
+        [Range(Schema.ImageObject)]
+        [Readable(false)]
+        [Writeable(false)]
+        public Image[] Image { get; set; }
+
         /// <summary>
         /// Gets the @context.
         /// </summary>
@@ -110,6 +115,7 @@ namespace Wikibus.Sources
                     "languages".IsProperty(Dcterms.language).Type().Id().Container().Set(),
                     "name".IsProperty(Schema.name),
                     "coverImage".IsProperty(Schema.primaryImageOfPage),
+                    "image".IsProperty(Schema.image),
                     "images".IsProperty(Api.images),
                     "hasImage".IsProperty(Wbo.BaseUri + "hasImage"),
                     "contentUrl".IsProperty(Schema.contentUrl).Type().Is(Schema.URL),

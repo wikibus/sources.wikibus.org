@@ -13,6 +13,7 @@ namespace Wikibus.Sources
     {
         public ImageCollection(Uri owner)
         {
+            this.Id = new Uri(owner + "/images");
             this.Manages.Add(new ManagesBlock((IriRef)owner, (IriRef)Schema.image));
         }
 

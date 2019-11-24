@@ -21,6 +21,11 @@ namespace Wikibus.Common
         public const string EntryPoint = BaseUri + "EntryPoint";
 
         /// <summary>
+        /// The model to upload files
+        /// </summary>
+        public const string ImageUpload = BaseUri + "ImageUpload";
+
+        /// <summary>
         /// Link to brochure collection.
         /// </summary>
         public const string brochures = BaseUri + "brochures";
