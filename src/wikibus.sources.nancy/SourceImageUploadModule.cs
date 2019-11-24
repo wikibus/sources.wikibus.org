@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Nancy;
+using Wikibus.Common;
+using Wikibus.Nancy;
 using Wikibus.Sources.EF;
 using Wikibus.Sources.Images;
 
@@ -21,6 +23,8 @@ namespace Wikibus.Sources.Nancy
             IImageStorage storage,
             ISourceContext data)
         {
+            this.RequiresPermissions(Permissions.WriteSources);
+
             this.storage = storage;
             this.data = data;
 
