@@ -62,12 +62,7 @@ namespace Wikibus.Sources.Nancy
             Uri resourceUri = this.expander.ExpandAbsolute<T>(this.Context.Parameters);
             var resource = await getResource(resourceUri) ?? defaultValue;
 
-            if (resource != null)
-            {
-                return this.Negotiate.WithModel(resource);
-            }
-
-            return new NotFoundResponse();
+            return this.Negotiate.WithModel(resource);
         }
 
         private async Task<dynamic> GetPage<T, TFilter>(int? page, Func<Uri, TFilter, int, int, Task<SearchableCollection<T>>> getPage)
