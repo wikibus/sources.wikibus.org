@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Security.Claims;
+using Microsoft.Extensions.Configuration;
+using Nancy;
 using StructureMap;
 using wikibus.images.Cloudinary;
 
@@ -31,6 +33,18 @@ namespace Brochures.Wikibus.Org
             });
 
             base.ConfigureApplicationContainer(existingContainer);
+        }
+
+        protected override void ConfigureRequestContainer(IContainer container, NancyContext context)
+        {
+            container.Configure(_ =>
+            {
+                if (context.CurrentUser != null)
+                {
+                    _.For<ClaimsPrincipal>().Use(context.CurrentUser);
+                }
+            });
+            base.ConfigureRequestContainer(container, context);
         }
     }
 }

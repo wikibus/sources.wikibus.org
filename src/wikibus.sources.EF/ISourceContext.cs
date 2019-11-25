@@ -15,6 +15,8 @@ namespace Wikibus.Sources.EF
 
         DbSet<MagazineEntity> Magazines { get; }
 
+        DbSet<FileCabinet> FileCabinets { get; }
+
         Task<int> SaveChangesAsync();
     }
 }

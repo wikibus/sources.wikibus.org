@@ -22,6 +22,8 @@ namespace Wikibus.Sources.EF
 
         public DbSet<MagazineEntity> Magazines { get; set; }
 
+        public DbSet<FileCabinet> FileCabinets { get; set; }
+
         public Task<int> SaveChangesAsync()
         {
             return base.SaveChangesAsync();
@@ -61,6 +63,9 @@ namespace Wikibus.Sources.EF
 
             modelBuilder.Entity<ImageData>()
                 .ToTable("Source", "Sources");
+
+            modelBuilder.Entity<FileCabinet>()
+                .ToTable("FileCabinet", "Priv");
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

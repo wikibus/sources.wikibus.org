@@ -49,5 +49,9 @@ namespace Wikibus.Common
         /// Link to image collection
         /// </summary>
         public const string images = BaseUri + "images";
+
+        public const string StorageLocation = BaseUri + "StorageLocation";
+
+        public const string storageLocation = BaseUri + "storageLocation";
     }
 }

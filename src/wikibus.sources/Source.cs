@@ -33,6 +33,11 @@ namespace Wikibus.Sources
             [return: AllowNull] get => this.id;
             set
             {
+                if (!value.IsAbsoluteUri)
+                {
+                    return;
+                }
+
                 this.Images = new ImageCollection(value);
                 this.id = value;
             }

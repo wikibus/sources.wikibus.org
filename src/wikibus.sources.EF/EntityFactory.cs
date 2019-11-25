@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using Argolis.Models;
 using Wikibus.Common;
 using Wikibus.Sources.Images;
@@ -10,12 +11,20 @@ namespace Wikibus.Sources.EF
     public class EntityFactory
     {
         private readonly IWikibusConfiguration configuration;
+        private readonly ClaimsPrincipal principal;
+        private readonly ISourceContext context;
         private readonly IUriTemplateExpander expander;
 
-        public EntityFactory(IUriTemplateExpander expander, IWikibusConfiguration configuration)
+        public EntityFactory(
+            IUriTemplateExpander expander,
+            IWikibusConfiguration configuration,
+            ClaimsPrincipal principal,
+            ISourceContext context)
         {
             this.expander = expander;
             this.configuration = configuration;
+            this.principal = principal;
+            this.context = context;
         }
 
         public bool OnlyCoverImage { get; set; }
@@ -91,6 +100,7 @@ namespace Wikibus.Sources.EF
             this.CreateImageLinks(target, source);
 
             MapSource(target, source.Entity);
+            this.MapStorageLocation(target, source.Entity);
 
             return target;
         }
@@ -204,6 +214,28 @@ namespace Wikibus.Sources.EF
             }
 
             source.CoverImage = source.Images.Members.FirstOrDefault();
+        }
+
+        private void MapStorageLocation(Brochure target, BrochureEntity sourceEntity)
+        {
+            if (this.principal.HasPermission(Permissions.WriteSources))
+            {
+                var cabinetName = (from cabinet in this.context.FileCabinets
+                    where cabinet.Id == sourceEntity.FileCabinet
+                    select $"{cabinet.Description} ({sourceEntity.FileOffset})")
+                    .SingleOrDefault();
+
+                target.Location = new StorageLocation
+                {
+                    Id = this.expander.ExpandAbsolute<StorageLocation>(new
+                    {
+                        brochureId = sourceEntity.Id
+                    }),
+                    FilingCabinetId = sourceEntity.FileCabinet,
+                    Name = cabinetName ?? "Not filed yet",
+                    Position = sourceEntity.FileOffset
+                };
+            }
         }
     }
 }

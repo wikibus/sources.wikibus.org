@@ -17,9 +17,10 @@ namespace Wikibus.Nancy.Hydra
         public BrochureOperations(NancyContextWrapper context)
         {
             this.Class.SupportsGet(title: "Get brochure");
-            if (context.Current?.CurrentUser.HasPermission(Permissions.WriteSources) == true)
+            if (context.HasPermission(Permissions.WriteSources))
             {
                 this.Class.SupportsPut("Update brochure", expects: (IriRef)Wbo.Brochure);
+                this.Property(b => b.Location).SupportsPut("Update location");
             }
         }
     }
