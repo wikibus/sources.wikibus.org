@@ -34,6 +34,7 @@ namespace Wikibus.Nancy
                 {
                     c.ResponseProcessors = c.ResponseProcessors.Where(IsNotNancyProcessor).ToList();
                     c.RouteResolver = typeof(UriTemplateRouteResolver);
+                    c.StatusCodeHandlers.Clear();
                 });
             }
         }

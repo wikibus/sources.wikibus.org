@@ -1,8 +1,6 @@
-﻿using System;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using Microsoft.Extensions.Configuration;
 using Nancy;
-using Nancy.Bootstrapper;
 using StructureMap;
 using wikibus.images.Cloudinary;
 
@@ -19,12 +17,6 @@ namespace Brochures.Wikibus.Org
         {
             this.configuration = configuration;
         }
-
-        protected override Func<ITypeCatalog, NancyInternalConfiguration> InternalConfiguration =>
-            NancyInternalConfiguration.WithOverrides(c =>
-            {
-                c.StatusCodeHandlers.Clear();
-            });
 
         /// <summary>
         /// Configures the application container.
