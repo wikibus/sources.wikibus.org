@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Nancy.Owin;
+using Wikibus.Sources;
 using Wikibus.Sources.EF;
 
 namespace Brochures.Wikibus.Org
@@ -33,7 +35,9 @@ namespace Brochures.Wikibus.Org
             });
 
             services.AddDbContext<SourceContext>(
-                options => options.UseSqlServer(this.Configuration["wikibus:sources:sql"]));
+                options => options.UseSqlServer(
+                    this.Configuration["wikibus:sources:sql"],
+                    builder => builder.UseRowNumberForPaging()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

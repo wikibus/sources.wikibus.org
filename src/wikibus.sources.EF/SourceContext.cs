@@ -1,15 +1,14 @@
 ﻿using System.Threading.Tasks;
+using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 
 namespace Wikibus.Sources.EF
 {
     public class SourceContext : DbContext, ISourceContext
     {
-        private readonly ISourcesDatabaseSettings configuration;
-
-        public SourceContext(ISourcesDatabaseSettings configuration)
+        public SourceContext([NotNull] DbContextOptions options)
+            : base(options)
         {
-            this.configuration = configuration;
         }
 
         public DbSet<SourceEntity> Sources { get; set; }
@@ -66,13 +65,6 @@ namespace Wikibus.Sources.EF
 
             modelBuilder.Entity<FileCabinet>()
                 .ToTable("FileCabinet", "Priv");
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(
-                this.configuration.ConnectionString,
-                builder => builder.UseRowNumberForPaging());
         }
     }
 }

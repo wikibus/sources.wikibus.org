@@ -9,14 +9,15 @@ namespace Brochures.Wikibus.Org
     {
         public static void Main(string[] args)
         {
+            BuildWebHost(args).Run();
+        }
+
+        public static IWebHost BuildWebHost(string[] args)
+        {
             var configuration = new ConfigurationBuilder()
                 .AddEnvironmentVariables()
                 .Build();
-            BuildWebHost(args, configuration).Run();
-        }
 
-        public static IWebHost BuildWebHost(string[] args, IConfiguration configuration)
-        {
             var webHostBuilder = WebHost.CreateDefaultBuilder(args)
                 .UseConfiguration(configuration)
                 .UseUrls($"http://*:{configuration.GetValue("PORT", 17899)}")
