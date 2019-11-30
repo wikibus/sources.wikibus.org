@@ -1,4 +1,5 @@
-﻿using CloudinaryDotNet;
+﻿using System;
+using CloudinaryDotNet;
 using Microsoft.Extensions.Configuration;
 using Nancy;
 using Nancy.Bootstrapper;
@@ -12,13 +13,19 @@ namespace Brochures.Wikibus.Org
         public ImageUploadRegistrations(ITypeCatalog typeCatalog, IConfiguration configuration)
             : base(typeCatalog)
         {
-            this.Register<IImageStorage>(typeof(CloudinaryImagesStore));
-            var account = new Account(
-                configuration["cloudinary:name"],
-                configuration["cloudinary:key"],
-                configuration["cloudinary:secret"]);
+            if (configuration["cloudinary:name"] == null)
+            {
+                this.Register<IImageStorage>(new FakeImageStore());
+                return;
+            }
 
-            this.Register(new Cloudinary(account));
+            this.Register<IImageStorage>(typeof(CloudinaryImagesStore));
+                var account = new Account(
+                    configuration["cloudinary:name"],
+                    configuration["cloudinary:key"],
+                    configuration["cloudinary:secret"]);
+
+                this.Register(new Cloudinary(account));
         }
     }
 }
