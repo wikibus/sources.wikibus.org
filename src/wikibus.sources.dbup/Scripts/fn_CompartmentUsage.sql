@@ -1,4 +1,10 @@
-﻿
+﻿IF EXISTS ( SELECT  1
+            FROM    Information_schema.Routines
+            WHERE   Specific_schema = 'Sources'
+              AND specific_name = 'CompartmentUsage'
+              AND Routine_Type = 'FUNCTION' )
+    DROP FUNCTION [Sources].[CompartmentUsage]
+go
 
 CREATE FUNCTION [Sources].[CompartmentUsage]
 (
