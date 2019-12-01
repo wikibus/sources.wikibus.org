@@ -1,0 +1,22 @@
+version: "3"
+services:
+  sources:
+    build: .
+    ports:
+      - "17900:17900"
+    depends_on:
+      - db
+    environment:
+      PORT: "17900"
+      wikibus__baseUrl: "http://localhost:17900/"
+      wikibus__apiUrl: "http://localhost:17900/"
+      wikibus__sources__sql: "Server=db;Database=master;User=sa;Password=C,!Kw4Hb\\ke/Vtg3N5.;"
+      update__database: "True"
+    command: "dotnet wikibus.sources.dbup.dll remote -c \"Server=db;Database=master;User=sa;Password=C,!Kw4Hb\\ke/Vtg3N5.;\" --run-always-pattern fn_; dotnet App.dll"
+  db:
+    image: "mcr.microsoft.com/mssql/server:2017-CU8-ubuntu"
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "C,!Kw4Hb\\ke/Vtg3N5."
+      ACCEPT_EULA: "Y"

@@ -6,6 +6,13 @@ namespace Wikibus.Sources.EF
 {
     public class SourceContext : DbContext, ISourceContext
     {
+        private readonly string connectionString;
+
+        public SourceContext(ISourcesDatabaseSettings configuration)
+        {
+            this.connectionString = configuration.ConnectionString;
+        }
+
         public SourceContext([NotNull] DbContextOptions options)
             : base(options)
         {
@@ -65,6 +72,16 @@ namespace Wikibus.Sources.EF
 
             modelBuilder.Entity<FileCabinet>()
                 .ToTable("FileCabinet", "Priv");
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (string.IsNullOrWhiteSpace(this.connectionString) == false)
+            {
+                optionsBuilder.UseSqlServer(
+                this.connectionString,
+                builder => builder.UseRowNumberForPaging());
+            }
         }
     }
 }
