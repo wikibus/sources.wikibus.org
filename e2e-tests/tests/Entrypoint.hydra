@@ -1,0 +1,4 @@
+With Class <https://wikibus.org/api#EntryPoint> {
+    Expect Property <http://www.w3.org/ns/hydra/core#title>
+    Expect Property <http://www.w3.org/ns/hydra/core#description>
+}

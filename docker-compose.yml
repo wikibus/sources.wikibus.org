@@ -11,8 +11,7 @@ services:
       wikibus__baseUrl: "http://localhost:17900/"
       wikibus__apiUrl: "http://localhost:17900/"
       wikibus__sources__sql: "Server=db;Database=master;User=sa;Password=C,!Kw4Hb\\ke/Vtg3N5.;"
-      update__database: "True"
-    command: "dotnet wikibus.sources.dbup.dll remote -c \"Server=db;Database=master;User=sa;Password=C,!Kw4Hb\\ke/Vtg3N5.;\" --run-always-pattern fn_; dotnet App.dll"
+    command: bash -c "dotnet wikibus.sources.dbup.dll remote -c \"Server=db;Database=master;User=sa;Password=C,!Kw4Hb\\ke/Vtg3N5.;\" --run-always-pattern fn_ && dotnet app.dll"
   db:
     image: "mcr.microsoft.com/mssql/server:2017-CU8-ubuntu"
     ports:
@@ -20,3 +19,15 @@ services:
     environment:
       SA_PASSWORD: "C,!Kw4Hb\\ke/Vtg3N5."
       ACCEPT_EULA: "Y"
+  analyser:
+    image: "hydrofoil/hydra-analyser"
+    network_mode: "host"
+    depends_on:
+      - sources
+    environment:
+      ENTRYPOINT_URL: "http://localhost:17900/"
+  e2e-tests:
+    build: e2e-tests
+    network_mode: "host"
+    environment:
+      BASE_URI: "http://localhost:17900/"
