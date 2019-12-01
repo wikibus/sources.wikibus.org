@@ -21,6 +21,8 @@
       <EmbeddedResource Include="Scripts\1. OriginalStructure\3. Table FileCabinet.sql" />
       <None Remove="AlwaysScripts\fn_CompartmentUsage.sql" />
       <None Remove="Scripts\1. Original Structure.sql" />
+      <None Remove="Scripts\2. EF Migration\1. Sequences.sql" />
+      <EmbeddedResource Include="Scripts\2. EF Migration\1. Sequences.sql" />
     </ItemGroup>
 
     <ItemGroup>
