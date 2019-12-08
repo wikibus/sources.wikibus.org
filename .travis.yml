@@ -15,12 +15,12 @@ before_install:
 jobs:
   include:
     - env:
-        - JOB=analyzer
+        - JOB=analyser
       before_script:
         - lando start
         - npx wait-on --timeout 30000 http://sources.wikibus.lndo.site
       script:
-        - docker-compose run analyzer
+        - docker-compose run analyser
     - env:
         - JOB=e2e
       before_script:
