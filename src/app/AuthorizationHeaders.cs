@@ -19,15 +19,18 @@ namespace Brochures.Wikibus.Org
         [UsedImplicitly]
         public async Task Invoke(HttpContext context)
         {
-            var permissions = from header in context.Request.Headers
-                where header.Key.ToLower() == "x-permission"
-                select header.Value;
+            if (context.User.Identity.IsAuthenticated == false)
+            {
+                var permissions = from header in context.Request.Headers
+                    where header.Key.ToLower() == "x-permission"
+                    select header.Value;
 
-            var claims = from permission in permissions
-                select new Claim(Permissions.Claim, permission);
+                var claims = from permission in permissions
+                    select new Claim(Permissions.Claim, permission);
 
-            var principal = new ClaimsPrincipal(new ClaimsIdentity(claims, "X-Permission"));
-            context.User = principal;
+                var principal = new ClaimsPrincipal(new ClaimsIdentity(claims, "X-Permission"));
+                context.User = principal;
+            }
 
             await this.next(context);
         }
