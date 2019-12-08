@@ -13,7 +13,7 @@ namespace Wikibus.Nancy.Hydra
         /// </summary>
         public BookOperations()
         {
-            this.Class.SupportsGet("Gets the book");
+            this.Class.SupportsGet().Title("Gets the book");
         }
     }
 }

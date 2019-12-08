@@ -7,7 +7,7 @@ namespace Wikibus.Common
     {
         public static bool HasPermission([AllowNull] this ClaimsPrincipal user, string permission)
         {
-            return user?.HasClaim("permissions", permission) == true;
+            return user?.HasClaim(Permissions.Claim, permission) == true;
         }
     }
 }

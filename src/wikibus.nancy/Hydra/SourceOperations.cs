@@ -19,10 +19,13 @@ namespace Wikibus.Nancy.Hydra
             if (context.HasPermission(Permissions.WriteSources))
             {
                 this.Property(s => s.Images)
-                    .SupportsPost("Upload image", expects: (IriRef)Api.ImageUpload);
+                    .SupportsPost()
+                    .Title("Upload image")
+                    .Expects((IriRef)Api.ImageUpload);
 
                 this.Property(s => s.Image)
-                    .SupportsDelete("Remove image");
+                    .SupportsDelete()
+                    .Title("Remove image");
             }
         }
     }

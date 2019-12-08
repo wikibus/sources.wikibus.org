@@ -4,9 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Nancy.Owin;
-using Wikibus.Sources;
 using Wikibus.Sources.EF;
 
 namespace Brochures.Wikibus.Org
@@ -23,7 +21,7 @@ namespace Brochures.Wikibus.Org
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string domain = $"https://{this.Configuration["Auth0:Domain"]}/";
+            string domain = $"https://{this.Configuration["authentication:Auth0:Domain"]}/";
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -31,7 +29,7 @@ namespace Brochures.Wikibus.Org
             }).AddJwtBearer(options =>
             {
                 options.Authority = domain;
-                options.Audience = this.Configuration["Auth0:ApiIdentifier"];
+                options.Audience = this.Configuration["authentication:Auth0:ApiIdentifier"];
             });
 
             services.AddDbContext<SourceContext>(
@@ -49,6 +47,10 @@ namespace Brochures.Wikibus.Org
             }
 
             app.UseAuthentication();
+            if (this.Configuration.GetValue<bool>("authentication:backdoor"))
+            {
+                app.UseMiddleware<AuthorizationHeaders>();
+            }
 
             app.UseOwin(owin => owin.UseNancy(
                 new NancyOptions

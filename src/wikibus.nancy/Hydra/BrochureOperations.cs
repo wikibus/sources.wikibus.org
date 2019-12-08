@@ -16,11 +16,11 @@ namespace Wikibus.Nancy.Hydra
         /// </summary>
         public BrochureOperations(NancyContextWrapper context)
         {
-            this.Class.SupportsGet(title: "Get brochure");
+            this.Class.SupportsGet().Title("Get brochure");
             if (context.HasPermission(Permissions.WriteSources))
             {
-                this.Class.SupportsPut("Update brochure", expects: (IriRef)Wbo.Brochure);
-                this.Property(b => b.Location).SupportsPut("Update location");
+                this.Class.SupportsPut().Title("Update brochure").Expects((IriRef)Wbo.Brochure);
+                this.Property(b => b.Location).SupportsPut().Title("Update location");
             }
         }
     }

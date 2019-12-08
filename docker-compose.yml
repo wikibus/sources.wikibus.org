@@ -3,13 +3,14 @@ services:
   sources:
     build: .
     ports:
-      - "17900:17900"
+      - "17899:17899"
     depends_on:
       - db
     environment:
-      PORT: "17900"
-      wikibus__baseUrl: "http://localhost:17900/"
-      wikibus__apiUrl: "http://localhost:17900/"
+      PORT: "17899"
+      authentication__backdoor: "True"
+      wikibus__baseUrl: "http://localhost:17899/"
+      wikibus__apiUrl: "http://localhost:17899/"
       wikibus__sources__sql: "Server=db;Database=master;User=sa;Password=C,!Kw4Hb\\ke/Vtg3N5.;"
     command: bash -c "dotnet wikibus.sources.dbup.dll remote -c \"Server=db;Database=master;User=sa;Password=C,!Kw4Hb\\ke/Vtg3N5.;\" --run-always-pattern fn_ && dotnet app.dll"
   db:
@@ -22,12 +23,10 @@ services:
   analyser:
     image: "hydrofoil/hydra-analyser"
     network_mode: "host"
-    depends_on:
-      - sources
     environment:
-      ENTRYPOINT_URL: "http://localhost:17900/"
+      ENTRYPOINT_URL: "http://localhost:17899/"
   e2e-tests:
     build: e2e-tests
     network_mode: "host"
     environment:
-      BASE_URI: "http://localhost:17900/"
+      BASE_URI: "http://localhost:17899/"

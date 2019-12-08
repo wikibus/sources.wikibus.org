@@ -10,7 +10,7 @@ namespace Wikibus.Nancy
     {
         public static void RequiresPermissions(this NancyModule module, params string[] permissions)
         {
-            module.RequiresClaims(claim => claim.Type == "permissions" && permissions.Contains(claim.Value));
+            module.RequiresClaims(claim => claim.Type == Permissions.Claim && permissions.Contains(claim.Value));
         }
 
         public static bool HasPermission(this NancyContextWrapper context, string permission)
