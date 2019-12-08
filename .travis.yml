@@ -18,14 +18,14 @@ jobs:
         - JOB=analyser
       before_script:
         - lando start
-        - npx wait-on --timeout 30000 http://sources.wikibus.lndo.site
+        - npx wait-on --timeout 30000 http://wikibus-sources.lndo.site
       script:
         - docker-compose run analyser
     - env:
         - JOB=e2e
       before_script:
         - lando start
-        - npx wait-on --timeout 30000 http://sources.wikibus.lndo.site
+        - npx wait-on --timeout 30000 http://wikibus-sources.lndo.site
       script:
         - docker-compose run e2e-tests
 
