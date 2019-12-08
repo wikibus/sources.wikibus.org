@@ -4,11 +4,20 @@ node_js: "13"
 services:
   - docker
 
-before_script:
-  - npm -g wait-on
-  - docker-compose up sources db -d
-  - wait-on --timeout 30000 http://localhost:17900
+jobs:
+  include:
+    - env:
+        - JOB=analyzer
+      before_script:
+        - docker-compose up -d sources
+        - npx wait-on --timeout 30000 http://localhost:17899
+      script:
+        - docker-compose run analyzer
+    - env:
+        - JOB=e2e
+      before_script:
+        - docker-compose -f docker-compose.yml up datacube
+        - npx wait-on --timeout 30000 http://localhost:17899
+      script:
+        - docker-compose run e2e-tests
 
-script:
-  - docker-compose run e2e-tests
-  - docker-compose run analyser
