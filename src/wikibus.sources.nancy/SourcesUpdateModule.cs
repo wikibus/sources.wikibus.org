@@ -35,10 +35,11 @@ namespace Wikibus.Sources.Nancy
             Func<Brochure, Task> saveResource,
             Func<Uri, Task<Brochure>> getResource)
         {
-            var brochure = this.BindAndValidate<Brochure>(new BindingConfig
-            {
-                BodyOnly = true,
-            });
+            var brochure = this.BindAndValidate<Brochure>(
+                new BindingConfig
+                {
+                    BodyOnly = true,
+                }, "Id");
             if (this.Context.ModelValidationResult.IsValid == false)
             {
                 return HttpStatusCode.BadRequest;
