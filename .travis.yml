@@ -11,22 +11,19 @@ before_install:
   - sudo dpkg -i /tmp/lando-latest.deb
   - lando version
 
+before_script:
+  - lando start
+  - npx wait-on --timeout 30000 https://wikibus-sources.lndo.site
+  - sudo .build/certs.sh
+
 jobs:
   include:
     - env:
         - JOB=analyser
-      before_script:
-        - lando start
-        - npx wait-on --timeout 30000 https://wikibus-sources.lndo.site
-        - sudo .build/certs.sh
       script:
         - docker-compose run analyser
     - env:
         - JOB=e2e
-      before_script:
-        - lando start
-        - npx wait-on --timeout 30000 https://wikibus-sources.lndo.site
-        - sudo .build/certs.sh
       script:
         - docker-compose run e2e-tests
 
