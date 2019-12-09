@@ -6,7 +6,9 @@ services:
     environment:
       ENTRYPOINT_URL: "https://wikibus-sources.lndo.site/"
   e2e-tests:
-    build: e2e-tests
+    build: hydrofoil/hypertest
     network_mode: "host"
     environment:
       BASE_URI: "https://wikibus-sources.lndo.site/"
+    volumes:
+      - ./e2e-tests:/tests

@@ -1,4 +1,4 @@
-PREFIX api: <https://wikibus.org/api#>
+﻿PREFIX api: <https://wikibus.org/api#>
 PREFIX wbo: <https://wikibus.org/ontology#>
 PREFIX hydra: <http://www.w3.org/ns/hydra/core#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
