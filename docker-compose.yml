@@ -4,9 +4,9 @@ services:
     image: "hydrofoil/hydra-analyser"
     network_mode: "host"
     environment:
-      ENTRYPOINT_URL: "http://wikibus-sources.lndo.site/"
+      ENTRYPOINT_URL: "https://wikibus-sources.lndo.site/"
   e2e-tests:
     build: e2e-tests
     network_mode: "host"
     environment:
-      BASE_URI: "http://wikibus-sources.lndo.site/"
+      BASE_URI: "https://wikibus-sources.lndo.site/"
