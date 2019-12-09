@@ -13,7 +13,7 @@ before_install:
 
 before_script:
   - lando start
-  - npx wait-on --timeout 30000 https://wikibus-sources.lndo.site
+  - npx wait-on --timeout 30000 http://wikibus-sources.lndo.site
   - sudo .build/certs.sh
 
 jobs:
