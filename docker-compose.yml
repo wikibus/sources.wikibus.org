@@ -4,11 +4,13 @@ services:
     image: "hydrofoil/hydra-analyser"
     network_mode: "host"
     environment:
+      NODE_TLS_REJECT_UNAUTHORIZED: 0
       ENTRYPOINT_URL: "https://wikibus-sources.lndo.site/"
   e2e-tests:
-    build: hydrofoil/hypertest
+    image: hydrofoil/hypertest
     network_mode: "host"
     environment:
+      NODE_TLS_REJECT_UNAUTHORIZED: 0
       BASE_URI: "https://wikibus-sources.lndo.site/"
     volumes:
       - ./e2e-tests:/tests

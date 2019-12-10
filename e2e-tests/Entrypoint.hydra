@@ -1,4 +1,4 @@
-﻿PREFIX api: <https://wikibus.org/api#>
+PREFIX api: <https://wikibus.org/api#>
 PREFIX hydra: <http://www.w3.org/ns/hydra/core#>
 
 With Class api:EntryPoint {
