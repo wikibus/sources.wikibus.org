@@ -5,3 +5,4 @@ obj/
 appsettings.Development.json
 *.hypertest.json
 packages/
+docker-compose.override.yml

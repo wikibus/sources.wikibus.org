@@ -20,9 +20,9 @@ jobs:
     - env:
         - JOB=analyser
       script:
-        - docker-compose run analyser
+        - docker-compose -f docker-compose.yml -f docker-compose.posix.yml run analyser
     - env:
         - JOB=e2e
       script:
-        - docker-compose run e2e-tests
+        - docker-compose -f docker-compose.yml -f docker-compose.posix.yml run e2e-tests
 
