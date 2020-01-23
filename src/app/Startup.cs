@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Anotar.Serilog;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Nancy.Owin;
+using Serilog;
 using Wikibus.Sources.EF;
 
 namespace Brochures.Wikibus.Org
@@ -14,6 +16,12 @@ namespace Brochures.Wikibus.Org
         public Startup(IConfiguration configuration)
         {
             this.Configuration = configuration;
+
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(configuration)
+                .CreateLogger();
+
+            LogTo.Information("Starting app");
         }
 
         private IConfiguration Configuration { get; }

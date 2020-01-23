@@ -11,6 +11,7 @@
     <ItemGroup>
       <PackageReference Include="Anotar.Serilog.Fody" Version="5.1.0" />
       <PackageReference Include="CloudinaryDotNet" Version="1.9.1" />
+      <PackageReference Include="Fody" Version="6.0.8" />
     </ItemGroup>
 
 </Project>

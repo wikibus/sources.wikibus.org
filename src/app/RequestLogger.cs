@@ -1,4 +1,5 @@
 ﻿using System;
+using Anotar.Serilog;
 using Nancy;
 using Nancy.Bootstrapper;
 
@@ -15,19 +16,18 @@ namespace Brochures.Wikibus.Org
 
         private static void LogResponse(NancyContext ctx)
         {
-            Console.WriteLine($"{ctx.Response.StatusCode} {ctx.Response.ReasonPhrase}");
+            LogTo.Information($"{ctx.Response.StatusCode} {ctx.Response.ReasonPhrase}");
         }
 
         private static Response LogRequestStart(NancyContext ctx)
         {
-            Console.WriteLine($"{ctx.Request.Method} {ctx.Request.Url}");
+            LogTo.Information($"{ctx.Request.Method} {ctx.Request.Url}");
             return null;
         }
 
         private static object LogError(NancyContext ctx, Exception ex)
         {
-            Console.Error.WriteLine(ex.Message);
-            Console.Error.WriteLine(ex.StackTrace);
+            LogTo.Error(ex, "Request failed");
 
             return ctx.Response;
         }

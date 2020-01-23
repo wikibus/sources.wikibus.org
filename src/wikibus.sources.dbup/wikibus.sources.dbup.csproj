@@ -7,8 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="dbup-diy-cli" Version="0.3.0-netstandard0001" />
-        <PackageReference Include="dbup-diy-cli.EntityFramework" Version="0.3.0-netstandard0001" />
+        <PackageReference Include="dbup-diy-cli" Version="0.3.0-netstandard0002" />
+        <PackageReference Include="dbup-diy-cli.EntityFramework" Version="0.3.0-netstandard0002" />
     </ItemGroup>
 
     <ItemGroup>
