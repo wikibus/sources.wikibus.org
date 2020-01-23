@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Anotar.Serilog;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Wikibus.Sources.Images;
@@ -32,6 +33,11 @@ namespace wikibus.images.Cloudinary
                     new Transformation().Named(this.settings.DefaultTransformation),
                 }
             });
+
+            if (result.Error != null)
+            {
+                LogTo.Error(result.Error.Message);
+            }
 
             var image = await this.cloudinary.GetResourceAsync(result.PublicId);
 
