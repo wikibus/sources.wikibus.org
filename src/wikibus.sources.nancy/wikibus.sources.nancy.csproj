@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Anotar.Serilog.Fody" Version="5.1.0" />
       <PackageReference Include="Argolis.Nancy" Version="0.8.0" />
       <PackageReference Include="Nancy" Version="2.0.0" />
       <PackageReference Include="Nancy.Routing.UriTemplates" Version="2.0" />

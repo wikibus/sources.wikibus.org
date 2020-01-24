@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Anotar.Serilog;
 using Argolis.Hydra;
 using Argolis.Hydra.Discovery.SupportedClasses;
 using Argolis.Hydra.Resources;

@@ -188,17 +188,19 @@ namespace Wikibus.Sources.EF
                 {
                     ContentUrl = image.ThumbnailUrl
                 }
-            });
+            }).ToArray();
+
+            source.CoverImage = images.FirstOrDefault();
 
             if (!this.OnlyCoverImage)
             {
-                source.Images.Members = images.ToArray();
+                source.Images.Members = images;
                 source.Images.TotalItems = source.Images.Members.Length;
             }
             else
             {
                 source.Images.Members = new Image[0];
-                source.Images.TotalItems = images.Count();
+                source.Images.TotalItems = images.Length;
             }
 
             if (entity.HasLegacyImage)
@@ -211,9 +213,8 @@ namespace Wikibus.Sources.EF
                 };
                 source.Images.Members = new[] { legacyImage }.Concat(source.Images.Members).ToArray();
                 source.Images.TotalItems += 1;
+                source.CoverImage = legacyImage;
             }
-
-            source.CoverImage = source.Images.Members.FirstOrDefault();
         }
 
         private void MapStorageLocation(Brochure target, BrochureEntity sourceEntity)
