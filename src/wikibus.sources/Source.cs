@@ -4,6 +4,7 @@ using System.ComponentModel;
 using Argolis.Hydra.Annotations;
 using Argolis.Hydra.Resources;
 using JetBrains.Annotations;
+using JsonLD.Entities;
 using JsonLD.Entities.Context;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -87,7 +88,7 @@ namespace Wikibus.Sources
 
         [Readable(false)]
         [Writeable(false)]
-        public Image CoverImage { get; set; }
+        public IriRef CoverImage { get; set; }
 
         [Range(Schema.ImageObject)]
         [Readable(false)]

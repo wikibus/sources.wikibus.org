@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using Argolis.Models;
+using JsonLD.Entities;
 using Wikibus.Common;
 using Wikibus.Sources.Images;
 
@@ -190,19 +191,6 @@ namespace Wikibus.Sources.EF
                 }
             }).ToArray();
 
-            source.CoverImage = images.FirstOrDefault();
-
-            if (!this.OnlyCoverImage)
-            {
-                source.Images.Members = images;
-                source.Images.TotalItems = source.Images.Members.Length;
-            }
-            else
-            {
-                source.Images.Members = new Image[0];
-                source.Images.TotalItems = images.Length;
-            }
-
             if (entity.HasLegacyImage)
             {
                 var legacyImage = new LegacyImage
@@ -213,8 +201,20 @@ namespace Wikibus.Sources.EF
                 };
                 source.Images.Members = new[] { legacyImage }.Concat(source.Images.Members).ToArray();
                 source.Images.TotalItems += 1;
-                source.CoverImage = legacyImage;
             }
+
+            if (!this.OnlyCoverImage)
+            {
+                source.Images.Members = images;
+                source.Images.TotalItems = source.Images.Members.Length;
+            }
+            else
+            {
+                source.Images.Members = images.Take(1).ToArray();
+                source.Images.TotalItems = images.Length;
+            }
+
+            source.CoverImage = (IriRef)source.Images.Members.FirstOrDefault()?.Id;
         }
 
         private void MapStorageLocation(Brochure target, BrochureEntity sourceEntity)
