@@ -195,11 +195,12 @@ namespace Wikibus.Sources.EF
             {
                 var legacyImage = new LegacyImage
                 {
+                    Id = $"_:legacyImage_{entity.Entity.Id}",
                     ContentUrl = source.Id.ToString().Replace(
                                      this.configuration.BaseResourceNamespace,
                                      this.configuration.BaseApiNamespace) + "/image"
                 };
-                source.Images.Members = new[] { legacyImage }.Concat(source.Images.Members).ToArray();
+                images = new[] { legacyImage }.Concat(source.Images.Members).ToArray();
                 source.Images.TotalItems += 1;
             }
 
