@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using Argolis.Hydra.Annotations;
+using Argolis.Hydra.Resources;
 using JetBrains.Annotations;
+using JsonLD.Entities;
 using JsonLD.Entities.Context;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -10,6 +12,7 @@ using NullGuard;
 using Vocab;
 using Wikibus.Common;
 using Wikibus.Common.JsonLd;
+using Wikibus.Sources.Images;
 
 namespace Wikibus.Sources
 {
@@ -21,11 +24,25 @@ namespace Wikibus.Sources
     public class Source
     {
         private Language[] languages = new Language[0];
+        private Uri id;
 
         /// <summary>
         /// Gets or sets the identifier.
         /// </summary>
-        public Uri Id { [return: AllowNull] get; set; }
+        public Uri Id
+        {
+            [return: AllowNull] get => this.id;
+            set
+            {
+                if (!value.IsAbsoluteUri)
+                {
+                    return;
+                }
+
+                this.Images = new ImageCollection(value);
+                this.id = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the languages.
@@ -65,9 +82,18 @@ namespace Wikibus.Sources
         /// <summary>
         /// Gets the image.
         /// </summary>
-        [ReadOnly(true)]
+        [Readable(false)]
+        [Writeable(false)]
+        public Collection<Image> Images { get; private set; }
+
+        [Readable(false)]
+        [Writeable(false)]
+        public IriRef CoverImage { get; set; }
+
         [Range(Schema.ImageObject)]
-        public Image Image { [return: AllowNull] get; set; }
+        [Readable(false)]
+        [Writeable(false)]
+        public Image[] Image { get; set; }
 
         /// <summary>
         /// Gets the @context.
@@ -94,7 +120,9 @@ namespace Wikibus.Sources
                     "code".IsProperty(Dcterms.identifier),
                     "languages".IsProperty(Dcterms.language).Type().Id().Container().Set(),
                     "name".IsProperty(Schema.name),
+                    "coverImage".IsProperty(Schema.primaryImageOfPage),
                     "image".IsProperty(Schema.image),
+                    "images".IsProperty(Api.images),
                     "hasImage".IsProperty(Wbo.BaseUri + "hasImage"),
                     "contentUrl".IsProperty(Schema.contentUrl).Type().Is(Schema.URL),
                     "thumbnail".IsProperty(Schema.thumbnail));

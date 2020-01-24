@@ -8,6 +8,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".solution", ".solution", "{
 ProjectSection(SolutionItems) = preProject
 	Dockerfile = Dockerfile
 	heroku.yml = heroku.yml
+	docker-compose.yml = docker-compose.yml
+	.travis.yml = .travis.yml
+	.lando.yml = .lando.yml
 EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wikibus.common", "src\wikibus.common\wikibus.common.csproj", "{28EBCDF1-37FA-4F1A-8938-B18F452C3704}"
@@ -21,6 +24,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wikibus.sources.DotNetRDF", "src\wikibus.sources.DotNetRDF\wikibus.sources.DotNetRDF.csproj", "{3EA67EF2-2D9E-4BCF-9C6F-A546FB2C8241}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wikibus.sources.nancy", "src\wikibus.sources.nancy\wikibus.sources.nancy.csproj", "{9F44117F-4456-4F79-88E2-B2C2E21DAED5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransferImages", "src\TransferImages\TransferImages.csproj", "{65EAB15F-E39B-41C8-86F1-284C7E892C78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wikibus.images.Cloudinary", "src\wikibus.images.Cloudinary\wikibus.images.Cloudinary.csproj", "{61E1B953-1D10-4536-8591-0285C1C2FC75}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wikibus.sources.dbup", "src\wikibus.sources.dbup\wikibus.sources.dbup.csproj", "{5335FAAC-460C-437C-8517-DF04F27CC4E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,5 +69,17 @@ Global
 		{9F44117F-4456-4F79-88E2-B2C2E21DAED5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F44117F-4456-4F79-88E2-B2C2E21DAED5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F44117F-4456-4F79-88E2-B2C2E21DAED5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65EAB15F-E39B-41C8-86F1-284C7E892C78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65EAB15F-E39B-41C8-86F1-284C7E892C78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65EAB15F-E39B-41C8-86F1-284C7E892C78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65EAB15F-E39B-41C8-86F1-284C7E892C78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61E1B953-1D10-4536-8591-0285C1C2FC75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61E1B953-1D10-4536-8591-0285C1C2FC75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61E1B953-1D10-4536-8591-0285C1C2FC75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61E1B953-1D10-4536-8591-0285C1C2FC75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5335FAAC-460C-437C-8517-DF04F27CC4E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5335FAAC-460C-437C-8517-DF04F27CC4E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5335FAAC-460C-437C-8517-DF04F27CC4E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5335FAAC-460C-437C-8517-DF04F27CC4E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

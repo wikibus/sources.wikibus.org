@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-using Nancy;
-using Wikibus.Common;
+﻿using Nancy;
 
 namespace Wikibus.Sources.Nancy
 {
@@ -9,19 +7,16 @@ namespace Wikibus.Sources.Nancy
     /// </summary>
     public class SourceImagesModule : NancyModule
     {
-        private const int SmallImageSize = 200;
         private readonly ISourceImagesRepository repository;
-        private readonly IImageResizer resizer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SourceImagesModule"/> class.
         /// </summary>
-        public SourceImagesModule(ISourceImagesRepository repository, IImageResizer resizer)
+        public SourceImagesModule(ISourceImagesRepository repository)
         {
             this.ReturnNotFoundWhenModelIsNullOr(model => model.Length == 0);
 
             this.repository = repository;
-            this.resizer = resizer;
 
             this.Get("/book/{id}/image", request => this.GetImage((int)request.id));
             this.Get("/brochure/{id}/image", request => this.GetImage((int)request.id));

@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>netcoreapp2.1</TargetFramework>
+        <RootNamespace>wikibus.sources.dbup</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="dbup-diy-cli" Version="0.3.0-netstandard0002" />
+        <PackageReference Include="dbup-diy-cli.EntityFramework" Version="0.3.0-netstandard0002" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="Scripts\1. OriginalStructure\1. Schema Priv.sql" />
+      <EmbeddedResource Include="Scripts\1. OriginalStructure\2. Schema Sources.sql" />
+      <EmbeddedResource Include="Scripts\1. OriginalStructure\4. Table Magazine.sql" />
+      <EmbeddedResource Include="Scripts\1. OriginalStructure\6. Table Images.sql" />
+      <EmbeddedResource Include="Scripts\fn_CompartmentUsage.sql" />
+      <EmbeddedResource Include="Scripts\1. OriginalStructure\5. Table Source.sql" />
+      <EmbeddedResource Include="Scripts\1. OriginalStructure\3. Table FileCabinet.sql" />
+      <None Remove="AlwaysScripts\fn_CompartmentUsage.sql" />
+      <None Remove="Scripts\1. Original Structure.sql" />
+      <None Remove="Scripts\2. EF Migration\1. Sequences.sql" />
+      <EmbeddedResource Include="Scripts\2. EF Migration\1. Sequences.sql" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="AlwaysScripts" />
+    </ItemGroup>
+
+</Project>

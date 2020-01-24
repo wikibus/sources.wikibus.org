@@ -10,5 +10,9 @@ namespace Wikibus.Sources.EF
         public string FolderName { get; set; }
 
         public string Notes { get; set; }
+
+        public int? FileCabinet { get; set; }
+
+        public int? FileOffset { get; set; }
     }
 }

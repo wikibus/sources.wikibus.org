@@ -34,6 +34,7 @@ namespace Wikibus.Nancy
                 {
                     c.ResponseProcessors = c.ResponseProcessors.Where(IsNotNancyProcessor).ToList();
                     c.RouteResolver = typeof(UriTemplateRouteResolver);
+                    c.StatusCodeHandlers.Clear();
                 });
             }
         }
@@ -70,7 +71,7 @@ namespace Wikibus.Nancy
                     scan.RegisterConcreteTypesAgainstTheFirstInterface();
                 });
                 _.For<ISourceImagesRepository>().Use<SourceImagesRepository>();
-                _.ForConcreteType<EntityFactory>();
+                _.ForConcreteType<EntityFactory>().Configure.Transient();
             });
 
             base.ConfigureApplicationContainer(existingContainer);

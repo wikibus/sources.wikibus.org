@@ -1,8 +1,27 @@
 name: wikibus-brochures
-services: 
-  api:
+services:
+  appserver:
     type: dotnet
-    command: dotnet run --project src/app --environment Development
+    command: dotnet watch --project src/app run --environment Development
+    port: 80
+    overrides:
+      environment:
+        PORT: 80
+        authentication__backdoor: "True"
+        wikibus__baseUrl: "https://wikibus-sources.lndo.site/"
+        wikibus__apiUrl: "https://wikibus-sources.lndo.site/"
+        wikibus__sources__sql: "Server=db;Database=master;User=sa;Password=he11oTHERE;"
+    run_as_root:
+      - bash -c "dotnet run --project src/wikibus.sources.dbup remote --connection-string 'Server=db;Database=master;User=sa;Password=he11oTHERE;' --run-always-pattern fn_"
+  db:
+    type: mssql
+    portforward: false
+    creds:
+      password: he11oTHERE
 proxy:
-  api:
-    - sources.wikibus.lndo.site
+  appserver:
+    - wikibus-sources.lndo.site
+tooling:
+  dotnet:
+    service: appserver
+    command: dotnet

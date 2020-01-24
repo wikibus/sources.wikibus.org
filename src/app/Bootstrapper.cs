@@ -1,5 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Security.Claims;
+using Microsoft.Extensions.Configuration;
+using Nancy;
 using StructureMap;
+using wikibus.images.Cloudinary;
 
 namespace Brochures.Wikibus.Org
 {
@@ -25,10 +28,23 @@ namespace Brochures.Wikibus.Org
             {
                 _.For<global::Wikibus.Sources.DotNetRDF.ISourcesDatabaseSettings>().Use<Settings>();
                 _.Forward<Settings, global::Wikibus.Sources.ISourcesDatabaseSettings>();
+                _.Forward<Settings, ICloudinarySettings>();
                 _.For<IConfiguration>().Use(this.configuration);
             });
 
             base.ConfigureApplicationContainer(existingContainer);
+        }
+
+        protected override void ConfigureRequestContainer(IContainer container, NancyContext context)
+        {
+            container.Configure(_ =>
+            {
+                if (context.CurrentUser != null)
+                {
+                    _.For<ClaimsPrincipal>().Use(context.CurrentUser);
+                }
+            });
+            base.ConfigureRequestContainer(container, context);
         }
     }
 }

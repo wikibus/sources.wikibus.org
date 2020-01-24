@@ -1,21 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using Argolis.Models;
+using JsonLD.Entities;
 using Wikibus.Common;
+using Wikibus.Sources.Images;
 
 namespace Wikibus.Sources.EF
 {
     public class EntityFactory
     {
         private readonly IWikibusConfiguration configuration;
+        private readonly ClaimsPrincipal principal;
+        private readonly ISourceContext context;
         private readonly IUriTemplateExpander expander;
 
-        public EntityFactory(IUriTemplateExpander expander, IWikibusConfiguration configuration)
+        public EntityFactory(
+            IUriTemplateExpander expander,
+            IWikibusConfiguration configuration,
+            ClaimsPrincipal principal,
+            ISourceContext context)
         {
             this.expander = expander;
             this.configuration = configuration;
+            this.principal = principal;
+            this.context = context;
         }
+
+        public bool OnlyCoverImage { get; set; }
 
         public Book CreateBook(EntityWrapper<BookEntity> bookEntity)
         {
@@ -88,6 +101,7 @@ namespace Wikibus.Sources.EF
             this.CreateImageLinks(target, source);
 
             MapSource(target, source.Entity);
+            this.MapStorageLocation(target, source.Entity);
 
             return target;
         }
@@ -164,12 +178,63 @@ namespace Wikibus.Sources.EF
         }
 
         private void CreateImageLinks<TEntity>(Source source, EntityWrapper<TEntity> entity)
+            where TEntity : SourceEntity
         {
-            if (entity.HasImage)
+            var images = entity.Entity.Images.Select((image, index) => new Image
             {
-                source.Image = new Image
+                Id = $"{this.configuration.BaseResourceNamespace}image/{image.ExternalId}",
+                ContentUrl = image.OriginalUrl,
+                OrderIndex = index,
+                Thumbnail = new Image
                 {
-                    ContentUrl = source.Id.ToString().Replace(this.configuration.BaseResourceNamespace, this.configuration.BaseApiNamespace) + "/image"
+                    ContentUrl = image.ThumbnailUrl
+                }
+            }).ToArray();
+
+            if (entity.HasLegacyImage)
+            {
+                var legacyImage = new LegacyImage
+                {
+                    ContentUrl = source.Id.ToString().Replace(
+                                     this.configuration.BaseResourceNamespace,
+                                     this.configuration.BaseApiNamespace) + "/image"
+                };
+                source.Images.Members = new[] { legacyImage }.Concat(source.Images.Members).ToArray();
+                source.Images.TotalItems += 1;
+            }
+
+            if (!this.OnlyCoverImage)
+            {
+                source.Images.Members = images;
+                source.Images.TotalItems = source.Images.Members.Length;
+            }
+            else
+            {
+                source.Images.Members = images.Take(1).ToArray();
+                source.Images.TotalItems = images.Length;
+            }
+
+            source.CoverImage = (IriRef)source.Images.Members.FirstOrDefault()?.Id;
+        }
+
+        private void MapStorageLocation(Brochure target, BrochureEntity sourceEntity)
+        {
+            if (this.principal.HasPermission(Permissions.WriteSources))
+            {
+                var cabinetName = (from cabinet in this.context.FileCabinets
+                    where cabinet.Id == sourceEntity.FileCabinet
+                    select $"{cabinet.Description} ({sourceEntity.FileOffset})")
+                    .SingleOrDefault();
+
+                target.Location = new StorageLocation
+                {
+                    Id = this.expander.ExpandAbsolute<StorageLocation>(new
+                    {
+                        brochureId = sourceEntity.Id
+                    }),
+                    FilingCabinetId = sourceEntity.FileCabinet,
+                    Name = cabinetName ?? "Not filed yet",
+                    Position = sourceEntity.FileOffset
                 };
             }
         }

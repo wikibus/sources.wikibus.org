@@ -9,7 +9,7 @@ namespace Wikibus.Sources.EF
     public static class SourceRepositoryExtensions
     {
         public static async Task<TCollection> GetCollectionPage<T, TEntity, TCollection>(
-            this DbSet<TEntity> dbSet,
+            this IQueryable<TEntity> dbSet,
             Uri identifier,
             Expression<Func<TEntity, object>> ordering,
             Func<IQueryable<TEntity>, IQueryable<TEntity>> applyFilters,
@@ -24,7 +24,7 @@ namespace Wikibus.Sources.EF
             var entityWrappers = pageOfBrochures.Select(entity => new EntityWrapper<TEntity>
             {
                 Entity = entity,
-                HasImage = entity.Image.Bytes != null
+                HasLegacyImage = entity.Image.Bytes != null
             });
             var books = await entityWrappers.ToListAsync();
 
@@ -37,7 +37,7 @@ namespace Wikibus.Sources.EF
         }
 
         public static async Task<TCollection> GetCollectionPage<T, TEntity, TCollection>(
-            this DbSet<TEntity> dbSet,
+            this IQueryable<TEntity> dbSet,
             Uri identifier,
             Expression<Func<TEntity, object>> ordering,
             Func<IQueryable<TEntity>, IQueryable<TEntity>> applyFilters,

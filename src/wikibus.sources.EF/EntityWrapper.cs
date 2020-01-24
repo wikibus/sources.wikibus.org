@@ -4,6 +4,6 @@
     {
         public T Entity { get; set; }
 
-        public bool HasImage { get; set; }
+        public bool HasLegacyImage { get; set; }
     }
 }

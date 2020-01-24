@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Anotar.Serilog;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Nancy.Owin;
+using Serilog;
 using Wikibus.Sources.EF;
 
 namespace Brochures.Wikibus.Org
@@ -14,6 +16,12 @@ namespace Brochures.Wikibus.Org
         public Startup(IConfiguration configuration)
         {
             this.Configuration = configuration;
+
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(configuration)
+                .CreateLogger();
+
+            LogTo.Information("Starting app");
         }
 
         private IConfiguration Configuration { get; }
@@ -21,7 +29,7 @@ namespace Brochures.Wikibus.Org
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string domain = $"https://{this.Configuration["Auth0:Domain"]}/";
+            string domain = $"https://{this.Configuration["authentication:Auth0:Domain"]}/";
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -29,11 +37,13 @@ namespace Brochures.Wikibus.Org
             }).AddJwtBearer(options =>
             {
                 options.Authority = domain;
-                options.Audience = this.Configuration["Auth0:ApiIdentifier"];
+                options.Audience = this.Configuration["authentication:Auth0:ApiIdentifier"];
             });
 
             services.AddDbContext<SourceContext>(
-                options => options.UseSqlServer(this.Configuration["wikibus:sources:sql"]));
+                options => options.UseSqlServer(
+                    this.Configuration["wikibus:sources:sql"],
+                    builder => builder.UseRowNumberForPaging()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +55,10 @@ namespace Brochures.Wikibus.Org
             }
 
             app.UseAuthentication();
+            if (this.Configuration.GetValue<bool>("authentication:backdoor"))
+            {
+                app.UseMiddleware<AuthorizationHeaders>();
+            }
 
             app.UseOwin(owin => owin.UseNancy(
                 new NancyOptions

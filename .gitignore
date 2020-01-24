@@ -3,3 +3,6 @@ bin/
 obj/
 *.user
 appsettings.Development.json
+*.hypertest.json
+packages/
+docker-compose.override.yml

@@ -76,6 +76,9 @@ namespace Wikibus.Sources
             }
         }
 
+        [Writeable(false)]
+        public StorageLocation Location { [return: AllowNull] get; set; }
+
         /// <summary>
         /// Gets the context.
         /// </summary>
@@ -85,6 +88,7 @@ namespace Wikibus.Sources
             {
                 var context = Source.Context;
                 context.Add("description".IsProperty(Rdfs.comment));
+                context.Add("location".IsProperty(Api.storageLocation));
                 return context;
             }
         }
