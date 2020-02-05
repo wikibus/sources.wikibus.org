@@ -27,29 +27,20 @@ With Class wbo:BrochureCollection {
             		"@value": "Jelczańskie Zakłady Samochodowe",
             		"@type": "http://www.w3.org/2001/XMLSchema#string"
             	},
-            	"http://www.w3.org/2000/01/rdf-schema#comment": {
-            		"@value": "Kserokopia",
-            		"@type": "http://www.w3.org/2001/XMLSchema#string"
-            	},
-            	"http://purl.org/ontology/bibo/pages": {
-            		"@value": "12",
-            		"@type": "http://www.w3.org/2001/XMLSchema#integer"
-            	},
-            	"http://lsdis.cs.uga.edu/projects/semdis/opus#year": {
-            		"@value": "2019",
-            		"@type": "http://www.w3.org/2001/XMLSchema#gYear"
-            	}
+            	"http://purl.org/dc/terms/language": [{
+            	    "@id": "http://lexvo.org/id/iso639-1/pl"
+            	}, {
+            	    "label": "blank node language to be ignored"
+            	}]
             }
             ```
         } => {
             Expect Status 201
 
             Expect Property dcterms:title "Jelczańskie Zakłady Samochodowe"
-            Expect Property rdfs:comment "Kserokopia"
-            Expect Property bibo:pages 12
-            Expect Property opus:year "2019"
-
-            // Expect No Property dcterms:language
+            Expect Property dcterms:language {
+                Expect Id <http://lexvo.org/id/iso639-1/pl>
+            }
         }
     }
 }

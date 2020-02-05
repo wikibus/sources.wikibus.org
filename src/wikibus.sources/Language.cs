@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace Wikibus.Sources
@@ -15,7 +16,7 @@ namespace Wikibus.Sources
         /// Initializes a new instance of the <see cref="Language"/> class.
         /// </summary>
         public Language(string name)
-            : this(new CultureInfo(name))
+            : this(CultureInfo.GetCultureInfoByIetfLanguageTag(name))
         {
         }
 
@@ -31,6 +32,8 @@ namespace Wikibus.Sources
         {
             get { return this.cultureInfo.Name; }
         }
+
+        public bool IsValid => CultureInfo.GetCultures(CultureTypes.NeutralCultures).Contains(this.cultureInfo);
 
         public static bool operator ==(Language left, Language right)
         {

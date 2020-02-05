@@ -226,7 +226,7 @@ namespace Wikibus.Sources.EF
 
                 if (string.IsNullOrWhiteSpace(filters.Language) == false)
                 {
-                    books = books.Where(b => b.Language == filters.Language || b.Language2 == filters.Language);
+                    books = books.Where(b => b.Languages.Contains(filters.Language));
                 }
 
                 return books;
@@ -244,7 +244,7 @@ namespace Wikibus.Sources.EF
 
                 if (string.IsNullOrWhiteSpace(filters.Language) == false)
                 {
-                    brochures = brochures.Where(b => b.Language == filters.Language || b.Language2 == filters.Language);
+                    brochures = brochures.Where(b => b.Languages.Contains(filters.Language));
                 }
 
                 return brochures;

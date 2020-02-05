@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using Argolis.Models;
@@ -149,17 +148,7 @@ namespace Wikibus.Sources.EF
 
         private static void MapLanguages(Source target, SourceEntity source)
         {
-            var languages = new List<string>();
-            if (source.Language != null)
-            {
-                languages.Add(source.Language);
-            }
-
-            if (source.Language2 != null)
-            {
-                languages.Add(source.Language2);
-            }
-
+            var languages = source.Languages.Split(';').Where(value => !string.IsNullOrWhiteSpace(value));
             target.Languages = languages.Select(l => new Language(l)).ToArray();
         }
 
