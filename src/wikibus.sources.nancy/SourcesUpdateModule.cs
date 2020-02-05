@@ -50,7 +50,7 @@ namespace Wikibus.Sources.Nancy
             return this.Negotiate
                 .WithStatusCode(HttpStatusCode.Created)
                 .WithHeader("Location", brochure.Id.ToString())
-                .WithModel(brochure);
+                .WithModel(await getResource(brochure.Id));
         }
 
         private async Task<T> PutSingle<T>(

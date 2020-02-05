@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Globalization;
+using System.Linq;
+using System.Threading.Tasks;
+using Anotar.Serilog;
 using Argolis.Models;
 
 namespace Wikibus.Sources.EF
@@ -58,22 +61,11 @@ namespace Wikibus.Sources.EF
                 brochureEntity.Month = brochure.Month;
             }
 
-            /*brochureEntity.Language = null;
-            brochureEntity.Language2 = null;
-            for (var i = 0; i < brochure.Languages.Take(2).Count(); i++)
-            {
-                var language = brochure.Languages[i];
-                if (i == 0)
-                {
-                    brochureEntity.Language = language.Name;
-                }
-                else if (i == 1)
-                {
-                    brochureEntity.Language2 = language.Name;
-                }
-            }*/
-
             brochureEntity.Pages = brochure.Pages;
+
+            var validLanguages = brochure.Languages.Where(lang => lang.IsValid).Select(lang => lang.Name);
+            brochure.Languages.ToList().ForEach(l => LogTo.Information(l.IsValid.ToString()));
+            brochureEntity.Languages = string.Join(";", validLanguages);
         }
     }
 }

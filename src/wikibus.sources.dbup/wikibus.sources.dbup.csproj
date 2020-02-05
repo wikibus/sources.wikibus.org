@@ -24,6 +24,10 @@
       <None Remove="Scripts\1. Original Structure.sql" />
       <None Remove="Scripts\2. EF Migration\1. Sequences.sql" />
       <EmbeddedResource Include="Scripts\2. EF Migration\1. Sequences.sql" />
+      <None Remove="Scripts\3. Languages\1. Add columns.sql" />
+      <EmbeddedResource Include="Scripts\3. Languages\1. Add columns.sql" />
+      <None Remove="Scripts\3. Languages\2. Copy previous values.sql" />
+      <EmbeddedResource Include="Scripts\3. Languages\2. Copy previous values.sql" />
     </ItemGroup>
 
     <ItemGroup>

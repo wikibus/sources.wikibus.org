@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using Argolis.Hydra.Annotations;
 using Argolis.Hydra.Resources;
 using JetBrains.Annotations;
@@ -47,8 +46,7 @@ namespace Wikibus.Sources
         /// <summary>
         /// Gets or sets the languages.
         /// </summary>
-        [ReadOnly(true)]
-        [Range(Xsd.gMonth)]
+        [Range(Dcterms.language)]
         public Language[] Languages
         {
             get { return this.languages; }
