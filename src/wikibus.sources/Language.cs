@@ -16,7 +16,7 @@ namespace Wikibus.Sources
         /// Initializes a new instance of the <see cref="Language"/> class.
         /// </summary>
         public Language(string name)
-            : this(CultureInfo.GetCultureInfoByIetfLanguageTag(name))
+            : this(new CultureInfo(name))
         {
         }
 
