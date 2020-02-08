@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/saintedlama/versionize) for commit guidelines.
 
-<a name="0.2"></a>
+<a name="0.3.0"></a>
+## 0.3.0 (2020-2-8)
+
+### Features
+
+* make the languages writeable
+
 ## 0.2 (2020-1-24)
 
 ### Bug Fixes
