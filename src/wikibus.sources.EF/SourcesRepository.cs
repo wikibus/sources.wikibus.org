@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Anotar.Serilog;
 using Argolis.Hydra.Resources;
 using Argolis.Models;
 using Microsoft.EntityFrameworkCore;
@@ -55,6 +56,7 @@ namespace Wikibus.Sources.EF
 
             if (id == null)
             {
+                LogTo.Debug("Image id could not have been extracted from URI {0}", identifier);
                 return null;
             }
 
@@ -65,6 +67,8 @@ namespace Wikibus.Sources.EF
                               Entity = b,
                               HasLegacyImage = b.Image.Bytes != null
                           }).SingleOrDefaultAsync();
+
+            LogTo.Debug("Loaded image {0}: {1}", id, source);
 
             if (source == null)
             {

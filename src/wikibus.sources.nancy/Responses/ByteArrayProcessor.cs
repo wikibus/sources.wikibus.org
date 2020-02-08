@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using Nancy;
 using Nancy.Responses.Negotiation;
+using NullGuard;
 
 namespace Wikibus.Sources.Nancy.Responses
 {
     /// <summary>
     /// Processes binary models
     /// </summary>
+    [NullGuard(ValidationFlags.None)]
     public class ByteArrayProcessor : IResponseProcessor
     {
         /// <summary>

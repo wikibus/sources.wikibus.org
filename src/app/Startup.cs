@@ -1,10 +1,12 @@
-﻿using Anotar.Serilog;
+﻿using System;
+using Anotar.Serilog;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Nancy.Owin;
 using Serilog;
 using Wikibus.Sources.EF;
@@ -44,11 +46,14 @@ namespace Brochures.Wikibus.Org
                 options => options.UseSqlServer(
                     this.Configuration["wikibus:sources:sql"],
                     builder => builder.UseRowNumberForPaging()));
+
+            services.AddLogging();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddSerilog();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -63,7 +68,7 @@ namespace Brochures.Wikibus.Org
             app.UseOwin(owin => owin.UseNancy(
                 new NancyOptions
                 {
-                    Bootstrapper = new Bootstrapper(this.Configuration)
+                    Bootstrapper = new Bootstrapper(this.Configuration, loggerFactory)
                 }));
         }
     }

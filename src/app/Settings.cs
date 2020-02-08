@@ -33,5 +33,7 @@ namespace Brochures.Wikibus.Org
         public string ThumbnailTransformation => this.configuration["cloudinary:thumb_transformation"];
 
         public string DefaultTransformation => this.configuration["cloudinary:default_transformation"];
+
+        public bool LogDatabaseAccess => this.configuration.GetValue<bool>("Logging:Database");
     }
 }
