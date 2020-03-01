@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Anotar.Serilog;
 using Argolis.Hydra.Resources;
 using Argolis.Models;
 using Argolis.Nancy;
@@ -117,8 +118,9 @@ namespace Wikibus.Sources.Nancy
             var resource = await getResource(brochureId);
             resource.SetContent(uri, (int)pdf.stream.Length);
 
-            this.Request.Body.Seek(0, SeekOrigin.Begin);
-            var images = this.pdfReader.ToImages(this.Request.Body).ToArray();
+            LogTo.Debug("Rewinding stream");
+            pdf.stream.Seek(0, SeekOrigin.Begin);
+            var images = this.pdfReader.ToImages(pdf.stream).ToArray();
 
             await saveResource(resource);
 
