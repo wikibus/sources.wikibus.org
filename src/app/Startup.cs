@@ -44,8 +44,7 @@ namespace Brochures.Wikibus.Org
 
             services.AddDbContext<SourceContext>(
                 options => options.UseSqlServer(
-                    this.Configuration["wikibus:sources:sql"],
-                    builder => builder.UseRowNumberForPaging()));
+                    this.Configuration["wikibus:sources:sql"]));
 
             services.AddLogging();
         }

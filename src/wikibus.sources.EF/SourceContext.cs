@@ -85,8 +85,7 @@ namespace Wikibus.Sources.EF
             if (string.IsNullOrWhiteSpace(this.connectionString) == false)
             {
                 optionsBuilder.UseSqlServer(
-                this.connectionString,
-                builder => builder.UseRowNumberForPaging());
+                this.connectionString);
             }
         }
     }
