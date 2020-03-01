@@ -112,7 +112,7 @@ namespace Wikibus.Sources.Nancy
                           stream = this.Request.Body
                       };
 
-            var uri = await this.fileStorage.UploadFile(pdf.name, $"sources_{id}", MimeMapping.KnownMimeTypes.Pdf, pdf.stream);
+            var uri = await this.fileStorage.UploadFile(pdf.name, $"sources{id}", MimeMapping.KnownMimeTypes.Pdf, pdf.stream);
 
             var brochureId = this.expander.ExpandAbsolute<Brochure>(new { id });
             var resource = await getResource(brochureId);
