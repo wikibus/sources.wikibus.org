@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Nancy;
 using StructureMap;
 using wikibus.images.Cloudinary;
@@ -12,10 +13,12 @@ namespace Brochures.Wikibus.Org
     public class Bootstrapper : global::Wikibus.Nancy.Bootstrapper
     {
         private readonly IConfiguration configuration;
+        private readonly ILoggerFactory loggerFactory;
 
-        public Bootstrapper(IConfiguration configuration)
+        public Bootstrapper(IConfiguration configuration, ILoggerFactory loggerFactory)
         {
             this.configuration = configuration;
+            this.loggerFactory = loggerFactory;
         }
 
         /// <summary>
@@ -30,6 +33,7 @@ namespace Brochures.Wikibus.Org
                 _.Forward<Settings, global::Wikibus.Sources.ISourcesDatabaseSettings>();
                 _.Forward<Settings, ICloudinarySettings>();
                 _.For<IConfiguration>().Use(this.configuration);
+                _.For<ILoggerFactory>().Use(this.loggerFactory);
             });
 
             base.ConfigureApplicationContainer(existingContainer);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using Anotar.Serilog;
 using Newtonsoft.Json;
 using NullGuard;
 
@@ -22,6 +23,7 @@ namespace Wikibus.Sources
         /// <summary>
         /// Reads the JSON representation of the object.
         /// </summary>
+        [return: AllowNull]
         public override object ReadJson(JsonReader reader, Type objectType, [AllowNull] object existingValue, JsonSerializer serializer)
         {
             if (reader.TokenType == JsonToken.StartObject)
@@ -41,7 +43,8 @@ namespace Wikibus.Sources
                 return new Language(GetLangName((string)reader.Value));
             }
 
-            throw new InvalidOperationException(string.Format("Cannot deserialize value {0} as Language", reader.Value));
+            LogTo.Warning("Cannot deserialize value} as Language");
+            return null;
         }
 
         /// <summary>

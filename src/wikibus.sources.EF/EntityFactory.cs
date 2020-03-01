@@ -141,6 +141,10 @@ namespace Wikibus.Sources.EF
             target.Month = source.Month;
             target.Year = source.Year;
             target.Pages = source.Pages;
+            if (source.ContentUrl != null)
+            {
+                target.SetContent(new Uri(source.ContentUrl), source.ContentSize);
+            }
 
             MapLanguages(target, source);
             MapDate(target, source);

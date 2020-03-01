@@ -14,8 +14,6 @@ namespace Wikibus.Sources.Nancy
         /// </summary>
         public SourceImagesModule(ISourceImagesRepository repository)
         {
-            this.ReturnNotFoundWhenModelIsNullOr(model => model.Length == 0);
-
             this.repository = repository;
 
             this.Get("/book/{id}/image", request => this.GetImage((int)request.id));
@@ -26,14 +24,24 @@ namespace Wikibus.Sources.Nancy
             this.Get("/magazine/{mag}/issue/{issue}/image/small", request => this.GetImage((string)request.mag, (string)request.issue));
         }
 
+        private static dynamic ImageResponse(byte[] image)
+        {
+            if (image == null)
+            {
+                return 404;
+            }
+
+            return image;
+        }
+
         private byte[] GetImage(string magazineName, string issueNumber)
         {
-            return this.repository.GetImageBytes(magazineName, issueNumber);
+            return ImageResponse(this.repository.GetImageBytes(magazineName, issueNumber));
         }
 
         private byte[] GetImage(int sourceId)
         {
-            return this.repository.GetImageBytes(sourceId);
+            return ImageResponse(this.repository.GetImageBytes(sourceId));
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Anotar.Serilog;
@@ -63,9 +64,11 @@ namespace Wikibus.Sources.EF
 
             brochureEntity.Pages = brochure.Pages;
 
-            var validLanguages = brochure.Languages.Where(lang => lang.IsValid).Select(lang => lang.Name);
-            brochure.Languages.ToList().ForEach(l => LogTo.Information(l.IsValid.ToString()));
+            var validLanguages = brochure.Languages.Where(lang => lang != null).Where(lang => lang.IsValid).Select(lang => lang.Name);
             brochureEntity.Languages = string.Join(";", validLanguages);
+
+            brochureEntity.ContentUrl = brochure.Content.ContentUrl?.ToString();
+            brochureEntity.ContentSize = brochure.Content.ContentSizeMb;
         }
     }
 }

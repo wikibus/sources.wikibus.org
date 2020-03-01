@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.Linq;
 using Newtonsoft.Json;
+using NullGuard;
 
 namespace Wikibus.Sources
 {
@@ -35,17 +36,17 @@ namespace Wikibus.Sources
 
         public bool IsValid => CultureInfo.GetCultures(CultureTypes.NeutralCultures).Contains(this.cultureInfo);
 
-        public static bool operator ==(Language left, Language right)
+        public static bool operator ==([AllowNull] Language left, [AllowNull] Language right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(Language left, Language right)
+        public static bool operator !=([AllowNull] Language left, [AllowNull] Language right)
         {
             return !Equals(left, right);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals([AllowNull] object obj)
         {
             if (ReferenceEquals(null, obj))
             {
@@ -70,8 +71,13 @@ namespace Wikibus.Sources
             return this.cultureInfo.GetHashCode();
         }
 
-        protected bool Equals(Language other)
+        protected bool Equals([AllowNull] Language other)
         {
+            if (other == null)
+            {
+                return false;
+            }
+
             return this.cultureInfo.Equals(other.cultureInfo);
         }
     }

@@ -9,5 +9,7 @@
         /// Gets the wikibus database connection string.
         /// </summary>
         string ConnectionString { get; }
+
+        bool LogDatabaseAccess { get; }
     }
 }

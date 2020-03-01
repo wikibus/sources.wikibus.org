@@ -10,6 +10,8 @@
     <ItemGroup>
       <PackageReference Include="Anotar.Serilog.Fody" Version="5.1.0" />
       <PackageReference Include="Argolis.Nancy" Version="0.8.0" />
+      <PackageReference Include="Fody" Version="6.0.8" />
+      <PackageReference Include="MimeMapping" Version="1.0.1.26" />
       <PackageReference Include="Nancy" Version="2.0.0" />
       <PackageReference Include="Nancy.Routing.UriTemplates" Version="2.0" />
       <PackageReference Include="NullGuard.Fody" Version="2.2.0" />
@@ -18,13 +20,15 @@
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         <PrivateAssets>all</PrivateAssets>
       </PackageReference>
-      <PackageReference Include="tpluscode.NoDocumentation.Ruleset" Version="1.2.0" />
+      <PackageReference Include="tpluscode.NoDocumentation.Ruleset" Version="1.3.0" />
       <PackageReference Include="uritemplate.core" Version="1.0.2" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\wikibus.nancy\wikibus.nancy.csproj" />
+      <ProjectReference Include="..\wikibus.sources.pdf\wikibus.sources.pdf.csproj" />
       <ProjectReference Include="..\wikibus.sources\wikibus.sources.csproj" />
+      <ProjectReference Include="..\wikibus.storage\wikibus.storage.csproj" />
     </ItemGroup>
 
 </Project>

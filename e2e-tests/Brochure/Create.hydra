@@ -50,6 +50,22 @@ With Class wbo:BrochureCollection {
             Expect Property opus:year "2019"
 
             // Expect No Property dcterms:language
+
+            Expect Property schema:associatedMedia {
+                Expect Operation schema:CreateAction {
+                    Invoke {
+                        Content-Type "application/pdf"
+
+                        <<< "ecitaro.pdf"
+                    } => {
+                        Expect Status 200
+
+                        Expect Property schema:contentUrl
+                        Expect Property schema:contentSize "4.44 MB"
+                        Expect Property schema:name
+                    }
+                }
+            }
         }
     }
 }

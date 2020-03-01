@@ -41,8 +41,6 @@ namespace Wikibus.Sources.Nancy
             this.templateFactory = templateFactory;
             this.supportedClass = supportedClass;
 
-            this.ReturnNotFoundWhenModelIsNull();
-
             this.Get<Brochure>(async r => await this.GetSingle(repository.GetBrochure));
             this.Get<Book>(async r => await this.GetSingle(repository.GetBook));
             this.Get<Magazine>(async r => await this.GetSingle(repository.GetMagazine));
@@ -62,6 +60,11 @@ namespace Wikibus.Sources.Nancy
         {
             Uri resourceUri = this.expander.ExpandAbsolute<T>(this.Context.Parameters);
             var resource = await getResource(resourceUri) ?? defaultValue;
+
+            if (resource == null)
+            {
+                return 404;
+            }
 
             return this.Negotiate.WithModel(resource);
         }

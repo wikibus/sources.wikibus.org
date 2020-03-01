@@ -2,17 +2,21 @@ name: wikibus-brochures
 services:
   appserver:
     type: dotnet
-    command: dotnet watch --project src/app run --environment Development
+    command: dotnet watch --project src/app run
     port: 80
     overrides:
       environment:
         PORT: 80
+        ASPNETCORE_ENVIRONMENT: "Development"
         authentication__backdoor: "True"
         wikibus__baseUrl: "https://wikibus-sources.lndo.site/"
         wikibus__apiUrl: "https://wikibus-sources.lndo.site/"
         wikibus__sources__sql: "Server=db;Database=master;User=sa;Password=he11oTHERE;"
     run_as_root:
       - bash -c "dotnet run --project src/wikibus.sources.dbup remote --connection-string 'Server=db;Database=master;User=sa;Password=he11oTHERE;' --run-always-pattern fn_"
+      - apt-get update -y
+      - apt-get install -y poppler-utils libc6-dev libgdiplus libx11-dev
+      - rm -rf /var/lib/apt/lists/*
   db:
     type: mssql
     portforward: false

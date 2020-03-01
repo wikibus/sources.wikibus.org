@@ -1,21 +1,25 @@
 ﻿using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Wikibus.Sources.EF
 {
     public class SourceContext : DbContext, ISourceContext
     {
+        private readonly ILoggerFactory loggerFactory;
         private readonly string connectionString;
 
-        public SourceContext(ISourcesDatabaseSettings configuration)
+        public SourceContext(ISourcesDatabaseSettings configuration, ILoggerFactory loggerFactory)
         {
+            this.loggerFactory = loggerFactory;
             this.connectionString = configuration.ConnectionString;
         }
 
-        public SourceContext([NotNull] DbContextOptions options)
+        public SourceContext([NotNull] DbContextOptions options, ILoggerFactory loggerFactory)
             : base(options)
         {
+            this.loggerFactory = loggerFactory;
         }
 
         public DbSet<SourceEntity> Sources { get; set; }
@@ -76,6 +80,8 @@ namespace Wikibus.Sources.EF
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            optionsBuilder.UseLoggerFactory(this.loggerFactory);
+
             if (string.IsNullOrWhiteSpace(this.connectionString) == false)
             {
                 optionsBuilder.UseSqlServer(
