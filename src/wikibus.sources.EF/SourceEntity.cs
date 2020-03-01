@@ -23,9 +23,9 @@ namespace Wikibus.Sources.EF
 
         public byte? Day { get; set; }
 
-        public string ContentUrl { get; set; }
+        [CanBeNull] public string ContentUrl { get; set; }
 
-        public int ContentSize { get; set; }
+        public int? ContentSize { get; set; }
 
         public virtual ImageData Image { get; set; }
 

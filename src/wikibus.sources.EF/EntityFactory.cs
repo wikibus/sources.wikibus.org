@@ -141,9 +141,9 @@ namespace Wikibus.Sources.EF
             target.Month = source.Month;
             target.Year = source.Year;
             target.Pages = source.Pages;
-            if (source.ContentUrl != null)
+            if (source.ContentUrl != null && source.ContentSize.HasValue)
             {
-                target.SetContent(new Uri(source.ContentUrl), source.ContentSize);
+                target.SetContent(new Uri(source.ContentUrl), source.ContentSize.Value);
             }
 
             MapLanguages(target, source);
