@@ -45,10 +45,18 @@ namespace Wikibus.Sources.Nancy
             this.Put<Brochure>(async r => await this.PutSingle(persistence.SaveBrochure, repository.GetBrochure));
             this.Post<SourceContent>(
                  async r => await this.UploadPdf((int)r.id, repository.GetBrochure, persistence.SaveBrochure));
+            this.Get<SourceContent>(r => this.RedirectToBrochure((int)r.id));
             using (this.Templates)
             {
                 this.Post<Collection<Brochure>>(async r => await this.CreateBrochure(persistence.CreateBrochure, repository.GetBrochure));
             }
+        }
+
+        private dynamic RedirectToBrochure(int id)
+        {
+            var brochureId = this.expander.ExpandAbsolute<Brochure>(new { id });
+
+            return this.Response.AsRedirect(brochureId.ToString());
         }
 
         private async Task<dynamic> CreateBrochure(
@@ -121,7 +129,8 @@ namespace Wikibus.Sources.Nancy
 
             await this.data.SaveChangesAsync();
 
-            return this.Response.AsRedirect(brochureId.ToString());
+            return this.Negotiate
+                .WithModel(resource.Content);
         }
     }
 }
