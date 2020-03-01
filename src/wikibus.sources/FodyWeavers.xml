@@ -3,4 +3,5 @@
   <NullGuard IncludeDebugAssert="false" />
   <Resourcer />
   <JetBrainsAnnotations />
+  <Anotar.Serilog />
 </Weavers>
