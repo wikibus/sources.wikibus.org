@@ -104,23 +104,23 @@ namespace Wikibus.Sources.Nancy
             Func<Uri, Task<Brochure>> getResource,
             Func<Brochure, Task> saveResource)
         {
-            var pdf = this.Request.Files.FirstOrDefault(file => file.ContentType.EndsWith(MimeMapping.KnownMimeTypes.Pdf));
+            var pdf = this.Request.Files
+                .Select(file => new { name = file.Name, stream = file.Value })
+                .FirstOrDefault() ?? new
+                      {
+                          name = $"{id}.pdf",
+                          stream = this.Request.Body
+                      };
 
-            if (pdf == null)
-            {
-                LogTo.Information("No PDF files uploaded. Done");
-                return HttpStatusCode.BadRequest;
-            }
-
-            var uri = await this.fileStorage.UploadFile(pdf.Name, $"sources/{id}", MimeMapping.KnownMimeTypes.Pdf, pdf.Value);
+            var uri = await this.fileStorage.UploadFile(pdf.name, $"sources/{id}", MimeMapping.KnownMimeTypes.Pdf, pdf.stream);
 
             var brochureId = this.expander.ExpandAbsolute<Brochure>(new { id });
             var resource = await getResource(brochureId);
-            resource.SetContent(uri, (int)pdf.Value.Length);
+            resource.SetContent(uri, (int)pdf.stream.Length);
 
             LogTo.Debug("Rewinding stream");
-            pdf.Value.Seek(0, SeekOrigin.Begin);
-            var images = this.pdfReader.ToImages(pdf.Value).ToArray();
+            pdf.stream.Seek(0, SeekOrigin.Begin);
+            var images = this.pdfReader.ToImages(pdf.stream).ToArray();
 
             await saveResource(resource);
 
