@@ -24,6 +24,8 @@ namespace Wikibus.Sources
     {
         private Language[] languages = new Language[0];
         private Uri id;
+        private Uri content;
+        private int contentSize;
 
         /// <summary>
         /// Gets or sets the identifier.
@@ -93,6 +95,15 @@ namespace Wikibus.Sources
         [Writeable(false)]
         public Image[] Image { get; set; }
 
+        [Range(Schema.MediaObject)]
+        [Writeable(false)]
+        public SourceContent Content => new SourceContent(
+            new Uri($"{this.Id}/file"),
+            "Download PDF",
+            MimeMapping.KnownMimeTypes.Pdf,
+            this.contentSize,
+            this.content);
+
         /// <summary>
         /// Gets the @context.
         /// </summary>
@@ -123,7 +134,10 @@ namespace Wikibus.Sources
                     "images".IsProperty(Api.images),
                     "hasImage".IsProperty(Wbo.BaseUri + "hasImage"),
                     "contentUrl".IsProperty(Schema.contentUrl).Type().Is(Schema.URL),
-                    "thumbnail".IsProperty(Schema.thumbnail));
+                    "thumbnail".IsProperty(Schema.thumbnail),
+                    "content".IsProperty(Schema.associatedMedia),
+                    "encodingFormat".IsProperty(Schema.encodingFormat),
+                    "contentSize".IsProperty(Schema.contentSize));
             }
         }
 
@@ -134,6 +148,17 @@ namespace Wikibus.Sources
         protected virtual IEnumerable<string> Types
         {
             get { yield return Wbo.Source; }
+        }
+
+        public void SetContent(Uri uri, int size)
+        {
+            if (this.content != null)
+            {
+                throw new InvalidOperationException("Cannot overwrite a file");
+            }
+
+            this.content = uri;
+            this.contentSize = size;
         }
     }
 }

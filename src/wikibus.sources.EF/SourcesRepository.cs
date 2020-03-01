@@ -51,6 +51,7 @@ namespace Wikibus.Sources.EF
         [return: AllowNull]
         public async Task<Brochure> GetBrochure(Uri identifier)
         {
+            LogTo.Debug("Getting brochure {0}", identifier);
             var uriTemplateMatches = this.matcher.Match<Brochure>(identifier);
             var id = uriTemplateMatches.Get<int?>("id");
 

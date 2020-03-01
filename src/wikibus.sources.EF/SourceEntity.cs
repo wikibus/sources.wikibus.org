@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using JetBrains.Annotations;
 using NullGuard;
 
 namespace Wikibus.Sources.EF
@@ -21,6 +22,10 @@ namespace Wikibus.Sources.EF
         public byte? Month { get; set; }
 
         public byte? Day { get; set; }
+
+        public string ContentUrl { get; set; }
+
+        public int ContentSize { get; set; }
 
         public virtual ImageData Image { get; set; }
 

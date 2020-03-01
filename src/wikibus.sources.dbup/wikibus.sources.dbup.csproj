@@ -17,6 +17,8 @@
       <EmbeddedResource Include="Scripts\1. OriginalStructure\2. Schema Sources.sql" />
       <EmbeddedResource Include="Scripts\1. OriginalStructure\4. Table Magazine.sql" />
       <EmbeddedResource Include="Scripts\1. OriginalStructure\6. Table Images.sql" />
+      <EmbeddedResource Include="Scripts\4. PDF Content\1. Add columns.sql" />
+      <EmbeddedResource Include="Scripts\4. PDF Content\2. Add size column.sql" />
       <EmbeddedResource Include="Scripts\fn_CompartmentUsage.sql" />
       <EmbeddedResource Include="Scripts\1. OriginalStructure\5. Table Source.sql" />
       <EmbeddedResource Include="Scripts\1. OriginalStructure\3. Table FileCabinet.sql" />

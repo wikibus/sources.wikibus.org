@@ -2,10 +2,11 @@
 using Microsoft.Extensions.Configuration;
 using wikibus.images.Cloudinary;
 using Wikibus.Sources.DotNetRDF;
+using wikibus.storage.azure;
 
 namespace Brochures.Wikibus.Org
 {
-    public class Settings : ISourcesDatabaseSettings, ICloudinarySettings
+    public class Settings : ISourcesDatabaseSettings, ICloudinarySettings, IAzureSettings
     {
         private readonly IConfiguration configuration;
 
@@ -35,5 +36,7 @@ namespace Brochures.Wikibus.Org
         public string DefaultTransformation => this.configuration["cloudinary:default_transformation"];
 
         public bool LogDatabaseAccess => this.configuration.GetValue<bool>("Logging:Database");
+
+        string IAzureSettings.ConnectionString => this.configuration["azure:storage:connectionString"];
     }
 }

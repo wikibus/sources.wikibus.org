@@ -6,4 +6,25 @@
   <member name="P:Wikibus.Sources.Source.Context">
     <attribute ctor="M:JetBrains.Annotations.UsedImplicitlyAttribute.#ctor" />
   </member>
+  <member name="P:Wikibus.Sources.SourceContent.ContentSize">
+    <attribute ctor="M:JetBrains.Annotations.UsedImplicitlyAttribute.#ctor" />
+  </member>
+  <member name="P:Wikibus.Sources.SourceContent.ContentUrl">
+    <attribute ctor="M:JetBrains.Annotations.UsedImplicitlyAttribute.#ctor" />
+  </member>
+  <member name="P:Wikibus.Sources.SourceContent.Context">
+    <attribute ctor="M:JetBrains.Annotations.UsedImplicitlyAttribute.#ctor" />
+  </member>
+  <member name="P:Wikibus.Sources.SourceContent.EncodingFormat">
+    <attribute ctor="M:JetBrains.Annotations.UsedImplicitlyAttribute.#ctor" />
+  </member>
+  <member name="P:Wikibus.Sources.SourceContent.Id">
+    <attribute ctor="M:JetBrains.Annotations.UsedImplicitlyAttribute.#ctor" />
+  </member>
+  <member name="P:Wikibus.Sources.SourceContent.Name">
+    <attribute ctor="M:JetBrains.Annotations.UsedImplicitlyAttribute.#ctor" />
+  </member>
+  <member name="P:Wikibus.Sources.SourceContent.Type">
+    <attribute ctor="M:JetBrains.Annotations.UsedImplicitlyAttribute.#ctor" />
+  </member>
 </assembly>

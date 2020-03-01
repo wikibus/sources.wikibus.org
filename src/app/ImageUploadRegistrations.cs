@@ -1,5 +1,4 @@
-﻿using System;
-using CloudinaryDotNet;
+﻿using CloudinaryDotNet;
 using Microsoft.Extensions.Configuration;
 using Nancy;
 using Nancy.Bootstrapper;
@@ -25,7 +24,7 @@ namespace Brochures.Wikibus.Org
                     configuration["cloudinary:key"],
                     configuration["cloudinary:secret"]);
 
-                this.Register(new Cloudinary(account));
+            this.Register(new Cloudinary(account));
         }
     }
 }

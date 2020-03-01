@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Argolis.Hydra.Resources;
 using Argolis.Models;
@@ -7,24 +9,42 @@ using Nancy;
 using Nancy.ModelBinding;
 using Wikibus.Common;
 using Wikibus.Nancy;
+using Wikibus.Sources.EF;
+using Wikibus.Sources.Images;
+using wikibus.sources.pdf;
+using wikibus.storage;
 
 namespace Wikibus.Sources.Nancy
 {
     public sealed class SourcesUpdateModule : ArgolisModule
     {
         private readonly IUriTemplateExpander expander;
+        private readonly IPdfService pdfReader;
+        private readonly IFileStorage fileStorage;
+        private readonly SourceImageService imageService;
+        private readonly ISourceContext data;
 
         public SourcesUpdateModule(
             ISourcesPersistence persistence,
             ISourcesRepository repository,
             IModelTemplateProvider modelTemplateProvider,
-            IUriTemplateExpander expander)
+            IUriTemplateExpander expander,
+            IPdfService pdfReader,
+            IFileStorage fileStorage,
+            SourceImageService imageService,
+            ISourceContext data)
             : base(modelTemplateProvider)
         {
             this.RequiresPermissions(Permissions.WriteSources);
 
             this.expander = expander;
+            this.pdfReader = pdfReader;
+            this.fileStorage = fileStorage;
+            this.imageService = imageService;
+            this.data = data;
             this.Put<Brochure>(async r => await this.PutSingle(persistence.SaveBrochure, repository.GetBrochure));
+            this.Post<SourceContent>(
+                 async r => await this.UploadPdf((int)r.id, repository.GetBrochure, persistence.SaveBrochure));
             using (this.Templates)
             {
                 this.Post<Collection<Brochure>>(async r => await this.CreateBrochure(persistence.CreateBrochure, repository.GetBrochure));
@@ -68,6 +88,40 @@ namespace Wikibus.Sources.Nancy
             await saveResource(brochure);
 
             return await getResource(brochure.Id);
+        }
+
+        private async Task<dynamic> UploadPdf(
+            int id,
+            Func<Uri, Task<Brochure>> getResource,
+            Func<Brochure, Task> saveResource)
+        {
+            var pdf = this.Request.Files
+                .Select(file => new { name = file.Name, stream = file.Value })
+                .FirstOrDefault() ?? new
+                      {
+                          name = $"{id}.pdf",
+                          stream = this.Request.Body
+                      };
+
+            var uri = await this.fileStorage.UploadFile(pdf.name, $"sources/{id}", MimeMapping.KnownMimeTypes.Pdf, pdf.stream);
+
+            var brochureId = this.expander.ExpandAbsolute<Brochure>(new { id });
+            var resource = await getResource(brochureId);
+            resource.SetContent(uri, (int)pdf.stream.Length);
+
+            this.Request.Body.Seek(0, SeekOrigin.Begin);
+            var images = this.pdfReader.ToImages(this.Request.Body).ToArray();
+
+            await saveResource(resource);
+
+            for (int i = 0; i < images.Length; i++)
+            {
+                await this.imageService.AddImage(id, $"{id}_{i}", images[i]);
+            }
+
+            await this.data.SaveChangesAsync();
+
+            return this.Response.AsRedirect(brochureId.ToString());
         }
     }
 }

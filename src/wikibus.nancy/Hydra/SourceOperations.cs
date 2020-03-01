@@ -1,6 +1,7 @@
 ﻿using Argolis.Hydra.Discovery.SupportedOperations;
 using Argolis.Hydra.Nancy;
 using JsonLD.Entities;
+using Vocab;
 using Wikibus.Common;
 using Wikibus.Sources;
 
@@ -26,6 +27,12 @@ namespace Wikibus.Nancy.Hydra
                 this.Property(s => s.Image)
                     .SupportsDelete()
                     .Title("Remove image");
+
+                this.Property(s => s.Content)
+                    .SupportsPost()
+                    .Title("Upload PDF")
+                    .Expects((IriRef)Api.PdfUpload)
+                    .TypedAs((IriRef)Schema.CreateAction);
             }
         }
     }

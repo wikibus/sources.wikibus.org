@@ -13,7 +13,7 @@ namespace Wikibus.Sources.Nancy
     /// </summary>
     public class SourceImageUploadModule : NancyModule
     {
-        private readonly IImageStorage storage;
+        private readonly SourceImageService imageService;
         private readonly ISourceContext data;
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace Wikibus.Sources.Nancy
         {
             this.RequiresPermissions(Permissions.WriteSources);
 
-            this.storage = storage;
+            this.imageService = new SourceImageService(storage, data);
             this.data = data;
 
             this.Post("/book/{id}/images", request => this.UploadImages((int)request.id));
@@ -43,13 +43,7 @@ namespace Wikibus.Sources.Nancy
 
             foreach (var httpFile in this.Request.Files)
             {
-                var result = await this.storage.UploadImage(httpFile.Name, httpFile.Value);
-                source.Images.Add(new ImageEntity
-                {
-                    ExternalId = result.ExternalId,
-                    OriginalUrl = result.Original,
-                    ThumbnailUrl = result.Thumbnail
-                });
+                await this.imageService.AddImage(sourceId, httpFile.Name, httpFile.Value);
             }
 
             try
@@ -59,7 +53,7 @@ namespace Wikibus.Sources.Nancy
             catch
             {
                 source.Images.ToList()
-                    .ForEach(i => this.storage.DeleteImage(i.ExternalId));
+                    .ForEach(i => this.imageService.DeleteImage(i.ExternalId));
 
                 throw;
             }
