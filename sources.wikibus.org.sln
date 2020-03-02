@@ -37,6 +37,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wikibus.storage", "src\wiki
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wikibus.storage.azure", "src\wikibus.storage.azure\wikibus.storage.azure.csproj", "{D72C819C-2006-4D27-BB0F-35228A42D0A0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wikibus.sources.functions.pdf2img", "src\wikibus.sources.functions.pdf2img\wikibus.sources.functions.pdf2img.csproj", "{0D2EFDBD-D0E9-4C99-AE24-5EC26290C2D4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,5 +101,9 @@ Global
 		{D72C819C-2006-4D27-BB0F-35228A42D0A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D72C819C-2006-4D27-BB0F-35228A42D0A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D72C819C-2006-4D27-BB0F-35228A42D0A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D2EFDBD-D0E9-4C99-AE24-5EC26290C2D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D2EFDBD-D0E9-4C99-AE24-5EC26290C2D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D2EFDBD-D0E9-4C99-AE24-5EC26290C2D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D2EFDBD-D0E9-4C99-AE24-5EC26290C2D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

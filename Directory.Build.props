@@ -1,5 +1,5 @@
 <Project>
-    <PropertyGroup>
+    <PropertyGroup Condition="false">
         <BaseOutputPath>\tmp\dotnet_bin\$(SolutionName)\$(MSBuildProjectName)\</BaseOutputPath>
         <BaseIntermediateOutputPath>\tmp\dotnet_obj\$(SolutionName)\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
     </PropertyGroup>

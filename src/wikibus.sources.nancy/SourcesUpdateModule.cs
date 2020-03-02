@@ -124,7 +124,9 @@ namespace Wikibus.Sources.Nancy
 
             await saveResource(resource);
 
-            for (int i = 0; i < images.Length; i++)
+            return HttpStatusCode.Accepted;
+
+            /*for (int i = 0; i < images.Length; i++)
             {
                 await this.imageService.AddImage(id, $"{id}_{i}", images[i]);
             }
@@ -132,7 +134,7 @@ namespace Wikibus.Sources.Nancy
             await this.data.SaveChangesAsync();
 
             return this.Negotiate
-                .WithModel(resource.Content);
+                .WithModel(resource.Content);*/
         }
     }
 }
