@@ -6,9 +6,9 @@ using wikibus.images.Cloudinary;
 using Wikibus.Sources.EF;
 using Wikibus.Sources.Images;
 
-[assembly: FunctionsStartup(typeof(wikibus.sources.functions.pdf2img.Startup))]
+[assembly: FunctionsStartup(typeof(Wikibus.Sources.Functions.Startup))]
 
-namespace wikibus.sources.functions.pdf2img
+namespace Wikibus.Sources.Functions
 {
     public class Startup : FunctionsStartup
     {
@@ -17,6 +17,9 @@ namespace wikibus.sources.functions.pdf2img
             builder.Services.AddDbContext<SourceContext>();
             builder.Services.AddTransient<IImageStorage, CloudinaryImagesStore>();
             builder.Services.AddSingleton<IUriTemplateMatcher, DefaultUriTemplateMatcher>();
+            builder.Services.AddSingleton<SourceImageService>();
+            builder.Services.AddSingleton<IModelTemplateProvider, AttributeModelTemplateProvider>();
+            builder.Services.AddSingleton<IBaseUriProvider, BaseUriProvider>();
         }
     }
 }

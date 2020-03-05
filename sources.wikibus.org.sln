@@ -1,17 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "app", "src\app\app.csproj", "{231A7994-871A-46F4-9052-F3DF434F43BC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wikibus.sources", "src\wikibus.sources\wikibus.sources.csproj", "{FC7147CA-2A7E-4E89-8B1B-43E405FF964C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".solution", ".solution", "{29EEBD98-3E91-41DC-A60C-3CB048270CDF}"
-ProjectSection(SolutionItems) = preProject
-	Dockerfile = Dockerfile
-	heroku.yml = heroku.yml
-	docker-compose.yml = docker-compose.yml
-	.travis.yml = .travis.yml
-	.lando.yml = .lando.yml
-EndProjectSection
+	ProjectSection(SolutionItems) = preProject
+		Dockerfile = Dockerfile
+		heroku.yml = heroku.yml
+		docker-compose.yml = docker-compose.yml
+		.travis.yml = .travis.yml
+		.lando.yml = .lando.yml
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wikibus.common", "src\wikibus.common\wikibus.common.csproj", "{28EBCDF1-37FA-4F1A-8938-B18F452C3704}"
 EndProject
@@ -37,7 +38,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wikibus.storage", "src\wiki
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wikibus.storage.azure", "src\wikibus.storage.azure\wikibus.storage.azure.csproj", "{D72C819C-2006-4D27-BB0F-35228A42D0A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wikibus.sources.functions.pdf2img", "src\wikibus.sources.functions.pdf2img\wikibus.sources.functions.pdf2img.csproj", "{0D2EFDBD-D0E9-4C99-AE24-5EC26290C2D4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wikibus.sources.functions", "src\wikibus.sources.functions\wikibus.sources.functions.csproj", "{ECF3E7CA-B8EA-4E2F-896F-A6424420E09C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wikibus.sources.functions.tests", "tests\wikibus.sources.functions.tests\wikibus.sources.functions.tests.csproj", "{F6AB95D5-8B64-4C9F-BAEA-4F4678112EE1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -101,9 +104,13 @@ Global
 		{D72C819C-2006-4D27-BB0F-35228A42D0A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D72C819C-2006-4D27-BB0F-35228A42D0A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D72C819C-2006-4D27-BB0F-35228A42D0A0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0D2EFDBD-D0E9-4C99-AE24-5EC26290C2D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0D2EFDBD-D0E9-4C99-AE24-5EC26290C2D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0D2EFDBD-D0E9-4C99-AE24-5EC26290C2D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0D2EFDBD-D0E9-4C99-AE24-5EC26290C2D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECF3E7CA-B8EA-4E2F-896F-A6424420E09C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECF3E7CA-B8EA-4E2F-896F-A6424420E09C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECF3E7CA-B8EA-4E2F-896F-A6424420E09C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECF3E7CA-B8EA-4E2F-896F-A6424420E09C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6AB95D5-8B64-4C9F-BAEA-4F4678112EE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6AB95D5-8B64-4C9F-BAEA-4F4678112EE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6AB95D5-8B64-4C9F-BAEA-4F4678112EE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6AB95D5-8B64-4C9F-BAEA-4F4678112EE1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
