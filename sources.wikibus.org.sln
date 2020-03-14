@@ -32,8 +32,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wikibus.images.Cloudinary",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wikibus.sources.dbup", "src\wikibus.sources.dbup\wikibus.sources.dbup.csproj", "{5335FAAC-460C-437C-8517-DF04F27CC4E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wikibus.sources.pdf", "src\wikibus.sources.pdf\wikibus.sources.pdf.csproj", "{DC89120B-8D5B-4DA1-9702-7E49D67CA918}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wikibus.storage", "src\wikibus.storage\wikibus.storage.csproj", "{ED6437DC-96D6-4EFF-9AE6-AA115C81753B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wikibus.storage.azure", "src\wikibus.storage.azure\wikibus.storage.azure.csproj", "{D72C819C-2006-4D27-BB0F-35228A42D0A0}"
@@ -92,10 +90,6 @@ Global
 		{5335FAAC-460C-437C-8517-DF04F27CC4E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5335FAAC-460C-437C-8517-DF04F27CC4E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5335FAAC-460C-437C-8517-DF04F27CC4E7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DC89120B-8D5B-4DA1-9702-7E49D67CA918}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DC89120B-8D5B-4DA1-9702-7E49D67CA918}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DC89120B-8D5B-4DA1-9702-7E49D67CA918}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DC89120B-8D5B-4DA1-9702-7E49D67CA918}.Release|Any CPU.Build.0 = Release|Any CPU
 		{ED6437DC-96D6-4EFF-9AE6-AA115C81753B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{ED6437DC-96D6-4EFF-9AE6-AA115C81753B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED6437DC-96D6-4EFF-9AE6-AA115C81753B}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -1,5 +1,6 @@
 using Shouldly;
 using wikibus.sources.functions.tests;
+using Wikibus.Sources.Images;
 using Xunit.Abstractions;
 
 namespace Wikibus.Sources.Functions.Tests
@@ -20,17 +21,18 @@ namespace Wikibus.Sources.Functions.Tests
 
     public class ExtractPagesTests
     {
-        private static readonly Uri SourceId = new Uri("http://foo.bar/source");
-        private static readonly string Name = "e-citaro.pdf";
-        private static readonly string BlobUri = "http://foo.bar/blob";
+        private const string SourceId = "http://foo.bar/source";
+        private const string Name = "e-citaro.pdf";
+        private const string BlobUri = "http://foo.bar/blob";
 
-        private readonly ILogger log = Substitute.For<ILogger>();
         private readonly FakeImageService imageService;
         private readonly MockHttpMessageHandler httpMessageHandler;
         private readonly ExtractPages functions;
+        private readonly ISourcesRepository sourceRepository;
 
         public ExtractPagesTests(ITestOutputHelper output)
         {
+            this.sourceRepository = Substitute.For<ISourcesRepository>();
             this.imageService = new FakeImageService(output);
             var matcher = Substitute.For<IUriTemplateMatcher>();
             this.httpMessageHandler = new MockHttpMessageHandler();
@@ -41,7 +43,14 @@ namespace Wikibus.Sources.Functions.Tests
                     { "id", 10 },
                 }));
 
+            this.sourceRepository.GetBrochure(Arg.Any<Uri>())
+                .Returns(Task.FromResult(new Brochure
+                {
+                    Id = new Uri(SourceId),
+                }));
+
             this.functions = new ExtractPages(
+                this.sourceRepository,
                 this.imageService,
                 matcher,
                 this.httpMessageHandler.ToHttpClient());
@@ -61,10 +70,38 @@ namespace Wikibus.Sources.Functions.Tests
             };
 
             // when
-            await this.functions.Run(pdfUploaded, this.log);
+            await this.functions.Run(pdfUploaded);
 
             // then
             this.imageService.AddedImages.ShouldBe(9);
+        }
+
+        [Fact]
+        public async Task WhenBrochureHasImages_DoesNothing()
+        {
+            // given
+            var brochure = new Brochure
+            {
+                Id = new Uri(SourceId),
+                Images =
+                {
+                    Members = new[] { new Image(), }
+                }
+            };
+            this.sourceRepository.GetBrochure(Arg.Any<Uri>())
+                .Returns(Task.FromResult(brochure));
+            var pdfUploaded = new PdfUploaded
+            {
+                BlobUri = BlobUri,
+                Name = Name,
+                SourceId = SourceId,
+            };
+
+            // when
+            await this.functions.Run(pdfUploaded);
+
+            // then
+            this.imageService.AddedImages.ShouldBe(0);
         }
     }
 }

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Anotar.Serilog;
 using Argolis.Hydra.Resources;
 using Argolis.Models;
 using Argolis.Nancy;
@@ -10,9 +8,7 @@ using Nancy;
 using Nancy.ModelBinding;
 using Wikibus.Common;
 using Wikibus.Nancy;
-using Wikibus.Sources.EF;
-using Wikibus.Sources.Images;
-using wikibus.sources.pdf;
+using Wikibus.Sources.Events;
 using wikibus.storage;
 
 namespace Wikibus.Sources.Nancy
@@ -20,29 +16,23 @@ namespace Wikibus.Sources.Nancy
     public sealed class SourcesUpdateModule : ArgolisModule
     {
         private readonly IUriTemplateExpander expander;
-        private readonly IPdfService pdfReader;
         private readonly IFileStorage fileStorage;
-        private readonly SourceImageService imageService;
-        private readonly ISourceContext data;
+        private readonly IStorageQueue queue;
 
         public SourcesUpdateModule(
             ISourcesPersistence persistence,
             ISourcesRepository repository,
             IModelTemplateProvider modelTemplateProvider,
             IUriTemplateExpander expander,
-            IPdfService pdfReader,
             IFileStorage fileStorage,
-            SourceImageService imageService,
-            ISourceContext data)
+            IStorageQueue queue)
             : base(modelTemplateProvider)
         {
             this.RequiresPermissions(Permissions.WriteSources);
 
             this.expander = expander;
-            this.pdfReader = pdfReader;
             this.fileStorage = fileStorage;
-            this.imageService = imageService;
-            this.data = data;
+            this.queue = queue;
             this.Put<Brochure>(async r => await this.PutSingle(persistence.SaveBrochure, repository.GetBrochure));
             this.Post<SourceContent>(
                  async r => await this.UploadPdf((int)r.id, repository.GetBrochure, persistence.SaveBrochure));
@@ -118,23 +108,17 @@ namespace Wikibus.Sources.Nancy
             var resource = await getResource(brochureId);
             resource.SetContent(uri, (int)pdf.stream.Length);
 
-            LogTo.Debug("Rewinding stream");
-            pdf.stream.Seek(0, SeekOrigin.Begin);
-            var images = this.pdfReader.ToImages(pdf.stream).ToArray();
-
             await saveResource(resource);
 
-            return HttpStatusCode.Accepted;
-
-            /*for (int i = 0; i < images.Length; i++)
+            var pdfUploaded = new PdfUploaded
             {
-                await this.imageService.AddImage(id, $"{id}_{i}", images[i]);
-            }
+                BlobUri = uri.ToString(),
+                Name = pdf.name,
+                SourceId = brochureId.ToString(),
+            };
+            await this.queue.AddMessage(PdfUploaded.Queue, pdfUploaded);
 
-            await this.data.SaveChangesAsync();
-
-            return this.Negotiate
-                .WithModel(resource.Content);*/
+            return HttpStatusCode.Accepted;
         }
     }
 }
