@@ -19,4 +19,6 @@ jobs:
         id: fa
         with:
           app-name: wikibus-functions
+          slot-name: staging
+          package: src/wikibus.sources.functions/bin/Release/netcoreapp2.1
           publish-profile: ${{ secrets.PUBLISH_FUNCTIONS }}
