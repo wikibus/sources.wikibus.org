@@ -1,6 +1,7 @@
-language: node_js
-node_js: "13"
-sudo: required
+language: csharp
+
+before_script:
+  - nvm install 13
 
 services:
   - docker
@@ -25,7 +26,7 @@ jobs:
       script:
         - docker-compose -f docker-compose.yml -f docker-compose.posix.yml run e2e-tests
     - stage: deploy
-    - name: deploy staging functions
+    - name: staging functions
       if: branch = develop
       before_script:
         - .travis/az-cli.sh
@@ -33,7 +34,7 @@ jobs:
       script:
         - cd src/wikibus.sources.functions/
         - az account get-access-token --query "accessToken" | func azure functionapp publish $APP_NAME --slot staging
-    - name: deploy production functions
+    - name: production functions
       if: branch = master
       before_script:
         - .travis/az-cli.sh
