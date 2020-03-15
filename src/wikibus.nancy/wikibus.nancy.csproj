@@ -25,7 +25,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\wikibus.common\wikibus.common.csproj" />
-    <ProjectReference Include="..\wikibus.sources.DotNetRDF\wikibus.sources.DotNetRDF.csproj" />
     <ProjectReference Include="..\wikibus.sources.EF\wikibus.sources.EF.csproj" />
     <ProjectReference Include="..\wikibus.sources.images\wikibus.sources.images.csproj" />
     <ProjectReference Include="..\wikibus.sources\wikibus.sources.csproj" />
