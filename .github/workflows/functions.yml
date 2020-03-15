@@ -19,4 +19,4 @@ jobs:
         id: fa
         with:
           app-name: wikibus-functions
-          publish-profile: ${{ secrets.PUBLISH_FUNCTIONS_STAGING }}
+          publish-profile: ${{ secrets.PUBLISH_FUNCTIONS }}
