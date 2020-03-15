@@ -1,5 +1,5 @@
 <Project>
-    <PropertyGroup Condition="'$(MSBuildProjectName)' != 'wikibus.sources.functions'">
+    <PropertyGroup Condition="'$(Configuration)' != 'Release'">
         <BaseOutputPath>\tmp\dotnet_bin\$(SolutionName)\$(MSBuildProjectName)\</BaseOutputPath>
         <BaseIntermediateOutputPath>\tmp\dotnet_obj\$(SolutionName)\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
     </PropertyGroup>
