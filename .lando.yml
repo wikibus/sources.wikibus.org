@@ -14,9 +14,6 @@ services:
         wikibus__sources__sql: "Server=db;Database=master;User=sa;Password=he11oTHERE;"
     run_as_root:
       - bash -c "dotnet run --project src/wikibus.sources.dbup remote --connection-string 'Server=db;Database=master;User=sa;Password=he11oTHERE;' --run-always-pattern fn_"
-      - apt-get update -y
-      - apt-get install -y poppler-utils libc6-dev libgdiplus libx11-dev
-      - rm -rf /var/lib/apt/lists/*
   db:
     type: mssql
     portforward: false
