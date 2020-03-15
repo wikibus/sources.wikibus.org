@@ -35,4 +35,10 @@
       <ProjectReference Include="..\wikibus.storage.azure\wikibus.storage.azure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="bin\Debug\netcoreapp2.1\app.deps.json" />
+      <_ContentIncludedByDefault Remove="bin\Debug\netcoreapp2.1\app.runtimeconfig.dev.json" />
+      <_ContentIncludedByDefault Remove="bin\Debug\netcoreapp2.1\app.runtimeconfig.json" />
+    </ItemGroup>
+
 </Project>
