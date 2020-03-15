@@ -1,28 +1,48 @@
 language: node_js
 node_js: "13"
+sudo: required
 
 services:
   - docker
-
-before_install:
-  - sudo apt-get -y update || true
-  - sudo apt-get -y install cgroup-bin curl
-  - curl -fsSL -o /tmp/lando-latest.deb https://github.com/lando/lando/releases/download/v3.0.0-rc.23/lando-v3.0.0-rc.23.deb
-  - sudo dpkg -i /tmp/lando-latest.deb
-  - lando version
 
 before_script:
   - lando start
   - npx wait-on --timeout 30000 http://wikibus-sources.lndo.site
 
+env:
+  - APP_NAME=wikibus-functions
+
 jobs:
   include:
-    - env:
-        - JOB=analyser
+    - stage: test
+    - name: unit tests
+      script:
+        - dotnet test
+    - name: analyse
+      before_script:
+        - .travis/lando.sh
       script:
         - docker-compose -f docker-compose.yml -f docker-compose.posix.yml run analyser
-    - env:
-        - JOB=e2e
+    - name: e2e
+      before_script:
+        - .travis/lando.sh
       script:
         - docker-compose -f docker-compose.yml -f docker-compose.posix.yml run e2e-tests
+    - stage: deploy
+      name: deploy staging functions
+      if: branch = develop
+      before_script:
+        - .travis/az-cli.sh
+        - az login --service-principal --username "$APP_ID" --password "$PASSWORD" --tenant "$TENANT_ID"
+      script:
+        - cd src/wikibus.sources.functions/
+        - az account get-access-token --query "accessToken" | func azure functionapp publish $APP_NAME --slot staging
+    - name: deploy production functions
+      if: branch = master
+      before_script:
+        - .travis/az-cli.sh
+        - az login --service-principal --username "$APP_ID" --password "$PASSWORD" --tenant "$TENANT_ID"
+      script:
+        - cd src/wikibus.sources.functions/
+        - az account get-access-token --query "accessToken" | func azure functionapp publish $APP_NAME
 
