@@ -20,43 +20,43 @@ namespace Wikibus.Sources.Functions
         private readonly ISourcesRepository sources;
         private readonly ISourceImageService imageService;
         private readonly IUriTemplateMatcher matcher;
-        private readonly HttpClient httpClient;
-
-        public ExtractPages(
-            ISourcesRepository sources,
-            ISourceImageService imageService,
-            IUriTemplateMatcher matcher,
-            HttpClient httpClient)
-        {
-            this.sources = sources;
-            this.imageService = imageService;
-            this.matcher = matcher;
-            this.httpClient = httpClient;
-        }
 
         public ExtractPages(
             ISourcesRepository sources,
             ISourceImageService imageService,
             IUriTemplateMatcher matcher)
-            : this(sources, imageService, matcher, new HttpClient())
         {
+            this.sources = sources;
+            this.imageService = imageService;
+            this.matcher = matcher;
+            this.Client = new HttpClient();
         }
+
+        public HttpClient Client { get; set; }
 
         [FunctionName("ExtractPages")]
         public async Task Run([QueueTrigger(PdfUploaded.Queue)] PdfUploaded pdf)
         {
-            var sourceUri = new Uri(pdf.SourceId);
-            var sourceId = this.matcher.Match<Brochure>(sourceUri).Get<int>("id");
+            LogTo.Information($"Extracting pages from {pdf.Name}.pdf");
 
+            var sourceUri = new Uri(pdf.SourceId);
             var source = await this.sources.GetBrochure(sourceUri);
-            if (source.Images.Members.Any())
+            if (source == null)
             {
+                LogTo.Warning("Source {0} not found", sourceUri);
                 return;
             }
 
-            var pdfContents = await this.httpClient.GetStreamAsync(pdf.BlobUri);
+            var sourceId = this.matcher.Match<Brochure>(sourceUri).Get<int>("id");
 
-            LogTo.Information($"Extracting pages from {pdf.Name}.pdf");
+            if (source.Images.Members.Any())
+            {
+                LogTo.Warning("Source {0} already has images. Skipping.", sourceUri);
+                return;
+            }
+
+            var pdfContents = await this.Client.GetStreamAsync(pdf.BlobUri);
+
             var settings = new MagickReadSettings
             {
                 Density = new Density(300, 300)

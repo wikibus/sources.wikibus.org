@@ -53,14 +53,14 @@ namespace Wikibus.Sources.EF
         {
             LogTo.Debug("Getting brochure {0}", identifier);
             var uriTemplateMatches = this.matcher.Match<Brochure>(identifier);
-            var id = uriTemplateMatches.Get<int?>("id");
 
-            if (id == null)
+            if (!uriTemplateMatches.ContainsKey("id"))
             {
-                LogTo.Debug("Image id could not have been extracted from URI {0}", identifier);
+                LogTo.Debug("Id could not have been extracted from URI {0}", identifier);
                 return null;
             }
 
+            var id = uriTemplateMatches.Get<int>("id");
             var source = await (from b in this.context.Brochures.Include(b => b.Images)
                           where b.Id == id
                           select new EntityWrapper<BrochureEntity>
@@ -82,13 +82,13 @@ namespace Wikibus.Sources.EF
         [return: AllowNull]
         public async Task<Book> GetBook(Uri identifier)
         {
-            var id = this.matcher.Match<Book>(identifier).Get<int?>("id");
-
-            if (id == null)
+            var uriTemplateMatches = this.matcher.Match<Book>(identifier);
+            if (!uriTemplateMatches.ContainsKey("id"))
             {
                 return null;
             }
 
+            var id = uriTemplateMatches.Get<int>("id");
             var source = await (from b in this.context.Books.Include(b => b.Images)
                           where b.Id == id
                           select new EntityWrapper<BookEntity>

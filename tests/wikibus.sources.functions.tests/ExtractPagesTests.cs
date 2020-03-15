@@ -52,8 +52,9 @@ namespace Wikibus.Sources.Functions.Tests
             this.functions = new ExtractPages(
                 this.sourceRepository,
                 this.imageService,
-                matcher,
-                this.httpMessageHandler.ToHttpClient());
+                matcher);
+
+            this.functions.Client = this.httpMessageHandler.ToHttpClient();
         }
 
         [Fact]

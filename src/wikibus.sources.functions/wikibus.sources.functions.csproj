@@ -6,6 +6,7 @@
     <RootNamespace>Wikibus.Sources.Functions</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="3.1.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
     <PackageReference Include="Serilog.Sinks.Loggly" Version="5.4.0" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
@@ -33,11 +34,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </None>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\wikibus.images.Cloudinary\wikibus.images.Cloudinary.csproj" />
     <ProjectReference Include="..\wikibus.sources.images\wikibus.sources.images.csproj" />
     <ProjectReference Include="..\wikibus.sources\wikibus.sources.csproj" />
+    <ProjectReference Include="..\wikibus.storage.azure\wikibus.storage.azure.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\..\lib\gsdll64.dll">
@@ -48,5 +53,15 @@
       <Link>Ghostscript/gswin64c.exe</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="appsettings.Development.json">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\app\Settings.cs">
+      <Link>Settings.cs</Link>
+    </Compile>
   </ItemGroup>
 </Project>
