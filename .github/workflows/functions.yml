@@ -4,10 +4,6 @@ on:
   push:
     branches:
       - function
-          
-env:
-  ENABLE_ORYX_BUILD: false
-  SCM_DO_BUILD_DURING_DEPLOYMENT: false
 
 jobs:
   build:
