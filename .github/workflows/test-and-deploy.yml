@@ -8,6 +8,9 @@ on:
     - master
     - develop
 
+env:
+  FUNCTIONS_APP_NAME: wikibus_functions
+
 jobs:
   xunit:
     runs-on: ubuntu-latest
@@ -47,10 +50,10 @@ jobs:
       - uses: actions/setup-node@v1
       - run: |
           sh .travis/az-cli.sh
-          az login --service-principal --username "${{ APP_ID }}" --password "${{ PASSWORD }}" --tenant "${{ TENANT_ID }}"
+          az login --service-principal --username "$APP_ID" --password "$PASSWORD" --tenant "$TENANT_ID"
       - run: |
           cd src/wikibus.sources.functions/
-          az account get-access-token --query "accessToken" | func azure functionapp publish ${{ APP_NAME }} --slot staging
+          az account get-access-token --query "accessToken" | func azure functionapp publish $FUNCTIONS_APP_NAME --slot staging
 
   deploy production:
     runs-on: [ubuntu-latest]
@@ -61,7 +64,7 @@ jobs:
       - uses: actions/setup-node@v1
       - run: |
           sh .travis/az-cli.sh
-          az login --service-principal --username "${{ APP_ID }}" --password "${{ PASSWORD }}" --tenant "${{ TENANT_ID }}"
+          az login --service-principal --username "$APP_ID" --password "$PASSWORD" --tenant "$TENANT_ID"
       - run: |
           cd src/wikibus.sources.functions/
-          az account get-access-token --query "accessToken" | func azure functionapp publish ${{ APP_NAME }}
+          az account get-access-token --query "accessToken" | func azure functionapp publish $FUNCTIONS_APP_NAME
