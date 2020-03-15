@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - function
-        - 
           
 env:
   ENABLE_ORYX_BUILD: false
