@@ -41,7 +41,7 @@ jobs:
         run: sh .ci/start-lando.sh
       - run: docker-compose -f docker-compose.yml -f docker-compose.posix.yml run e2e-tests
 
-  deploy_staging:
+  deploy:
     runs-on: [ubuntu-latest]
     if: github.ref == 'refs/heads/develop'
     needs: [xunit, analyse, e2e-tests]
