@@ -20,7 +20,11 @@ namespace Brochures.Wikibus.Org
             var webHostBuilder = WebHost.CreateDefaultBuilder(args)
                 .UseConfiguration(configuration)
                 .UseUrls($"http://*:{configuration.GetValue("PORT", 17899)}")
-                .UseStartup<Startup>();
+                .UseStartup<Startup>()
+                .UseKestrel(options =>
+                {
+                    options.Limits.MaxRequestBodySize = null;
+                });
 
             return webHostBuilder
                 .Build();
