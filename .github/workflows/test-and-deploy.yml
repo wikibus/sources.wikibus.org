@@ -9,7 +9,7 @@ on:
     - develop
 
 env:
-  FUNCTIONS_APP_NAME: wikibus_functions
+  FUNCTIONS_APP_NAME: wikibus-functions
 
 jobs:
   xunit:
