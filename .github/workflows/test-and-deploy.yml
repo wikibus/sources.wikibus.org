@@ -48,9 +48,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
-      - run: |
-          sh .ci/az-cli.sh
-          az login --service-principal --username "$APP_ID" --password "$PASSWORD" --tenant "$TENANT_ID"
+      - run: sh .ci/az-cli.sh
+      - run: az login --service-principal --username "$APP_ID" --password "$PASSWORD" --tenant "$TENANT_ID"
       - run: |
           cd src/wikibus.sources.functions/
           az account get-access-token --query "accessToken" | func azure functionapp publish $FUNCTIONS_APP_NAME --slot staging
@@ -62,9 +61,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
-      - run: |
-          sh .ci/az-cli.sh
-          az login --service-principal --username "$APP_ID" --password "$PASSWORD" --tenant "$TENANT_ID"
+      - run: sh .ci/az-cli.sh
+      - run: az login --service-principal --username "$APP_ID" --password "$PASSWORD" --tenant "$TENANT_ID"
       - run: |
           cd src/wikibus.sources.functions/
           az account get-access-token --query "accessToken" | func azure functionapp publish $FUNCTIONS_APP_NAME
