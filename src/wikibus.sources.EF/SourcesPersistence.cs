@@ -1,8 +1,5 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using Anotar.Serilog;
 using Argolis.Models;
 
 namespace Wikibus.Sources.EF
@@ -20,12 +17,12 @@ namespace Wikibus.Sources.EF
             this.expander = expander;
         }
 
-        public async Task SaveBrochure(Brochure brochure)
+        public async Task SaveBrochure(Brochure brochure, bool updateFileContents = false)
         {
             var id = this.matcher.Match<Brochure>(brochure.Id).Get<int>("id");
             var brochureEntity = this.context.Brochures.Find(id);
 
-            UpdateEntity(brochure, brochureEntity);
+            UpdateEntity(brochure, brochureEntity, updateFileContents);
 
             await this.context.SaveChangesAsync();
         }
@@ -36,7 +33,7 @@ namespace Wikibus.Sources.EF
             {
                 Image = new ImageData()
             };
-            UpdateEntity(brochure, brochureEntity);
+            UpdateEntity(brochure, brochureEntity, false);
 
             await this.context.Brochures.AddAsync(brochureEntity);
             await this.context.SaveChangesAsync();
@@ -44,7 +41,7 @@ namespace Wikibus.Sources.EF
             brochure.Id = this.expander.ExpandAbsolute<Brochure>(new { id = brochureEntity.Id });
         }
 
-        private static void UpdateEntity(Brochure brochure, BrochureEntity brochureEntity)
+        private static void UpdateEntity(Brochure brochure, BrochureEntity brochureEntity, bool updateFileContents)
         {
             brochureEntity.FolderName = brochure.Title;
             brochureEntity.Notes = brochure.Description;
@@ -67,8 +64,11 @@ namespace Wikibus.Sources.EF
             var validLanguages = brochure.Languages.Where(lang => lang != null).Where(lang => lang.IsValid).Select(lang => lang.Name);
             brochureEntity.Languages = string.Join(";", validLanguages);
 
-            brochureEntity.ContentUrl = brochure.Content.ContentUrl?.ToString();
-            brochureEntity.ContentSize = brochure.Content.ContentSizeMb;
+            if (updateFileContents)
+            {
+                brochureEntity.ContentUrl = brochure.Content.ContentUrl?.ToString();
+                brochureEntity.ContentSize = brochure.Content.ContentSizeMb;
+            }
         }
     }
 }

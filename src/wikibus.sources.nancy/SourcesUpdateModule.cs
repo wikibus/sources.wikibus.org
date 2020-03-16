@@ -33,9 +33,9 @@ namespace Wikibus.Sources.Nancy
             this.expander = expander;
             this.fileStorage = fileStorage;
             this.queue = queue;
-            this.Put<Brochure>(async r => await this.PutSingle(persistence.SaveBrochure, repository.GetBrochure));
+            this.Put<Brochure>(async r => await this.PutSingle(brochure => persistence.SaveBrochure(brochure), repository.GetBrochure));
             this.Post<SourceContent>(
-                 async r => await this.UploadPdf((int)r.id, repository.GetBrochure, persistence.SaveBrochure));
+                 async r => await this.UploadPdf((int)r.id, repository.GetBrochure, brochure => persistence.SaveBrochure(brochure, true)));
             this.Get<SourceContent>(r => this.RedirectToBrochure((int)r.id));
             using (this.Templates)
             {
