@@ -9,6 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\wikibus.sources.EF\wikibus.sources.EF.csproj" />
       <ProjectReference Include="..\wikibus.sources\wikibus.sources.csproj" />
     </ItemGroup>
 

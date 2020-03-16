@@ -1,31 +1,70 @@
-name: Unit test
+name: Build & Deploy
 
 on:
-  push
+  push: 
+    branches: '*'
+  pull_request:
+    branches:
+    - master
+    - develop
+
+env:
+  FUNCTIONS_APP_NAME: wikibus_functions
 
 jobs:
   xunit:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-dotnet@v1
-    - run: dotnet test
-      
+      - uses: actions/checkout@v2
+      - uses: actions/setup-dotnet@v1
+      - run: dotnet test
+
   analyse:
     runs-on: [ubuntu-latest]
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
-    - name: Start lando
-      run: sh .travis/lando.sh
-    - run: docker-compose -f docker-compose.yml -f docker-compose.posix.yml run analyser
-      
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+      - name: Install lando
+        run: sh .ci/install-lando.sh
+      - name: Start site
+        run: sh .ci/start-lando.sh
+      - run: docker-compose -f docker-compose.yml -f docker-compose.posix.yml run analyser
+
   e2e-tests:
     runs-on: [ubuntu-latest]
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
-    - name: Start lando
-      run: sh .travis/lando.sh
-    - run: docker-compose -f docker-compose.yml -f docker-compose.posix.yml run e2e-tests
-    
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+      - name: Install lando
+        run: sh .ci/install-lando.sh
+      - name: Start site
+        run: sh .ci/start-lando.sh
+      - run: docker-compose -f docker-compose.yml -f docker-compose.posix.yml run e2e-tests
+
+  deploy_staging:
+    runs-on: [ubuntu-latest]
+    if: github.ref == 'develop'
+    needs: [xunit, analyse, e2e-tests]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+      - run: |
+          sh .travis/az-cli.sh
+          az login --service-principal --username "$APP_ID" --password "$PASSWORD" --tenant "$TENANT_ID"
+      - run: |
+          cd src/wikibus.sources.functions/
+          az account get-access-token --query "accessToken" | func azure functionapp publish $FUNCTIONS_APP_NAME --slot staging
+
+  deploy_production:
+    runs-on: [ubuntu-latest]
+    if: github.ref == 'master'
+    needs: [xunit, analyse, e2e-tests]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+      - run: |
+          sh .travis/az-cli.sh
+          az login --service-principal --username "$APP_ID" --password "$PASSWORD" --tenant "$TENANT_ID"
+      - run: |
+          cd src/wikibus.sources.functions/
+          az account get-access-token --query "accessToken" | func azure functionapp publish $FUNCTIONS_APP_NAME

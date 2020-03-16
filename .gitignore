@@ -6,3 +6,6 @@ appsettings.Development.json
 *.hypertest.json
 packages/
 docker-compose.override.yml
+local.settings.json
+.vs
+.vscode

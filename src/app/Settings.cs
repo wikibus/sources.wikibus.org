@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.Configuration;
 using wikibus.images.Cloudinary;
-using Wikibus.Sources.DotNetRDF;
+using Wikibus.Sources;
 using wikibus.storage.azure;
 
 namespace Brochures.Wikibus.Org

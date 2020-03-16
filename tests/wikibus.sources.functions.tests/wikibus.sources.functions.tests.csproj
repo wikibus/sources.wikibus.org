@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <RootNamespace>Wikibus.Sources.Functions.Tests</RootNamespace>
+    <IsPackable>false</IsPackable>
+
+    <LangVersion>8</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
+    <PackageReference Include="MimeMapping" Version="1.0.1.26" />
+    <PackageReference Include="NSubstitute" Version="4.2.1" />
+    <PackageReference Include="Shouldly" Version="3.0.2" />
+    <PackageReference Include="xunit" Version="2.4.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
+    <PackageReference Include="RichardSzalay.MockHttp" Version="6.0.0" />
+    <PackageReference Include="Resourcer.Fody" Version="1.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\wikibus.sources.functions\wikibus.sources.functions.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Pdfs\" />
+    <Folder Include="Fakes\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Pdfs\mb1.pdf" />
+    <EmbeddedResource Include="Pdfs\mb1.pdf" />
+  </ItemGroup>
+</Project>

@@ -30,4 +30,7 @@
     <None Remove="Frames\Collection.jsonld" />
     <EmbeddedResource Include="Frames\Collection.jsonld" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Events\" />
+  </ItemGroup>
 </Project>

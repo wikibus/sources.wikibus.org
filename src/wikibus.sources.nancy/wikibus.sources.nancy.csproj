@@ -27,7 +27,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\wikibus.nancy\wikibus.nancy.csproj" />
-      <ProjectReference Include="..\wikibus.sources.pdf\wikibus.sources.pdf.csproj" />
       <ProjectReference Include="..\wikibus.sources\wikibus.sources.csproj" />
       <ProjectReference Include="..\wikibus.storage\wikibus.storage.csproj" />
     </ItemGroup>

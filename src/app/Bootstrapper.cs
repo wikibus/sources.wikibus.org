@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Nancy;
 using StructureMap;
 using wikibus.images.Cloudinary;
+using Wikibus.Sources;
 using wikibus.storage.azure;
 
 namespace Brochures.Wikibus.Org
@@ -30,8 +31,7 @@ namespace Brochures.Wikibus.Org
         {
             existingContainer.Configure(_ =>
             {
-                _.For<global::Wikibus.Sources.DotNetRDF.ISourcesDatabaseSettings>().Use<Settings>();
-                _.Forward<Settings, global::Wikibus.Sources.ISourcesDatabaseSettings>();
+                _.Forward<Settings, ISourcesDatabaseSettings>();
                 _.Forward<Settings, ICloudinarySettings>();
                 _.Forward<Settings, IAzureSettings>();
                 _.For<IConfiguration>().Use(this.configuration);

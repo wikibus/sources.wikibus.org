@@ -3,6 +3,7 @@ using System.Linq;
 using System.Security.Claims;
 using Argolis.Models;
 using JsonLD.Entities;
+using NullGuard;
 using Wikibus.Common;
 using Wikibus.Sources.Images;
 
@@ -18,7 +19,7 @@ namespace Wikibus.Sources.EF
         public EntityFactory(
             IUriTemplateExpander expander,
             IWikibusConfiguration configuration,
-            ClaimsPrincipal principal,
+            [AllowNull] ClaimsPrincipal principal,
             ISourceContext context)
         {
             this.expander = expander;
@@ -213,7 +214,7 @@ namespace Wikibus.Sources.EF
 
         private void MapStorageLocation(Brochure target, BrochureEntity sourceEntity)
         {
-            if (this.principal.HasPermission(Permissions.WriteSources))
+            if (this.principal?.HasPermission(Permissions.WriteSources) == true)
             {
                 var cabinetName = (from cabinet in this.context.FileCabinets
                     where cabinet.Id == sourceEntity.FileCabinet
