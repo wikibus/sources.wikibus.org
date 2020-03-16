@@ -43,7 +43,7 @@ jobs:
 
   deploy:
     runs-on: [ubuntu-latest]
-    if: ${{ false }}
+    if: github.ref == 'never'
     needs: [xunit, analyse, e2e-tests]
     steps:
       - uses: actions/checkout@v2
