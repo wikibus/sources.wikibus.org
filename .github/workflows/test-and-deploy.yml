@@ -54,7 +54,7 @@ jobs:
         if: github.ref == 'refs/heads/develop'
         with:
           app-name: ${{ env.FUNCTIONS_APP_NAME }}
-          package: src/wikibus.sources.functions/output
+          package: ./output
           slot-name: staging
           publish-profile: ${{ secrets.PUBLISH_FUNCTIONS_STAGING }}
       - name: Deploy production
@@ -62,5 +62,5 @@ jobs:
         if: github.ref == 'refs/heads/master'
         with:
           app-name: ${{ env.FUNCTIONS_APP_NAME }}
-          package: src/wikibus.sources.functions/output
+          package: ./output
           publish-profile: ${{ secrets.PUBLISH_FUNCTIONS }}
