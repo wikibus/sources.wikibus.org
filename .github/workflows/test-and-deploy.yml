@@ -43,7 +43,7 @@ jobs:
 
   deploy_staging:
     runs-on: [ubuntu-latest]
-    if: github.ref == 'develop'
+    if: github.ref == 'refs/heads/develop'
     needs: [xunit, analyse, e2e-tests]
     steps:
       - uses: actions/checkout@v2
@@ -57,7 +57,7 @@ jobs:
 
   deploy_production:
     runs-on: [ubuntu-latest]
-    if: github.ref == 'master'
+    if: github.ref == 'refs/heads/master'
     needs: [xunit, analyse, e2e-tests]
     steps:
       - uses: actions/checkout@v2
