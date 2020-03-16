@@ -58,9 +58,9 @@ jobs:
           package: src/wikibus.sources.functions
           slot-name: staging
           publish-profile: ${{ secrets.PUBLISH_FUNCTIONS_STAGING }}
-      - name: Deploy staging
+      - name: Deploy production
         uses: Azure/functions-action@v1.1.3
-        if: github.ref == 'refs/heads/develop'
+        if: github.ref == 'refs/heads/master'
         with:
           app-name: ${{ env.FUNCTIONS_APP_NAME }}
           package: src/wikibus.sources.functions
