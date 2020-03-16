@@ -106,6 +106,11 @@ namespace Wikibus.Sources.Nancy
 
             var brochureId = this.expander.ExpandAbsolute<Brochure>(new { id });
             var resource = await getResource(brochureId);
+            if (resource == null)
+            {
+                return HttpStatusCode.NotFound;
+            }
+
             resource.SetContent(uri, (int)pdf.stream.Length);
 
             await saveResource(resource);
@@ -118,7 +123,7 @@ namespace Wikibus.Sources.Nancy
             };
             await this.queue.AddMessage(PdfUploaded.Queue, pdfUploaded);
 
-            return HttpStatusCode.Accepted;
+            return resource;
         }
     }
 }
