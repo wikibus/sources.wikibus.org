@@ -123,7 +123,7 @@ namespace Wikibus.Sources.Nancy
             };
             await this.queue.AddMessage(PdfUploaded.Queue, pdfUploaded);
 
-            return resource;
+            return this.Response.AsRedirect(brochureId.ToString());
         }
     }
 }
