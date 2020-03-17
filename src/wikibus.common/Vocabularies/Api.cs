@@ -58,5 +58,9 @@ namespace Wikibus.Common
         public const string StorageLocation = BaseUri + "StorageLocation";
 
         public const string storageLocation = BaseUri + "storageLocation";
+
+        public const string withPdfOnly = BaseUri + "withPdfOnly";
+
+        public const string withoutImages = BaseUri + "withoutImages";
     }
 }

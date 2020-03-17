@@ -252,6 +252,16 @@ namespace Wikibus.Sources.EF
                     brochures = brochures.Where(b => b.Languages.Contains(filters.Language));
                 }
 
+                if (filters.WithPdfOnly.Equals(true))
+                {
+                    brochures = brochures.Where(b => !string.IsNullOrWhiteSpace(b.ContentUrl));
+                }
+
+                if (filters.WithoutImages.Equals(true))
+                {
+                    brochures = brochures.Where(b => b.Image == null || !b.Images.Any());
+                }
+
                 return brochures;
             };
         }
