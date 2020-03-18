@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/saintedlama/versionize) for commit guidelines.
 
-<a name="0.4.1"></a>
+<a name="0.4.2"></a>
+## 0.4.2 (2020-3-18)
+
+### Bug Fixes
+
+* anotar also missing from xsd
+
 ## 0.4.1 (2020-3-18)
 
 ### Bug Fixes
