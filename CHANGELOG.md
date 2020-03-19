@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/saintedlama/versionize) for commit guidelines.
 
-<a name="0.5.0"></a>
+<a name="0.5.1"></a>
+## 0.5.1 (2020-3-19)
+
+### Bug Fixes
+
+* facebook links are broken
+
 ## 0.5.0 (2020-3-19)
 
 ### Bug Fixes
