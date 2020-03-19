@@ -2,7 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/saintedlama/versionize) for commit guidelines.
 
-<a name="0.4.2"></a>
+<a name="0.5.0"></a>
+## 0.5.0 (2020-3-19)
+
+### Bug Fixes
+
+* filter images did not work correctly
+* updating brochure removes PDF
+
+### Features
+
+* added filters to find brochures with pdfs and without images
+
 ## 0.4.2 (2020-3-18)
 
 ### Bug Fixes
