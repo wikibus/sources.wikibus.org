@@ -259,7 +259,7 @@ namespace Wikibus.Sources.EF
 
                 if (filters.WithoutImages.Equals(true))
                 {
-                    brochures = brochures.Where(b => b.Image == null || !b.Images.Any());
+                    brochures = brochures.Where(b => b.Image.Bytes == null && !b.Images.Any());
                 }
 
                 return brochures;
