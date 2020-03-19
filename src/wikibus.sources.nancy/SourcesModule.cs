@@ -66,7 +66,7 @@ namespace Wikibus.Sources.Nancy
                 return 404;
             }
 
-            return this.Negotiate.WithModel(resource);
+            return this.Negotiate.WithModel(resource).WithHeader("Link", $"<{resourceUri}>; rel=\"canonical\"");
         }
 
         private async Task<dynamic> GetPage<T, TFilter>(int? page, Func<Uri, TFilter, int, int, Task<SearchableCollection<T>>> getPage)
