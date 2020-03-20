@@ -60,9 +60,11 @@ With Class wbo:BrochureCollection {
                     } => {
                         Expect Status 200
 
-                        Expect Property schema:contentUrl
-                        Expect Property schema:contentSize "4.44 MB"
-                        Expect Property schema:name
+                        Expect Property schema:associatedMedia {
+                            Expect Property schema:contentUrl
+                            Expect Property schema:contentSize "4.44 MB"
+                            Expect Property schema:name
+                        }
                     }
                 }
             }
