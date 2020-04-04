@@ -18,6 +18,7 @@ namespace Wikibus.Sources.Nancy
         private readonly IUriTemplateExpander expander;
         private readonly IFileStorage fileStorage;
         private readonly IStorageQueue queue;
+        private readonly IWishlistPersistence wishlistPersistence;
 
         public SourcesUpdateModule(
             ISourcesPersistence persistence,
@@ -25,7 +26,8 @@ namespace Wikibus.Sources.Nancy
             IModelTemplateProvider modelTemplateProvider,
             IUriTemplateExpander expander,
             IFileStorage fileStorage,
-            IStorageQueue queue)
+            IStorageQueue queue,
+            IWishlistPersistence wishlistPersistence)
             : base(modelTemplateProvider)
         {
             this.RequiresPermissions(Permissions.WriteSources);
@@ -33,6 +35,7 @@ namespace Wikibus.Sources.Nancy
             this.expander = expander;
             this.fileStorage = fileStorage;
             this.queue = queue;
+            this.wishlistPersistence = wishlistPersistence;
             this.Put<Brochure>(async r => await this.PutSingle(brochure => persistence.SaveBrochure(brochure), repository.GetBrochure));
             this.Post<SourceContent>(
                  async r => await this.UploadPdf((int)r.id, repository.GetBrochure, brochure => persistence.SaveBrochure(brochure, true)));
@@ -114,6 +117,8 @@ namespace Wikibus.Sources.Nancy
                 SourceId = brochureId.ToString(),
             };
             await this.queue.AddMessage(PdfUploaded.Queue, pdfUploaded);
+
+            await this.wishlistPersistence.MarkDone(id);
 
             return this.Response.AsRedirect(brochureId.ToString());
         }

@@ -25,11 +25,14 @@ namespace Brochures.Wikibus.Org
                     where header.Key.ToLower() == "x-permission"
                     select header.Value;
 
-                var claims = from permission in permissions
-                    select new Claim(Permissions.Claim, permission);
+                var claims = (from permission in permissions
+                    select new Claim(Permissions.Claim, permission)).ToArray();
 
-                var principal = new ClaimsPrincipal(new ClaimsIdentity(claims, "X-Permission"));
-                context.User = principal;
+                if (claims.Any())
+                {
+                    var principal = new ClaimsPrincipal(new ClaimsIdentity(claims, "X-Permission"));
+                    context.User = principal;
+                }
             }
 
             await this.next(context);

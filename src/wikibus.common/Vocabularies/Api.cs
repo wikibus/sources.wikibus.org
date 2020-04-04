@@ -21,6 +21,16 @@ namespace Wikibus.Common
         public const string EntryPoint = BaseUri + "EntryPoint";
 
         /// <summary>
+        /// The wishlist item class
+        /// </summary>
+        public const string WishlistItem = BaseUri + "WishlistItem";
+
+        /// <summary>
+        /// The collection of wishlist items
+        /// </summary>
+        public const string WishlistCollection = BaseUri + "WishlistCollection";
+
+        /// <summary>
         /// The model to upload image files
         /// </summary>
         public const string ImageUpload = BaseUri + "ImageUpload";
@@ -34,6 +44,8 @@ namespace Wikibus.Common
         /// Link to brochure collection.
         /// </summary>
         public const string brochures = BaseUri + "brochures";
+
+        public const string brochureUploaded = BaseUri + "brochureUploaded";
 
         /// <summary>
         /// Link to book collection.
@@ -54,6 +66,12 @@ namespace Wikibus.Common
         /// Link to image collection
         /// </summary>
         public const string images = BaseUri + "images";
+
+        public const string wishlist = BaseUri + "wishlist";
+
+        public const string wishlistItem = BaseUri + "wishlistItem";
+
+        public const string showAll = BaseUri + "showAll";
 
         public const string StorageLocation = BaseUri + "StorageLocation";
 

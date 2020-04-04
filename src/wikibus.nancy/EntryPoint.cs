@@ -73,6 +73,15 @@ namespace Wikibus.Nancy
             get { return (IriRef)"magazines"; }
         }
 
+        /// <summary>
+        /// Gets the wishlist Uri.
+        /// </summary>
+        [Link]
+        [ReadOnly(true)]
+        [Range(Vocab.Hydra.Collection)]
+        [Description("Requests to scan brochures from the collection")]
+        public IriRef Wishlist => (IriRef)"wishlist";
+
         [UsedImplicitly]
         private static JObject Context
         {
@@ -83,7 +92,8 @@ namespace Wikibus.Nancy
                     Prefix.Of(typeof(Api)),
                     "magazines".IsProperty(Api.magazines).Type().Id(),
                     "brochures".IsProperty(Api.brochures).Type().Id(),
-                    "books".IsProperty(Api.books).Type().Id());
+                    "books".IsProperty(Api.books).Type().Id(),
+                    "wishlist".IsProperty(Api.wishlist).Type().Id());
             }
         }
 

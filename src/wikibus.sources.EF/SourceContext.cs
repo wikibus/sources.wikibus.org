@@ -34,6 +34,8 @@ namespace Wikibus.Sources.EF
 
         public DbSet<FileCabinet> FileCabinets { get; set; }
 
+        public DbSet<WishlistItemEntity> WishlistItems { get; set; }
+
         public Task<int> SaveChangesAsync()
         {
             return base.SaveChangesAsync();
@@ -73,6 +75,10 @@ namespace Wikibus.Sources.EF
 
             modelBuilder.Entity<ImageData>()
                 .ToTable("Source", "Sources");
+
+            modelBuilder.Entity<WishlistItemEntity>()
+                .ToTable("Wishlist", "Sources")
+                .HasOne(e => e.Brochure).WithMany().HasForeignKey("SourceId");
 
             modelBuilder.Entity<FileCabinet>()
                 .ToTable("FileCabinet", "Priv");

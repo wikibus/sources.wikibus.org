@@ -6,6 +6,11 @@ namespace Wikibus.Common
     public static partial class Wbo
     {
         /// <summary>
+        /// Brochure link
+        /// </summary>
+        public const string brochure = BaseUri + "brochure";
+
+        /// <summary>
         /// wbo
         /// </summary>
         public const string Prefix="wbo";
