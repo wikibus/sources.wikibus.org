@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using Argolis.Hydra.Annotations;
 using Argolis.Hydra.Models;
 using Argolis.Models;
+using JsonLD.Entities;
 using JsonLD.Entities.Context;
 using Newtonsoft.Json.Linq;
 using NullGuard;
@@ -79,6 +80,11 @@ namespace Wikibus.Sources
         [Writeable(false)]
         public StorageLocation Location { [return: AllowNull] get; set; }
 
+        [Link]
+        [Readable(false)]
+        [Writeable(false)]
+        public IriRef WishlistItem { [return: AllowNull] get; set; }
+
         /// <summary>
         /// Gets the context.
         /// </summary>
@@ -89,6 +95,7 @@ namespace Wikibus.Sources
                 var context = Source.Context;
                 context.Add("description".IsProperty(Rdfs.comment));
                 context.Add("location".IsProperty(Api.storageLocation));
+                context.Add("wishlistItem".IsProperty(Api.wishlistItem));
                 return context;
             }
         }

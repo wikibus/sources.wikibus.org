@@ -17,5 +17,10 @@ namespace Wikibus.Nancy
         {
             return context?.Current?.CurrentUser?.HasPermission(permission) == true;
         }
+
+        public static bool IsAuthenticated(this NancyContextWrapper context)
+        {
+            return context?.Current?.CurrentUser?.IsAuthenticated() == true;
+        }
     }
 }

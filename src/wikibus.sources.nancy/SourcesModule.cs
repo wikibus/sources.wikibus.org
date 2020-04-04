@@ -103,9 +103,7 @@ namespace Wikibus.Sources.Nancy
             };
 
             collection.Search = searchTemplate;
-            collection.CurrentMappings = templateParams.ToDictionary(
-                k => searchTemplate.Mappings.FirstOrDefault(mapping => mapping.Variable == k.Key)?.Property.Id ?? k.Key,
-                v => v.Value.ToString());
+            collection.CurrentMappings = templateParams.ToTemplateMappings(searchTemplate);
 
             return this.Negotiate.WithModel(collection).WithHeader("Link", $"<{canonical}>; rel=\"canonical\"");
         }

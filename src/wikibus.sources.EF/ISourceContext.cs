@@ -17,6 +17,8 @@ namespace Wikibus.Sources.EF
 
         DbSet<FileCabinet> FileCabinets { get; }
 
+        DbSet<WishlistItemEntity> WishlistItems { get; }
+
         Task<int> SaveChangesAsync();
     }
 }

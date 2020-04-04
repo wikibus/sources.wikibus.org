@@ -1,6 +1,7 @@
 ﻿using Argolis.Hydra.Discovery.SupportedOperations;
 using Argolis.Hydra.Nancy;
 using JsonLD.Entities;
+using Vocab;
 using Wikibus.Common;
 using Wikibus.Sources;
 
@@ -19,9 +20,22 @@ namespace Wikibus.Nancy.Hydra
             this.Class.SupportsGet().Title("Get brochure");
             if (context.HasPermission(Permissions.WriteSources))
             {
-                this.Class.SupportsPut().Title("Update brochure").Expects((IriRef)Wbo.Brochure);
-                this.Property(b => b.Location).SupportsPut().Title("Update location");
+                this.Class
+                    .SupportsPut()
+                    .Title("Update brochure")
+                    .TypedAs((IriRef)Schema.UpdateAction)
+                    .Expects((IriRef)Wbo.Brochure);
+                this.Property(b => b.Location)
+                    .SupportsPut()
+                    .Title("Update location")
+                    .TypedAs((IriRef)Schema.UpdateAction);
             }
+
+            this.Property(b => b.WishlistItem)
+                .SupportsPut()
+                .TypedAs((IriRef)Api.AddToWishlistAction)
+                .Title("Add to wishlist")
+                .Description("Add to your personal wishlist");
         }
     }
 }

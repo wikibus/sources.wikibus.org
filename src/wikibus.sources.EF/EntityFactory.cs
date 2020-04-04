@@ -98,6 +98,14 @@ namespace Wikibus.Sources.EF
                 target.Title = source.Entity.FolderName;
             }
 
+            if (source.Entity.ContentSize == null)
+            {
+                target.WishlistItem = (IriRef)this.expander.ExpandAbsolute<WishlistItem>(new
+                {
+                    sourceId = source.Entity.Id
+                });
+            }
+
             this.CreateImageLinks(target, source);
 
             MapSource(target, source.Entity);

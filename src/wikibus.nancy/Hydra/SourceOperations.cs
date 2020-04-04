@@ -22,17 +22,19 @@ namespace Wikibus.Nancy.Hydra
                 this.Property(s => s.Images)
                     .SupportsPost()
                     .Title("Upload image")
+                    .TypedAs((IriRef)Schema.TransferAction)
                     .Expects((IriRef)Api.ImageUpload);
 
                 this.Property(s => s.Image)
                     .SupportsDelete()
+                    .TypedAs((IriRef)Schema.DeleteAction)
                     .Title("Remove image");
 
                 this.Property(s => s.Content)
                     .SupportsPost()
                     .Title("Upload PDF")
                     .Expects((IriRef)Api.PdfUpload)
-                    .TypedAs((IriRef)Schema.CreateAction);
+                    .TypedAs((IriRef)Schema.TransferAction);
             }
         }
     }

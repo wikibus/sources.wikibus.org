@@ -12,10 +12,15 @@ namespace Wikibus.Sources
     [SerializeCompacted]
     public class SearchableCollection<T> : Collection<T>
     {
+        public SearchableCollection()
+        {
+            this.CurrentMappings = new Dictionary<string, string>();
+        }
+
         public IriTemplate Search { get; set; }
 
         [JsonProperty("hex:currentMappings")]
-        public Dictionary<string, string> CurrentMappings { get; set; }
+        public IDictionary<string, string> CurrentMappings { get; set; }
 
         [JsonProperty(Rdfs.label)]
         public string Title { get; set; } = "Collection";
