@@ -2,7 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/saintedlama/versionize) for commit guidelines.
 
-<a name="0.5.1"></a>
+<a name="0.6.0"></a>
+## 0.6.0 (2020-4-5)
+
+### Bug Fixes
+
+* correctly find existing wishlist items
+
+### Features
+
+* brochure wishlist
+* brochure wishlist
+
 ## 0.5.1 (2020-3-19)
 
 ### Bug Fixes
