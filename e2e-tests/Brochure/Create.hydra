@@ -52,7 +52,7 @@ With Class wbo:BrochureCollection {
             // Expect No Property dcterms:language
 
             Expect Property schema:associatedMedia {
-                Expect Operation schema:CreateAction {
+                Expect Operation schema:TransferAction {
                     Invoke {
                         Content-Type "application/pdf"
 
