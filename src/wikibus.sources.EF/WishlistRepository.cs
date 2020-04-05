@@ -36,7 +36,6 @@ namespace Wikibus.Sources.EF
         {
             var entities = await (from wishlistItem in this.WishlistItems(showAll)
                 join brochure in this.context.Brochures on wishlistItem.SourceId equals brochure.Id
-                orderby wishlistItem.Id descending
                 select new
                 {
                     brochure,
