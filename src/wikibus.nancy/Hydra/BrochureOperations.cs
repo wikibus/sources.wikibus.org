@@ -35,7 +35,7 @@ namespace Wikibus.Nancy.Hydra
                 .SupportsPut()
                 .TypedAs((IriRef)Api.AddToWishlistAction)
                 .Title("Add to wishlist")
-                .Description("Add to your personal wishlist");
+                .Description("Brochure will be scanned to PDF with highest priority");
         }
     }
 }
