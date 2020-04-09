@@ -6,11 +6,11 @@ namespace Wikibus.Sources.EF
 {
     public class SourcesPersistence : ISourcesPersistence
     {
-        private readonly SourceContext context;
+        private readonly ISourceContext context;
         private readonly IUriTemplateMatcher matcher;
         private readonly IUriTemplateExpander expander;
 
-        public SourcesPersistence(SourceContext context, IUriTemplateMatcher matcher, IUriTemplateExpander expander)
+        public SourcesPersistence(ISourceContext context, IUriTemplateMatcher matcher, IUriTemplateExpander expander)
         {
             this.context = context;
             this.matcher = matcher;
@@ -27,11 +27,12 @@ namespace Wikibus.Sources.EF
             await this.context.SaveChangesAsync();
         }
 
-        public async Task CreateBrochure(Brochure brochure)
+        public async Task CreateBrochure(Brochure brochure, string user)
         {
             var brochureEntity = new BrochureEntity
             {
-                Image = new ImageData()
+                Image = new ImageData(),
+                User = user,
             };
             UpdateEntity(brochure, brochureEntity, false);
 

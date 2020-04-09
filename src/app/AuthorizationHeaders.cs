@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Anotar.Serilog;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Http;
 using Wikibus.Common;
@@ -26,12 +28,21 @@ namespace Brochures.Wikibus.Org
                     select header.Value;
 
                 var claims = (from permission in permissions
-                    select new Claim(Permissions.Claim, permission)).ToArray();
+                    select new Claim(Permissions.Claim, permission)).ToList();
+
+                var userNames = (from header in context.Request.Headers
+                    where header.Key.ToLower() == "x-user"
+                    select header.Value).FirstOrDefault();
+                claims.AddRange(userNames.Select(userName => new Claim(ClaimTypes.NameIdentifier, userName)));
 
                 if (claims.Any())
                 {
                     var principal = new ClaimsPrincipal(new ClaimsIdentity(claims, "X-Permission"));
                     context.User = principal;
+
+                    LogTo.Debug(
+                        "Initializing test user with claims {0}",
+                        string.Join(Environment.NewLine, principal.Claims.Select(c => $"{c.Type}: {c.Value}")));
                 }
             }
 

@@ -1,24 +1,20 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Argolis.Hydra.Resources;
 using Argolis.Models;
 using Argolis.Nancy;
-using ImageMagick;
 using Nancy;
 using Nancy.ModelBinding;
 using Wikibus.Common;
 using Wikibus.Nancy;
 using Wikibus.Sources.Events;
-using Wikibus.Sources.Images;
 using wikibus.storage;
 
 namespace Wikibus.Sources.Nancy
 {
     public sealed class SourcesUpdateModule : ArgolisModule
     {
-        private readonly ISourceImageService imageService;
         private readonly IUriTemplateExpander expander;
         private readonly IFileStorage fileStorage;
         private readonly IStorageQueue queue;
@@ -31,17 +27,15 @@ namespace Wikibus.Sources.Nancy
             IUriTemplateExpander expander,
             IFileStorage fileStorage,
             IStorageQueue queue,
-            IWishlistPersistence wishlistPersistence,
-            ISourceImageService imageService)
+            IWishlistPersistence wishlistPersistence)
             : base(modelTemplateProvider)
         {
-            this.RequiresPermissions(Permissions.WriteSources);
+            this.RequiresAnyPermissions(Permissions.WriteSources, Permissions.AdminSources);
 
             this.expander = expander;
             this.fileStorage = fileStorage;
             this.queue = queue;
             this.wishlistPersistence = wishlistPersistence;
-            this.imageService = imageService;
             this.Put<Brochure>(async r =>
                 await this.PutSingle(brochure => persistence.SaveBrochure(brochure), repository.GetBrochure));
             this.Post<SourceContent>(
@@ -54,7 +48,7 @@ namespace Wikibus.Sources.Nancy
         }
 
         private async Task<dynamic> CreateBrochure(
-            Func<Brochure, Task> saveResource,
+            Func<Brochure, string, Task> saveResource,
             Func<Uri, Task<Brochure>> getResource)
         {
             var brochure = this.BindAndValidate<Brochure>(
@@ -67,7 +61,7 @@ namespace Wikibus.Sources.Nancy
                 return HttpStatusCode.BadRequest;
             }
 
-            await saveResource(brochure);
+            await saveResource(brochure, this.Context.CurrentUser.GetNameClaim());
 
             return this.Negotiate
                 .WithStatusCode(HttpStatusCode.Created)
@@ -75,7 +69,7 @@ namespace Wikibus.Sources.Nancy
                 .WithModel(await getResource(brochure.Id));
         }
 
-        private async Task<T> PutSingle<T>(
+        private async Task<dynamic> PutSingle<T>(
             Func<T, Task> saveResource,
             Func<Uri, Task<T>> getResource)
             where T : Source, new()
@@ -87,6 +81,13 @@ namespace Wikibus.Sources.Nancy
                 },
                 new BindingConfig { Overwrite = true },
                 "Id");
+
+            var currentState = await getResource(brochure.Id);
+            if (!this.Context.CurrentUser.HasPermission(Permissions.AdminSources) && !currentState.OwnedBy(this.Context.CurrentUser))
+            {
+                return HttpStatusCode.Forbidden;
+            }
+
             await saveResource(brochure);
 
             return await getResource(brochure.Id);
@@ -112,6 +113,11 @@ namespace Wikibus.Sources.Nancy
             if (resource == null)
             {
                 return HttpStatusCode.NotFound;
+            }
+
+            if (!this.Context.CurrentUser.HasPermission(Permissions.AdminSources) && !resource.OwnedBy(this.Context.CurrentUser))
+            {
+                return HttpStatusCode.Forbidden;
             }
 
             resource.SetContent(uri, (int)pdf.stream.Length);

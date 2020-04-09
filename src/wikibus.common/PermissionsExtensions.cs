@@ -11,6 +11,7 @@ namespace Wikibus.Common
             return user?.HasClaim(Permissions.Claim, permission) == true;
         }
 
+        [return: AllowNull]
         public static string GetNameClaim([AllowNull] this ClaimsPrincipal user)
         {
             return (from c in user?.Claims

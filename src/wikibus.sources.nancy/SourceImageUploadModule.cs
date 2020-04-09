@@ -23,7 +23,7 @@ namespace Wikibus.Sources.Nancy
             IImageStorage storage,
             ISourceContext data)
         {
-            this.RequiresPermissions(Permissions.WriteSources);
+            this.RequiresAnyPermissions(Permissions.WriteSources, Permissions.AdminSources);
 
             this.imageService = new SourceImageService(storage, data);
             this.data = data;
@@ -32,13 +32,30 @@ namespace Wikibus.Sources.Nancy
             this.Post("/brochure/{id}/images", request => this.UploadImages((int)request.id));
         }
 
+        private HttpStatusCode? CheckSource(SourceEntity source)
+        {
+            if (source == null)
+            {
+                return HttpStatusCode.NotFound;
+            }
+
+            if (!this.Context.CurrentUser.HasPermission(Permissions.AdminSources)
+                && source.User != this.Context.CurrentUser.GetNameClaim())
+            {
+                return HttpStatusCode.Forbidden;
+            }
+
+            return null;
+        }
+
         private async Task<dynamic> UploadImages(int sourceId)
         {
             var source = await this.data.Sources.FindAsync(sourceId);
 
-            if (source == null)
+            var result = this.CheckSource(source);
+            if (result.HasValue)
             {
-                return HttpStatusCode.NotFound;
+                return result;
             }
 
             foreach (var httpFile in this.Request.Files)
