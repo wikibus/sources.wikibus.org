@@ -9,6 +9,7 @@ PREFIX schema: <http://schema.org/>
 
 HEADERS {
     X-Permission "write:sources"
+    X-User "john-doe"
 }
 
 With Class api:EntryPoint {

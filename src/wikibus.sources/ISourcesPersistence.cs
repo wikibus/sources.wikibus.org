@@ -6,6 +6,6 @@ namespace Wikibus.Sources
     {
         Task SaveBrochure(Brochure brochure, bool updateFileContents = false);
 
-        Task CreateBrochure(Brochure brochure);
+        Task CreateBrochure(Brochure brochure, string user);
     }
 }

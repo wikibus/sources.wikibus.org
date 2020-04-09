@@ -9,7 +9,6 @@ PREFIX schema: <http://schema.org/>
 
 HEADERS {
     X-Permission "write:sources"
-    X-User "john-doe"
 }
 
 With Class api:EntryPoint {
@@ -20,6 +19,7 @@ With Class wbo:BrochureCollection {
     Expect Operation schema:CreateAction {
         Invoke {
             Content-Type "application/ld+json"
+            X-User "batman"
 
             ```
             {
@@ -27,21 +27,49 @@ With Class wbo:BrochureCollection {
             	"http://purl.org/dc/terms/title": {
             		"@value": "Jelczańskie Zakłady Samochodowe",
             		"@type": "http://www.w3.org/2001/XMLSchema#string"
-            	},
-            	"http://purl.org/dc/terms/language": [{
-            	    "@id": "http://lexvo.org/id/iso639-1/pl"
-            	}, {
-            	    "label": "blank node language to be ignored"
-            	}]
+            	}
             }
             ```
         } => {
             Expect Status 201
+        }
+    }
+}
 
-            Expect Property dcterms:title "Jelczańskie Zakłady Samochodowe"
-            Expect Property dcterms:language {
-                Expect Id <http://lexvo.org/id/iso639-1/pl>
+With Operation schema:UpdateAction {
+    Invoke {
+        Content-Type "application/ld+json"
+        X-User "batman"
+
+        ```
+        {
+            "@type": "https://wikibus.org/ontology#Brochure",
+            "http://purl.org/dc/terms/title": {
+                "@value": "Neoplan Polska",
+                "@type": "http://www.w3.org/2001/XMLSchema#string"
             }
         }
+        ```
+    } => {
+        Expect Status 200
+
+        Expect Property dcterms:title "Neoplan Polska"
+    }
+
+    Invoke {
+        Content-Type "application/ld+json"
+        X-User "superman"
+
+        ```
+        {
+            "@type": "https://wikibus.org/ontology#Brochure",
+            "http://purl.org/dc/terms/title": {
+                "@value": "Jelcz",
+                "@type": "http://www.w3.org/2001/XMLSchema#string"
+            }
+        }
+        ```
+    } => {
+        Expect Status 403
     }
 }

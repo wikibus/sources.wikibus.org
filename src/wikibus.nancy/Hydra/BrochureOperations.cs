@@ -25,6 +25,10 @@ namespace Wikibus.Nancy.Hydra
                     .Title("Update brochure")
                     .TypedAs((IriRef)Schema.UpdateAction)
                     .Expects((IriRef)Wbo.Brochure);
+            }
+
+            if (context.HasPermission(Permissions.AdminSources))
+            {
                 this.Property(b => b.Location)
                     .SupportsPut()
                     .Title("Update location")
