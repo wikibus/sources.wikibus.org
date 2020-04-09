@@ -59,7 +59,7 @@ namespace Wikibus.Sources.Functions
 
             var settings = new MagickReadSettings
             {
-                Density = new Density(300, 300)
+                Density = new Density(300, 300),
             };
 
             using (MagickImageCollection images = new MagickImageCollection())

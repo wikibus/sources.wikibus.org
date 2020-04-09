@@ -13,6 +13,8 @@ services:
         wikibus__apiUrl: "https://wikibus-sources.lndo.site/"
         wikibus__sources__sql: "Server=db;Database=master;User=sa;Password=he11oTHERE;"
     run_as_root:
+      - apt-get update
+      - apt-get install -y ghostscript
       - bash -c "dotnet run --project src/wikibus.sources.dbup remote --connection-string 'Server=db;Database=master;User=sa;Password=he11oTHERE;' --run-always-pattern fn_"
   db:
     type: mssql

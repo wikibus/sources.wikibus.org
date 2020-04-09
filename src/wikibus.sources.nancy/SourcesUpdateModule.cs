@@ -1,20 +1,24 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Argolis.Hydra.Resources;
 using Argolis.Models;
 using Argolis.Nancy;
+using ImageMagick;
 using Nancy;
 using Nancy.ModelBinding;
 using Wikibus.Common;
 using Wikibus.Nancy;
 using Wikibus.Sources.Events;
+using Wikibus.Sources.Images;
 using wikibus.storage;
 
 namespace Wikibus.Sources.Nancy
 {
     public sealed class SourcesUpdateModule : ArgolisModule
     {
+        private readonly ISourceImageService imageService;
         private readonly IUriTemplateExpander expander;
         private readonly IFileStorage fileStorage;
         private readonly IStorageQueue queue;
@@ -27,7 +31,8 @@ namespace Wikibus.Sources.Nancy
             IUriTemplateExpander expander,
             IFileStorage fileStorage,
             IStorageQueue queue,
-            IWishlistPersistence wishlistPersistence)
+            IWishlistPersistence wishlistPersistence,
+            ISourceImageService imageService)
             : base(modelTemplateProvider)
         {
             this.RequiresPermissions(Permissions.WriteSources);
@@ -36,6 +41,7 @@ namespace Wikibus.Sources.Nancy
             this.fileStorage = fileStorage;
             this.queue = queue;
             this.wishlistPersistence = wishlistPersistence;
+            this.imageService = imageService;
             this.Put<Brochure>(async r => await this.PutSingle(brochure => persistence.SaveBrochure(brochure), repository.GetBrochure));
             this.Post<SourceContent>(
                  async r => await this.UploadPdf((int)r.id, repository.GetBrochure, brochure => persistence.SaveBrochure(brochure, true)));
@@ -108,6 +114,11 @@ namespace Wikibus.Sources.Nancy
 
             resource.SetContent(uri, (int)pdf.stream.Length);
 
+            using (var coverImageStream = this.ExtractCoverPage(pdf.stream))
+            {
+                await this.imageService.AddImage(id, $"{id}_cover", coverImageStream);
+            }
+
             await saveResource(resource);
 
             var pdfUploaded = new PdfUploaded
@@ -121,6 +132,29 @@ namespace Wikibus.Sources.Nancy
             await this.wishlistPersistence.MarkDone(id);
 
             return this.Response.AsRedirect(brochureId.ToString());
+        }
+
+        private Stream ExtractCoverPage(Stream pdfContents)
+        {
+            pdfContents.Seek(0, SeekOrigin.Begin);
+
+            var settings = new MagickReadSettings
+            {
+                Density = new Density(300, 300),
+            };
+
+            using (MagickImageCollection images = new MagickImageCollection())
+            {
+                images.Read(pdfContents, settings);
+
+                var image = images.First();
+                var imageStream = new MemoryStream();
+                image.Format = MagickFormat.Jpeg;
+                image.Write(imageStream);
+                imageStream.Seek(0, SeekOrigin.Begin);
+
+                return imageStream;
+            }
         }
     }
 }

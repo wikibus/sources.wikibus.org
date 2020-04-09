@@ -6,6 +6,7 @@
         <RootNamespace>Wikibus.Sources.Images</RootNamespace>
         <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
         <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+        <LangVersion>8</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>

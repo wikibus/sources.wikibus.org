@@ -29,6 +29,9 @@ namespace Wikibus.Sources.Images
                 OriginalUrl = result.Original,
                 ThumbnailUrl = result.Thumbnail
             });
+
+            // remove the legacy image
+            source.Image = null;
         }
 
         public Task DeleteImage(string externalId)

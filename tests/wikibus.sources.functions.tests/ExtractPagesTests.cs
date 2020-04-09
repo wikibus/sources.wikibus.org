@@ -1,5 +1,4 @@
 using Shouldly;
-using wikibus.sources.functions.tests;
 using Wikibus.Sources.Images;
 using Xunit.Abstractions;
 
@@ -30,10 +29,10 @@ namespace Wikibus.Sources.Functions.Tests
         private readonly ExtractPages functions;
         private readonly ISourcesRepository sourceRepository;
 
-        public ExtractPagesTests(ITestOutputHelper output)
+        public ExtractPagesTests()
         {
             this.sourceRepository = Substitute.For<ISourcesRepository>();
-            this.imageService = new FakeImageService(output);
+            this.imageService = new FakeImageService();
             var matcher = Substitute.For<IUriTemplateMatcher>();
             this.httpMessageHandler = new MockHttpMessageHandler();
 

@@ -23,6 +23,7 @@
     <ProjectReference Include="..\..\src\wikibus.sources.functions\wikibus.sources.functions.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Fakes" />
     <Folder Include="Pdfs\" />
     <Folder Include="Fakes\" />
   </ItemGroup>

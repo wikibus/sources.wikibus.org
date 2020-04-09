@@ -11,6 +11,9 @@ RUN dotnet publish src/app --configuration Release --output /output
 # Build runtime image
 FROM microsoft/dotnet:aspnetcore-runtime
 
+RUN apt-get update
+RUN apt-get install -y ghostscript
+
 WORKDIR /app
 
 COPY --from=build-env /output .

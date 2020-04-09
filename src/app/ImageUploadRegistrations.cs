@@ -14,6 +14,7 @@ namespace Brochures.Wikibus.Org
         {
             if (configuration["cloudinary:name"] == null)
             {
+                this.Register<ISourceImageService>(typeof(FakeImageService));
                 this.Register<IImageStorage>(new FakeImageStore());
                 return;
             }
@@ -25,6 +26,7 @@ namespace Brochures.Wikibus.Org
                     configuration["cloudinary:secret"]);
 
             this.Register(new Cloudinary(account));
+            this.Register<ISourceImageService>(typeof(SourceImageService), Lifetime.PerRequest);
         }
     }
 }
