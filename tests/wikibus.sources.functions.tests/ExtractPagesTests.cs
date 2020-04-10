@@ -57,7 +57,7 @@ namespace Wikibus.Sources.Functions.Tests
         }
 
         [Fact]
-        public async Task ConvertsPages()
+        public async Task ConvertsCoverPage()
         {
             // given
             this.httpMessageHandler.Expect(BlobUri)
@@ -73,7 +73,7 @@ namespace Wikibus.Sources.Functions.Tests
             await this.functions.Run(pdfUploaded);
 
             // then
-            this.imageService.AddedImages.ShouldBe(9);
+            this.imageService.AddedImages.ShouldBe(1);
         }
 
         [Fact]
