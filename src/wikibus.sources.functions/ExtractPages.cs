@@ -66,19 +66,14 @@ namespace Wikibus.Sources.Functions
             {
                 images.Read(pdfContents, settings);
 
-                var pageNumber = 1;
-                foreach (var image in images)
+                var image = images.First();
+                using (var imageStream = new MemoryStream())
                 {
-                    using (var imageStream = new MemoryStream())
-                    {
-                        image.Format = MagickFormat.Jpeg;
-                        image.Write(imageStream);
-                        imageStream.Seek(0, SeekOrigin.Begin);
+                    image.Format = MagickFormat.Jpeg;
+                    image.Write(imageStream);
+                    imageStream.Seek(0, SeekOrigin.Begin);
 
-                        await this.imageService.AddImage(sourceId, $"{sourceId}_{pageNumber}", imageStream);
-                    }
-
-                    pageNumber++;
+                    await this.imageService.AddImage(sourceId, $"{sourceId}_cover", imageStream);
                 }
             }
         }
