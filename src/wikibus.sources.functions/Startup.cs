@@ -20,6 +20,7 @@ using Wikibus.Common;
 using wikibus.images.Cloudinary;
 using Wikibus.Sources.EF;
 using Wikibus.Sources.Images;
+using wikibus.storage.azure;
 
 [assembly: FunctionsStartup(typeof(Wikibus.Sources.Functions.Startup))]
 
@@ -78,6 +79,8 @@ namespace Wikibus.Sources.Functions
             builder.Services.AddSingleton<IWikibusConfiguration, AppSettingsConfiguration>();
             builder.Services.AddSingleton<IConfiguration>(this.configuration);
             builder.Services.AddSingleton<ISourcesDatabaseSettings, Settings>();
+            builder.Services.AddSingleton<ICloudinarySettings, Settings>();
+            builder.Services.AddSingleton<IAzureSettings, Settings>();
         }
     }
 }
