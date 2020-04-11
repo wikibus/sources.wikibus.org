@@ -1,15 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using Argolis.Hydra.Annotations;
 using Argolis.Hydra.Models;
 using Argolis.Models;
 using JsonLD.Entities;
 using JsonLD.Entities.Context;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NullGuard;
 using Vocab;
 using Wikibus.Common;
+using Wikibus.Sources.Images;
 
 namespace Wikibus.Sources
 {
@@ -84,6 +87,12 @@ namespace Wikibus.Sources
         [Readable(false)]
         [Writeable(false)]
         public IriRef WishlistItem { [return: AllowNull] get; set; }
+
+        [JsonIgnore]
+        public bool HasNonLegacyImage
+        {
+            get { return this.Images.Members.Any(image => !(image is LegacyImage)); }
+        }
 
         /// <summary>
         /// Gets the context.

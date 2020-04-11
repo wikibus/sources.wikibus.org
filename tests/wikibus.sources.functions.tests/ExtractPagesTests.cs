@@ -81,7 +81,7 @@ namespace Wikibus.Sources.Functions.Tests
         }
 
         [Fact]
-        public async Task WhenBrochureHasImages_DoesNothing()
+        public async Task WhenBrochureHasNonLegacyImages_DoesNothing()
         {
             // given
             var brochure = new Brochure

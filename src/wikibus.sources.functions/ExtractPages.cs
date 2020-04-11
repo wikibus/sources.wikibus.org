@@ -54,7 +54,7 @@ namespace Wikibus.Sources.Functions
 
             var sourceId = this.matcher.Match<Brochure>(sourceUri).Get<int>("id");
 
-            if (source.Images.Members.Any())
+            if (source.HasNonLegacyImage)
             {
                 LogTo.Warning("Source {0} already has images. Skipping.", sourceUri);
                 return;
