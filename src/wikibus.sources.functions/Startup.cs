@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
 using Anotar.Serilog;
 using Argolis.Hydra.Models;
@@ -8,14 +7,13 @@ using Brochures.Wikibus.Org;
 using CloudinaryDotNet;
 using ImageMagick;
 using Microsoft.ApplicationInsights.Extensibility;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
+using Microsoft.Azure.WebJobs.Host.Bindings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Serilog;
-using Serilog.Sinks.ApplicationInsights.Sinks.ApplicationInsights.TelemetryConverters;
 using Wikibus.Common;
 using wikibus.images.Cloudinary;
 using Wikibus.Sources.EF;
@@ -28,48 +26,49 @@ namespace Wikibus.Sources.Functions
 {
     public class Startup : FunctionsStartup
     {
-        private readonly IConfigurationRoot configuration;
-
         public Startup()
         {
-            this.configuration = new ConfigurationBuilder()
-                .SetBasePath(Environment.CurrentDirectory)
-                .AddJsonFile(@"appSettings.json", false, true)
-                .AddJsonFile(@"appSettings.Development.json", true, true)
-                .AddEnvironmentVariables()
-                .Build();
-
             Log.Logger = new LoggerConfiguration()
                 .Enrich.WithThreadId()
                 .Enrich.FromLogContext()
                 .MinimumLevel.Debug()
                 .WriteTo.ApplicationInsights(TelemetryConfiguration.CreateDefault(), TelemetryConverter.Traces)
                 .CreateLogger();
+        }
 
-            if (this.configuration.GetValue<bool>("Ghostscript"))
+        public override void Configure(IFunctionsHostBuilder builder)
+        {
+            var currentDirectory = builder.Services.BuildServiceProvider()
+                .GetService<IOptions<ExecutionContextOptions>>().Value.AppDirectory;
+
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(currentDirectory)
+                .AddJsonFile(@"appSettings.json", false, true)
+                .AddJsonFile(@"appSettings.Development.json", true, true)
+                .AddEnvironmentVariables()
+                .Build();
+
+            if (configuration.GetValue<bool>("Ghostscript"))
             {
                 var binDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                 var ghostscriptPath = Path.Combine(binDirectory, "../Ghostscript");
                 LogTo.Information("Setting Ghostscript path {0}", ghostscriptPath);
                 MagickNET.SetGhostscriptDirectory(ghostscriptPath);
             }
-        }
 
-        public override void Configure(IFunctionsHostBuilder builder)
-        {
             builder.Services.AddLogging();
 
             var account = new Account(
-                this.configuration["cloudinary:name"],
-                this.configuration["cloudinary:key"],
-                this.configuration["cloudinary:secret"]);
+                configuration["cloudinary:name"],
+                configuration["cloudinary:key"],
+                configuration["cloudinary:secret"]);
 
             builder.Services.AddSingleton(new Cloudinary(account));
 
             builder.Services.AddTransient<ISourceContext>(provider => provider.GetService<SourceContext>());
             builder.Services.AddDbContext<SourceContext>(
                 options => options.UseSqlServer(
-                    this.configuration["wikibus:sources:sql"]));
+                    configuration["wikibus:sources:sql"]));
             builder.Services.AddTransient<IImageStorage, CloudinaryImagesStore>();
             builder.Services.AddSingleton<IUriTemplateMatcher, DefaultUriTemplateMatcher>();
             builder.Services.AddSingleton<IUriTemplateExpander, DefaultUriTemplateExpander>();
@@ -79,7 +78,7 @@ namespace Wikibus.Sources.Functions
             builder.Services.AddTransient<ISourcesRepository, SourcesRepository>();
             builder.Services.AddTransient<EntityFactory>();
             builder.Services.AddSingleton<IWikibusConfiguration, AppSettingsConfiguration>();
-            builder.Services.AddSingleton<IConfiguration>(this.configuration);
+            builder.Services.AddSingleton<IConfiguration>(configuration);
             builder.Services.AddSingleton<ISourcesDatabaseSettings, Settings>();
             builder.Services.AddSingleton<ICloudinarySettings, Settings>();
             builder.Services.AddSingleton<IAzureSettings, Settings>();
