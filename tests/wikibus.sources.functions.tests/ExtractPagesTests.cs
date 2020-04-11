@@ -1,4 +1,5 @@
 using Shouldly;
+using Wikibus.Sources.EF;
 using Wikibus.Sources.Images;
 using Xunit.Abstractions;
 
@@ -10,7 +11,6 @@ namespace Wikibus.Sources.Functions.Tests
     using Argolis.Models;
     using Events;
     using Functions;
-    using Microsoft.Extensions.Logging;
     using MimeMapping;
     using NSubstitute;
     using Resourcer;
@@ -28,10 +28,12 @@ namespace Wikibus.Sources.Functions.Tests
         private readonly MockHttpMessageHandler httpMessageHandler;
         private readonly ExtractPages functions;
         private readonly ISourcesRepository sourceRepository;
+        private readonly ISourceContext context;
 
         public ExtractPagesTests()
         {
             this.sourceRepository = Substitute.For<ISourcesRepository>();
+            this.context = Substitute.For<ISourceContext>();
             this.imageService = new FakeImageService();
             var matcher = Substitute.For<IUriTemplateMatcher>();
             this.httpMessageHandler = new MockHttpMessageHandler();
@@ -51,7 +53,8 @@ namespace Wikibus.Sources.Functions.Tests
             this.functions = new ExtractPages(
                 this.sourceRepository,
                 this.imageService,
-                matcher);
+                matcher,
+                this.context);
 
             this.functions.Client = this.httpMessageHandler.ToHttpClient();
         }
@@ -74,6 +77,7 @@ namespace Wikibus.Sources.Functions.Tests
 
             // then
             this.imageService.AddedImages.ShouldBe(1);
+            this.context.Received(1).SaveChangesAsync();
         }
 
         [Fact]
