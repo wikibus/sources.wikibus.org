@@ -33,6 +33,8 @@
       <EmbeddedResource Include="Scripts\3. Languages\2. Copy previous values.sql" />
       <None Remove="Scripts\5. Wishlist\1. Add table.sql" />
       <EmbeddedResource Include="Scripts\5. Wishlist\1. Add table.sql" />
+      <None Remove="Scripts\6. image trigger\1. Create.sql" />
+      <EmbeddedResource Include="Scripts\6. image trigger\1. Create.sql" />
     </ItemGroup>
 
     <ItemGroup>
