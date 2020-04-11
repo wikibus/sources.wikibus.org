@@ -40,7 +40,9 @@ namespace Wikibus.Sources.Functions
                 .Build();
 
             Log.Logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(this.configuration)
+                .Enrich.WithThreadId()
+                .Enrich.FromLogContext()
+                .MinimumLevel.Debug()
                 .WriteTo.ApplicationInsights(TelemetryConfiguration.CreateDefault(), TelemetryConverter.Traces)
                 .CreateLogger();
 

@@ -14,7 +14,7 @@ namespace Brochures.Wikibus.Org
 
         public Settings(IConfiguration configuration)
         {
-            LogTo.Debug(
+            LogTo.Information(
                 "Initializing configuration. Keys: {0}",
                 configuration.AsEnumerable().Select(setting => setting.Key));
 
