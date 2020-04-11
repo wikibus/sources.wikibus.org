@@ -5,6 +5,7 @@ using Anotar.Serilog;
 using Argolis.Hydra.Models;
 using Argolis.Models;
 using Brochures.Wikibus.Org;
+using CloudinaryDotNet;
 using ImageMagick;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Hosting;
@@ -54,6 +55,13 @@ namespace Wikibus.Sources.Functions
         public override void Configure(IFunctionsHostBuilder builder)
         {
             builder.Services.AddLogging();
+
+            var account = new Account(
+                this.configuration["cloudinary:name"],
+                this.configuration["cloudinary:key"],
+                this.configuration["cloudinary:secret"]);
+
+            builder.Services.AddSingleton(new Cloudinary(account));
 
             builder.Services.AddTransient<ISourceContext>(provider => provider.GetService<SourceContext>());
             builder.Services.AddDbContext<SourceContext>(
