@@ -2,7 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/saintedlama/versionize) for commit guidelines.
 
-<a name="0.6.0"></a>
+<a name="0.7.0"></a>
+## 0.7.0 (2020-4-11)
+
+### Bug Fixes
+
+* function ExtractPages should replace legacy image
+* function ExtractPages would not save changes
+
+### Features
+
+* automatically extract cover page
+
 ## 0.6.0 (2020-4-5)
 
 ### Bug Fixes
