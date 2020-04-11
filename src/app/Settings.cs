@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using Anotar.Serilog;
 using Microsoft.Extensions.Configuration;
 using wikibus.images.Cloudinary;
 using Wikibus.Sources;
@@ -12,6 +14,10 @@ namespace Brochures.Wikibus.Org
 
         public Settings(IConfiguration configuration)
         {
+            LogTo.Debug(
+                "Initializing configuration. Keys: {0}",
+                configuration.AsEnumerable().Select(setting => setting.Key));
+
             this.configuration = configuration;
         }
 
