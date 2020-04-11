@@ -39,6 +39,7 @@ namespace Wikibus.Sources.Functions
 
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(this.configuration)
+                .WriteTo.ApplicationInsights(TelemetryConfiguration.Active, TelemetryConverter.Traces)
                 .CreateLogger();
 
             if (this.configuration.GetValue<bool>("Ghostscript"))
