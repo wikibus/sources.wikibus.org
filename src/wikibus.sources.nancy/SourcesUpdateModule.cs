@@ -42,12 +42,14 @@ namespace Wikibus.Sources.Nancy
             this.queue = queue;
             this.wishlistPersistence = wishlistPersistence;
             this.imageService = imageService;
-            this.Put<Brochure>(async r => await this.PutSingle(brochure => persistence.SaveBrochure(brochure), repository.GetBrochure));
+            this.Put<Brochure>(async r =>
+                await this.PutSingle(brochure => persistence.SaveBrochure(brochure), repository.GetBrochure));
             this.Post<SourceContent>(
-                 async r => await this.UploadPdf((int)r.id, repository.GetBrochure, brochure => persistence.SaveBrochure(brochure, true)));
+                async r => await this.UploadPdf((int)r.id, repository.GetBrochure, brochure => persistence.SaveBrochure(brochure, true)));
             using (this.Templates)
             {
-                this.Post<Collection<Brochure>>(async r => await this.CreateBrochure(persistence.CreateBrochure, repository.GetBrochure));
+                this.Post<Collection<Brochure>>(async r =>
+                    await this.CreateBrochure(persistence.CreateBrochure, repository.GetBrochure));
             }
         }
 
@@ -96,8 +98,8 @@ namespace Wikibus.Sources.Nancy
             Func<Brochure, Task> saveResource)
         {
             var pdf = this.Request.Files
-                .Select(file => new { name = file.Name, stream = file.Value })
-                .FirstOrDefault() ?? new
+                          .Select(file => new { name = file.Name, stream = file.Value })
+                          .FirstOrDefault() ?? new
                       {
                           name = $"{id}.pdf",
                           stream = this.Request.Body
@@ -114,11 +116,6 @@ namespace Wikibus.Sources.Nancy
 
             resource.SetContent(uri, (int)pdf.stream.Length);
 
-            using (var coverImageStream = this.ExtractCoverPage(pdf.stream))
-            {
-                await this.imageService.AddImage(id, $"{id}_cover", coverImageStream);
-            }
-
             await saveResource(resource);
 
             var pdfUploaded = new PdfUploaded
@@ -132,29 +129,6 @@ namespace Wikibus.Sources.Nancy
             await this.wishlistPersistence.MarkDone(id);
 
             return this.Response.AsRedirect(brochureId.ToString());
-        }
-
-        private Stream ExtractCoverPage(Stream pdfContents)
-        {
-            pdfContents.Seek(0, SeekOrigin.Begin);
-
-            var settings = new MagickReadSettings
-            {
-                Density = new Density(300, 300),
-            };
-
-            using (MagickImageCollection images = new MagickImageCollection())
-            {
-                images.Read(pdfContents, settings);
-
-                var image = images.First();
-                var imageStream = new MemoryStream();
-                image.Format = MagickFormat.Jpeg;
-                image.Write(imageStream);
-                imageStream.Seek(0, SeekOrigin.Begin);
-
-                return imageStream;
-            }
         }
     }
 }
