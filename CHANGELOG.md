@@ -2,7 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/saintedlama/versionize) for commit guidelines.
 
-<a name="0.7.0"></a>
+<a name="0.8.0"></a>
+## 0.8.0 (2020-4-13)
+
+### Bug Fixes
+
+* user id is variable length
+* only extract select page to save memory and space
+
+### Features
+
+* add user endpoint to azure functions
+* add owner user to sources
+
 ## 0.7.0 (2020-4-11)
 
 ### Bug Fixes
