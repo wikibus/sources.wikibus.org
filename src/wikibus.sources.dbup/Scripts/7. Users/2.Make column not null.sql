@@ -1,2 +1,2 @@
 ﻿alter table Sources.Source
-alter column [User] nchar(30) not null
+alter column [User] nvarchar(128) not null
