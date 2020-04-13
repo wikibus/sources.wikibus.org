@@ -29,6 +29,8 @@ namespace Wikibus.Sources.EF
 
         public virtual ImageData Image { get; set; }
 
+        public string User { get; set; }
+
         public IList<ImageEntity> Images { get; set; } = new List<ImageEntity>();
     }
 }

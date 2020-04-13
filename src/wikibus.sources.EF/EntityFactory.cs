@@ -218,11 +218,12 @@ namespace Wikibus.Sources.EF
             }
 
             source.CoverImage = (IriRef)source.Images.Members.FirstOrDefault()?.Id;
+            source.User = entity.Entity.User.Trim();
         }
 
         private void MapStorageLocation(Brochure target, BrochureEntity sourceEntity)
         {
-            if (this.principal?.HasPermission(Permissions.WriteSources) == true)
+            if (this.principal?.HasPermission(Permissions.AdminSources) == true)
             {
                 var cabinetName = (from cabinet in this.context.FileCabinets
                     where cabinet.Id == sourceEntity.FileCabinet

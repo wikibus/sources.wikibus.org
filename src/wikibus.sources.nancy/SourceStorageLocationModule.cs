@@ -19,7 +19,7 @@ namespace Wikibus.Sources.Nancy
             ISourceContext sourcesContext)
             : base(provider)
         {
-            this.RequiresPermissions(Permissions.WriteSources);
+            this.RequiresPermissions(Permissions.AdminSources);
 
             this.sourcesContext = sourcesContext;
             this.Put<StorageLocation>(this.UpdateStorageLocation);

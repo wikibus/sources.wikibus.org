@@ -39,7 +39,7 @@ namespace wikibus.storage.azure
             var blob = blobRef.GetBlockBlobReference(name);
             blob.Properties.ContentType = contentType;
 
-            LogTo.Information("Uploading file {)}", name);
+            LogTo.Information("Uploading file {0}", name);
             await blob.UploadFromStreamAsync(contents);
 
             return blob.Uri;

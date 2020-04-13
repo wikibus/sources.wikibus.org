@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using Argolis.Hydra.Annotations;
 using Argolis.Hydra.Resources;
 using JetBrains.Annotations;
@@ -104,6 +105,13 @@ namespace Wikibus.Sources
             this.contentSize,
             this.content);
 
+        [Range(Schema.Person)]
+        [Writeable(false)]
+        public IriRef Contributor => (IriRef)$"https://users.wikibus.org/user/{this.User}";
+
+        [JsonIgnore]
+        public string User { get; set; }
+
         /// <summary>
         /// Gets the @context.
         /// </summary>
@@ -137,7 +145,8 @@ namespace Wikibus.Sources
                     "thumbnail".IsProperty(Schema.thumbnail),
                     "content".IsProperty(Schema.associatedMedia),
                     "encodingFormat".IsProperty(Schema.encodingFormat),
-                    "contentSize".IsProperty(Schema.contentSize));
+                    "contentSize".IsProperty(Schema.contentSize),
+                    "contributor".IsPrefixOf(Schema.contributor));
             }
         }
 
@@ -159,6 +168,11 @@ namespace Wikibus.Sources
 
             this.content = uri;
             this.contentSize = size;
+        }
+
+        public bool OwnedBy(ClaimsPrincipal user)
+        {
+            return user.GetNameClaim() == this.User;
         }
     }
 }

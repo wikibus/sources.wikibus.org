@@ -6,7 +6,10 @@
     <RootNamespace>Wikibus.Sources.Functions</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Auth0.AuthenticationApi" Version="7.0.4" />
+    <PackageReference Include="Auth0.ManagementApi" Version="7.0.4" />
     <PackageReference Include="NullGuard.Fody" Version="2.2.0" />
+    <PackageReference Include="Schema.NET" Version="7.1.0" />
     <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="3.1.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
     <PackageReference Include="Serilog.Sinks.Loggly" Version="5.4.0" />

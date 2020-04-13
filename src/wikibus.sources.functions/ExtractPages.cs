@@ -65,6 +65,8 @@ namespace Wikibus.Sources.Functions
             var settings = new MagickReadSettings
             {
                 Density = new Density(300, 300),
+                FrameCount = 1,
+                FrameIndex = 0,
             };
 
             using (MagickImageCollection images = new MagickImageCollection())
