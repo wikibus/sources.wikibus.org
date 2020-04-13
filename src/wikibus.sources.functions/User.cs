@@ -48,7 +48,7 @@ namespace Wikibus.Sources.Functions
             var person = new Person
             {
                 Id = new Uri($"{this.configuration["wikibus:usersUrl"]}user/{id}"),
-                Name = user.NickName,
+                Name = user.FullName,
                 Image = new Values<IImageObject, Uri>(new ImageObject
                 {
                     ContentUrl = new Uri(user.Picture)
