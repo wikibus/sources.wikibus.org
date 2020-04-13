@@ -107,7 +107,7 @@ namespace Wikibus.Sources
 
         [Range(Schema.Person)]
         [Writeable(false)]
-        public IriRef Contributor => (IriRef)$"https://users.wikibus.org/user/${this.User}";
+        public IriRef Contributor => (IriRef)$"https://users.wikibus.org/user/{this.User}";
 
         [JsonIgnore]
         public string User { get; set; }

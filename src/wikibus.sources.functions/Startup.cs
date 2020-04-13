@@ -82,6 +82,7 @@ namespace Wikibus.Sources.Functions
             builder.Services.AddSingleton<ISourcesDatabaseSettings, Settings>();
             builder.Services.AddSingleton<ICloudinarySettings, Settings>();
             builder.Services.AddSingleton<IAzureSettings, Settings>();
+            builder.Services.AddSingleton<ManagementClientFactory>();
         }
     }
 }
