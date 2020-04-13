@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Net;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web.Http;
 using Anotar.Serilog;
 using Auth0.Core.Exceptions;
-using Auth0.ManagementApi;
+using JsonLD.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Configuration;
-using Schema.NET;
+using Wikibus.Sources.Functions.Model;
 
 namespace Wikibus.Sources.Functions
 {
@@ -49,15 +45,15 @@ namespace Wikibus.Sources.Functions
             {
                 Id = new Uri($"{this.configuration["wikibus:usersUrl"]}user/{id}"),
                 Name = user.FullName,
-                Image = new Values<IImageObject, Uri>(new ImageObject
+                Image = new ImageObject
                 {
-                    ContentUrl = new Uri(user.Picture)
-                })
+                    ContentUrl = (IriRef)new Uri(user.Picture)
+                }
             };
 
             return new ContentResult
             {
-                Content = person.ToString(),
+                Content = new EntitySerializer().Serialize(person).ToString(),
                 ContentType = "application/ld+json"
             };
         }
