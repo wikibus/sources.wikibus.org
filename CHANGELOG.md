@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/saintedlama/versionize) for commit guidelines.
 
-<a name="0.8.1"></a>
+<a name="0.8.2"></a>
+## 0.8.2 (2020-4-13)
+
+### Bug Fixes
+
+* avoid dereferencing schema.org context
+
 ## 0.8.1 (2020-4-13)
 
 ### Bug Fixes
