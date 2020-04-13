@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/saintedlama/versionize) for commit guidelines.
 
-<a name="0.8.0"></a>
+<a name="0.8.1"></a>
+## 0.8.1 (2020-4-13)
+
+### Bug Fixes
+
+* use full name instead of nickname
+
 ## 0.8.0 (2020-4-13)
 
 ### Bug Fixes
