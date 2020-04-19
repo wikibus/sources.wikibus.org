@@ -6,6 +6,7 @@ using JsonLD.Entities;
 using JsonLD.Entities.Context;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Vocab;
 using Wikibus.Common;
 using Wikibus.Common.JsonLd;
 
@@ -82,6 +83,20 @@ namespace Wikibus.Nancy
         [Description("Requests to scan brochures from the collection")]
         public IriRef Wishlist => (IriRef)"wishlist";
 
+        [ReadOnly(true)]
+        [Writeable(false)]
+        [Range(Schema.CreativeWork)]
+        public IriRef[] HasPart
+        {
+            get
+            {
+                return new[]
+                {
+                    (IriRef)"https://cms.wikibus.org/contributing/brochures"
+                };
+            }
+        }
+
         [UsedImplicitly]
         private static JObject Context
         {
@@ -93,7 +108,8 @@ namespace Wikibus.Nancy
                     "magazines".IsProperty(Api.magazines).Type().Id(),
                     "brochures".IsProperty(Api.brochures).Type().Id(),
                     "books".IsProperty(Api.books).Type().Id(),
-                    "wishlist".IsProperty(Api.wishlist).Type().Id());
+                    "wishlist".IsProperty(Api.wishlist).Type().Id(),
+                    "hasPart".IsProperty(Schema.hasPart).Type().Id());
             }
         }
 
