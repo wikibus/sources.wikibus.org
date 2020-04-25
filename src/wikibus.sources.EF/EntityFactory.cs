@@ -186,7 +186,7 @@ namespace Wikibus.Sources.EF
             {
                 Id = $"{this.configuration.BaseResourceNamespace}image/{image.ExternalId}",
                 ContentUrl = image.OriginalUrl,
-                OrderIndex = index,
+                OrderIndex = image.OrderIndex,
                 Thumbnail = new Image
                 {
                     ContentUrl = image.ThumbnailUrl

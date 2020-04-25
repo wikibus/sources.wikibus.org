@@ -12,5 +12,9 @@ namespace Wikibus.Sources.EF
         public string ThumbnailUrl { get; set; }
 
         public string ExternalId { get; set; }
+
+        public short OrderIndex { get; set; }
+
+        public int SourceId { get; set; }
     }
 }

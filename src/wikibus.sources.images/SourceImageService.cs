@@ -27,7 +27,8 @@ namespace Wikibus.Sources.Images
             {
                 ExternalId = result.ExternalId,
                 OriginalUrl = result.Original,
-                ThumbnailUrl = result.Thumbnail
+                ThumbnailUrl = result.Thumbnail,
+                OrderIndex = (short)(source.Images.Count + 1),
             });
         }
 

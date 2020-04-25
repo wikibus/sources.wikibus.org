@@ -30,6 +30,12 @@ namespace Wikibus.Nancy.Hydra
                     .TypedAs((IriRef)Schema.DeleteAction)
                     .Title("Remove image");
 
+                this.Property(s => s.Image)
+                    .SupportsPost()
+                    .TypedAs((IriRef)Schema.MoveAction)
+                    .Expects((IriRef)Api.ImageOrder)
+                    .Title("Move image");
+
                 this.Property(s => s.Content)
                     .SupportsPost()
                     .Title("Upload PDF")
