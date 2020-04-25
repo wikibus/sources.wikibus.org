@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/saintedlama/versionize) for commit guidelines.
 
-<a name="0.9.0"></a>
+<a name="0.10.0"></a>
+## 0.10.0 (2020-4-25)
+
+### Features
+
+* operation to reorder images
+
 ## 0.9.0 (2020-4-19)
 
 ### Features
