@@ -8,34 +8,26 @@ using Nancy;
 using Nancy.ModelBinding;
 using Wikibus.Common;
 using Wikibus.Nancy;
-using Wikibus.Sources.Events;
-using wikibus.storage;
 
 namespace Wikibus.Sources.Nancy
 {
     public sealed class SourcesUpdateModule : ArgolisModule
     {
         private readonly IUriTemplateExpander expander;
-        private readonly IFileStorage fileStorage;
-        private readonly IStorageQueue queue;
-        private readonly IWishlistPersistence wishlistPersistence;
+        private readonly IPdfService pdfService;
 
         public SourcesUpdateModule(
             ISourcesPersistence persistence,
             ISourcesRepository repository,
             IModelTemplateProvider modelTemplateProvider,
             IUriTemplateExpander expander,
-            IFileStorage fileStorage,
-            IStorageQueue queue,
-            IWishlistPersistence wishlistPersistence)
+            IPdfService pdfService)
             : base(modelTemplateProvider)
         {
             this.RequiresAnyPermissions(Permissions.WriteSources, Permissions.AdminSources);
 
             this.expander = expander;
-            this.fileStorage = fileStorage;
-            this.queue = queue;
-            this.wishlistPersistence = wishlistPersistence;
+            this.pdfService = pdfService;
             this.Put<Brochure>(async r =>
                 await this.PutSingle(brochure => persistence.SaveBrochure(brochure), repository.GetBrochure));
             this.Post<SourceContent>(
@@ -106,8 +98,6 @@ namespace Wikibus.Sources.Nancy
                           stream = this.Request.Body
                       };
 
-            var uri = await this.fileStorage.UploadFile(pdf.name, $"sources{id}", MimeMapping.KnownMimeTypes.Pdf, pdf.stream);
-
             var brochureId = this.expander.ExpandAbsolute<Brochure>(new { id });
             var resource = await getResource(brochureId);
             if (resource == null)
@@ -120,19 +110,9 @@ namespace Wikibus.Sources.Nancy
                 return HttpStatusCode.Forbidden;
             }
 
-            resource.SetContent(uri, (int)pdf.stream.Length);
-
+            await this.pdfService.UploadResourcePdf(resource, pdf.name, pdf.stream);
             await saveResource(resource);
-
-            var pdfUploaded = new PdfUploaded
-            {
-                BlobUri = uri.ToString(),
-                Name = pdf.name,
-                SourceId = brochureId.ToString(),
-            };
-            await this.queue.AddMessage(PdfUploaded.Queue, pdfUploaded);
-
-            await this.wishlistPersistence.MarkDone(id);
+            await this.pdfService.NotifyPdfUploaded(resource, pdf.name);
 
             return this.Response.AsRedirect(brochureId.ToString());
         }

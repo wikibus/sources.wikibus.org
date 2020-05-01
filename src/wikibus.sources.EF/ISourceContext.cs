@@ -19,6 +19,8 @@ namespace Wikibus.Sources.EF
 
         DbSet<WishlistItemEntity> WishlistItems { get; }
 
+        DbSet<UserEntity> Users { get; }
+
         Task<int> SaveChangesAsync();
     }
 }
