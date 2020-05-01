@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Anotar.Serilog;
 using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.EntityFrameworkCore;
 using Wikibus.Sources.EF;
 using File = Google.Apis.Drive.v3.Data.File;
@@ -31,7 +29,12 @@ namespace Wikibus.Sources.Functions
         }
 
         [FunctionName("GoogleDriveImport")]
-        public async Task Run([HttpTrigger(AuthorizationLevel.Anonymous, Route = "foo")] HttpRequestMessage req)
+        public Task Run([TimerTrigger("0 0 * * * *")] TimerInfo timer)
+        {
+            return this.Run();
+        }
+
+        public async Task Run()
         {
             var maxTime = DateTime.Now.AddMinutes(4);
 

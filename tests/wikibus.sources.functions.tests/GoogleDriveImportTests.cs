@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Google.Apis.Drive.v3.Data;
 using MockQueryable.NSubstitute;
@@ -46,7 +45,7 @@ namespace Wikibus.Sources.Functions.Tests
             this.drive.FindFiles(Arg.Any<IEnumerable<string>>()).Returns(this.TestFiles());
 
             // when
-            await this.sut.Run(new HttpRequestMessage());
+            await this.sut.Run();
 
             // then
             await this.persistence
@@ -69,7 +68,7 @@ namespace Wikibus.Sources.Functions.Tests
             this.drive.FindFiles(Arg.Any<IEnumerable<string>>()).Returns(this.TestFiles());
 
             // when
-            await this.sut.Run(new HttpRequestMessage());
+            await this.sut.Run();
 
             // then
             await this.persistence
