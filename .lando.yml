@@ -18,7 +18,7 @@ services:
       - bash -c "dotnet run --project src/wikibus.sources.dbup remote --connection-string 'Server=db;Database=master;User=sa;Password=he11oTHERE;' --run-always-pattern fn_"
   db:
     type: mssql
-    portforward: false
+    portforward: true
     creds:
       password: he11oTHERE
 proxy:

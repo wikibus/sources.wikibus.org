@@ -42,9 +42,9 @@
             </xs:attribute>
           </xs:complexType>
         </xs:element>
+        <xs:element name="Anotar.Serilog" minOccurs="0" maxOccurs="1" type="xs:anyType" />
         <xs:element name="Resourcer" minOccurs="0" maxOccurs="1" type="xs:anyType" />
         <xs:element name="JetBrainsAnnotations" minOccurs="0" maxOccurs="1" type="xs:anyType" />
-        <xs:element name="Anotar.Serilog" minOccurs="0" maxOccurs="1" type="xs:anyType" />
       </xs:all>
       <xs:attribute name="VerifyAssembly" type="xs:boolean">
         <xs:annotation>

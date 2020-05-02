@@ -36,6 +36,8 @@ namespace Wikibus.Sources.EF
 
         public DbSet<WishlistItemEntity> WishlistItems { get; set; }
 
+        public DbSet<UserEntity> Users { get; set; }
+
         public Task<int> SaveChangesAsync()
         {
             return base.SaveChangesAsync();
@@ -82,6 +84,9 @@ namespace Wikibus.Sources.EF
 
             modelBuilder.Entity<FileCabinet>()
                 .ToTable("FileCabinet", "Priv");
+
+            modelBuilder.Entity<UserEntity>()
+                .ToTable("Users", "Sources");
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

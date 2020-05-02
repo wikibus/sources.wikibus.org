@@ -1,6 +1,6 @@
 using System.Linq;
 using Anotar.Serilog;
-using Dynamitey.Internal.Optimization;
+using PdfSharp.Pdf.IO;
 using Wikibus.Sources.EF;
 
 namespace Wikibus.Sources.Functions
@@ -23,17 +23,20 @@ namespace Wikibus.Sources.Functions
         private readonly ISourceImageService imageService;
         private readonly IUriTemplateMatcher matcher;
         private readonly ISourceContext sourcesContext;
+        private readonly ISourcesPersistence persistence;
 
         public ExtractPages(
             ISourcesRepository sources,
             ISourceImageService imageService,
             IUriTemplateMatcher matcher,
-            ISourceContext sourcesContext)
+            ISourceContext sourcesContext,
+            ISourcesPersistence persistence)
         {
             this.sources = sources;
             this.imageService = imageService;
             this.matcher = matcher;
             this.sourcesContext = sourcesContext;
+            this.persistence = persistence;
             this.Client = new HttpClient();
         }
 
@@ -81,10 +84,17 @@ namespace Wikibus.Sources.Functions
                     imageStream.Seek(0, SeekOrigin.Begin);
 
                     await this.imageService.AddImage(sourceId, $"{sourceId}_cover", imageStream);
+                    await this.sourcesContext.SaveChangesAsync();
                 }
             }
 
-            await this.sourcesContext.SaveChangesAsync();
+            if (!source.Pages.HasValue)
+            {
+                pdfContents.Seek(0, SeekOrigin.Begin);
+                var pdfDoc = PdfReader.Open(pdfContents);
+                source.Pages = pdfDoc.PageCount;
+                await this.persistence.SaveBrochure(source);
+            }
         }
     }
 }

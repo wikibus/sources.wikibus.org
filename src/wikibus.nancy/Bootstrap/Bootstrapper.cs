@@ -67,6 +67,11 @@ namespace Wikibus.Nancy
                 _.For<IImageResizer>().Use<ImageResizer>();
                 _.Scan(scan =>
                 {
+                    scan.Assembly(typeof(PdfService).Assembly);
+                    scan.RegisterConcreteTypesAgainstTheFirstInterface();
+                });
+                _.Scan(scan =>
+                {
                     scan.Assembly(typeof(SourcesRepository).Assembly);
                     scan.RegisterConcreteTypesAgainstTheFirstInterface();
                 });
