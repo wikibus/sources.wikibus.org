@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
+using Anotar.Serilog;
 using Argolis.Models;
 using Wikibus.Sources.Events;
 using wikibus.storage;
@@ -37,6 +38,8 @@ namespace Wikibus.Sources
         public async Task NotifyPdfUploaded<T>(T resource, string name)
             where T : Source
         {
+            LogTo.Information("Notifying PDF upload for {0}", resource.Id);
+
             var id = this.matcher.Match<T>(resource.Id).Get<int>("id");
 
             var pdfUploaded = new PdfUploaded
