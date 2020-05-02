@@ -69,7 +69,7 @@ namespace Wikibus.Sources.Functions
             };
         }
 
-        [FunctionName("Users")]
+        [FunctionName("Contributors")]
         public async Task<IActionResult> GetAllUsers(
             [HttpTrigger(AuthorizationLevel.Anonymous, "GET", Route = "contributors")]
             HttpRequest request)
