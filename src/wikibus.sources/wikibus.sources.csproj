@@ -25,6 +25,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\wikibus.common\wikibus.common.csproj" />
+    <ProjectReference Include="..\wikibus.storage\wikibus.storage.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Frames\Collection.jsonld" />

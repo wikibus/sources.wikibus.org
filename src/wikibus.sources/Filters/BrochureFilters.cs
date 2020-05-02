@@ -1,4 +1,5 @@
-﻿using Argolis.Hydra.Annotations;
+﻿using System;
+using Argolis.Hydra.Annotations;
 using Argolis.Hydra.Resources;
 using Argolis.Models;
 using NullGuard;
@@ -24,5 +25,9 @@ namespace Wikibus.Sources.Filters
         [Variable("withoutImages")]
         [Property(Api.withoutImages)]
         public bool? WithoutImages { get; set; }
+
+        [Variable("contributor")]
+        [Property(Schema.contributor)]
+        public Uri Contributor { get; set; }
     }
 }

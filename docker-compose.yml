@@ -7,7 +7,7 @@ services:
       NODE_EXTRA_CA_CERTS: "/lndo.site.crt"
       ENTRYPOINT_URL: "https://wikibus-sources.lndo.site/"
   e2e-tests:
-    image: hydrofoil/hypertest:_0.5.0
+    image: hydrofoil/hypertest:0.6.4
     network_mode: "host"
     environment:
       NODE_EXTRA_CA_CERTS: "/lndo.site.crt"

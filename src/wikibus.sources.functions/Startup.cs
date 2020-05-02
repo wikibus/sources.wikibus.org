@@ -17,7 +17,9 @@ using Serilog;
 using Wikibus.Common;
 using wikibus.images.Cloudinary;
 using Wikibus.Sources.EF;
+using Wikibus.Sources.Functions.Dependencies;
 using Wikibus.Sources.Images;
+using wikibus.storage;
 using wikibus.storage.azure;
 
 [assembly: FunctionsStartup(typeof(Wikibus.Sources.Functions.Startup))]
@@ -33,6 +35,7 @@ namespace Wikibus.Sources.Functions
                 .Enrich.FromLogContext()
                 .MinimumLevel.Debug()
                 .WriteTo.ApplicationInsights(TelemetryConfiguration.CreateDefault(), TelemetryConverter.Traces)
+                .WriteTo.Console()
                 .CreateLogger();
         }
 
@@ -83,6 +86,22 @@ namespace Wikibus.Sources.Functions
             builder.Services.AddSingleton<ICloudinarySettings, Settings>();
             builder.Services.AddSingleton<IAzureSettings, Settings>();
             builder.Services.AddSingleton<ManagementClientFactory>();
+            builder.Services.AddScoped<ISourcesPersistence, SourcesPersistence>();
+            builder.Services.AddScoped<IPdfService, PdfService>();
+            builder.Services.AddScoped<IWishlistPersistence, WishlistPersistence>();
+
+            if (configuration.IsDevelopment())
+            {
+                builder.Services.AddSingleton<IStorageQueue, NullStorageQueue>();
+                builder.Services.AddSingleton<IFileStorage, LocalFileStorage>();
+            }
+            else
+            {
+                builder.Services.AddSingleton<IStorageQueue, StorageQueue>();
+                builder.Services.AddSingleton<IFileStorage, BlobFileStorage>();
+            }
+
+            builder.Services.RegisterGoogleDrive(configuration);
         }
     }
 }

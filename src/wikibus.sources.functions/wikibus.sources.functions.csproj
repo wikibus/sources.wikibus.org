@@ -8,8 +8,12 @@
   <ItemGroup>
     <PackageReference Include="Auth0.AuthenticationApi" Version="7.0.4" />
     <PackageReference Include="Auth0.ManagementApi" Version="7.0.4" />
+    <PackageReference Include="Azure.Identity" Version="1.1.1" />
+    <PackageReference Include="Azure.Security.KeyVault.Secrets" Version="4.0.3" />
+    <PackageReference Include="Google.Apis.Drive.v3" Version="1.45.0.1922" />
     <PackageReference Include="JsonLD.Entities" Version="0.3.6" />
     <PackageReference Include="NullGuard.Fody" Version="2.2.0" />
+    <PackageReference Include="PDFsharp" Version="1.50.5147" />
     <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="3.1.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
     <PackageReference Include="Serilog.Sinks.Loggly" Version="5.4.0" />

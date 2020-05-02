@@ -1,0 +1,61 @@
+PREFIX api: <https://wikibus.org/api#>
+PREFIX wbo: <https://wikibus.org/ontology#>
+PREFIX hydra: <http://www.w3.org/ns/hydra/core#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX bibo: <http://purl.org/ontology/bibo/>
+PREFIX opus: <http://lsdis.cs.uga.edu/projects/semdis/opus#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX schema: <http://schema.org/>
+
+HEADERS {
+    X-Permission "write:sources"
+    X-User "find-me"
+}
+
+With Class api:EntryPoint {
+    Expect Link api:brochures
+}
+
+With Class wbo:BrochureCollection {
+    Expect Operation schema:CreateAction {
+        Invoke {
+            Content-Type "application/ld+json"
+
+            ```
+            {
+            	"@type": "https://wikibus.org/ontology#Brochure",
+            	"http://purl.org/dc/terms/title": {
+            		"@value": "Jelczańskie Zakłady Samochodowe",
+            		"@type": "http://www.w3.org/2001/XMLSchema#string"
+            	},
+            	"http://www.w3.org/2000/01/rdf-schema#comment": {
+            		"@value": "Kserokopia",
+            		"@type": "http://www.w3.org/2001/XMLSchema#string"
+            	},
+            	"http://purl.org/ontology/bibo/pages": {
+            		"@value": "12",
+            		"@type": "http://www.w3.org/2001/XMLSchema#integer"
+            	},
+            	"http://lsdis.cs.uga.edu/projects/semdis/opus#year": {
+            		"@value": "2019",
+            		"@type": "http://www.w3.org/2001/XMLSchema#gYear"
+            	}
+            }
+            ```
+        } => {
+            Expect Status 201
+        }
+    }
+
+    Expect Link hydra:search (
+        schema:contributor = "https://users.wikibus.org/user/jan-kowalski"
+    ) {
+        Expect Property hydra:totalItems 0
+    }
+
+    Expect Link hydra:search (
+        schema:contributor = "https://users.wikibus.org/user/find-me"
+    ) {
+        Expect Property hydra:totalItems 1
+    }
+}

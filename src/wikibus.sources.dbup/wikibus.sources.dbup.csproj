@@ -25,6 +25,7 @@
       <EmbeddedResource Include="Scripts\7. Users\2.Make column not null.sql" />
       <EmbeddedResource Include="Scripts\8. Image order\1. Add column.sql" />
       <EmbeddedResource Include="Scripts\8. Image order\2. Apply current order.sql" />
+      <EmbeddedResource Include="Scripts\9. Rest\0001. User import from google drive.sql" />
       <EmbeddedResource Include="Scripts\fn_CompartmentUsage.sql" />
       <EmbeddedResource Include="Scripts\1. OriginalStructure\5. Table Source.sql" />
       <EmbeddedResource Include="Scripts\1. OriginalStructure\3. Table FileCabinet.sql" />

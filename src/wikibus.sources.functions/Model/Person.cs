@@ -1,10 +1,12 @@
 ﻿using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using NullGuard;
 using Vocab;
 
 namespace Wikibus.Sources.Functions.Model
 {
+    [NullGuard(ValidationFlags.ReturnValues)]
     public class Person
     {
         public Uri Id { get; set; }
