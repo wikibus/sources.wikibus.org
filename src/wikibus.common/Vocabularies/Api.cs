@@ -84,7 +84,5 @@ namespace Wikibus.Common
         public const string AddToWishlistAction = BaseUri + "AddToWishlistAction";
 
         public const string ImageOrder = BaseUri + "ImageOrder";
-
-        public const string contributor = BaseUri + "contributor";
     }
 }

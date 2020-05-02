@@ -48,13 +48,13 @@ With Class wbo:BrochureCollection {
     }
 
     Expect Link hydra:search (
-        api:contributor = "https://users.wikibus.org/user/jan-kowalski"
+        schema:contributor = "https://users.wikibus.org/user/jan-kowalski"
     ) {
         Expect Property hydra:totalItems 0
     }
 
     Expect Link hydra:search (
-        api:contributor = "https://users.wikibus.org/user/find-me"
+        schema:contributor = "https://users.wikibus.org/user/find-me"
     ) {
         Expect Property hydra:totalItems 1
     }

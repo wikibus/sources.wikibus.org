@@ -27,7 +27,7 @@ namespace Wikibus.Sources.Filters
         public bool? WithoutImages { get; set; }
 
         [Variable("contributor")]
-        [Property(Api.contributor)]
+        [Property(Schema.contributor)]
         public Uri Contributor { get; set; }
     }
 }
