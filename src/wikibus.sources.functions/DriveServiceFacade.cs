@@ -50,9 +50,12 @@ namespace Wikibus.Sources.Functions
             return result.Files.GetEnumerator();
         }
 
-        public Task<Stream> GetFileContents(File file)
+        public async Task<Stream> GetFileContents(File file)
         {
-            return this.drive.Files.Get(file.Id).ExecuteAsStreamAsync();
+            var stream = new MemoryStream();
+            await this.drive.Files.Get(file.Id).DownloadAsync(stream);
+            stream.Seek(0, SeekOrigin.Begin);
+            return stream;
         }
 
         public async Task MoveFile(File file, string parent)
