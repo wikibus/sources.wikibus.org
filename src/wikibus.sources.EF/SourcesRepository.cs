@@ -262,6 +262,14 @@ namespace Wikibus.Sources.EF
                     brochures = brochures.Where(b => b.Image.Bytes == null && !b.Images.Any());
                 }
 
+                if (filters.Contributor != null)
+                {
+                    var auth0Id = filters.Contributor.Segments.Last();
+
+                    LogTo.Debug("Filtering brochures of user {0}", auth0Id);
+                    brochures = brochures.Where(b => b.User == auth0Id);
+                }
+
                 return brochures;
             };
         }
