@@ -33,7 +33,7 @@ namespace Wikibus.Sources.Functions
         {
             if (!folders.Any())
             {
-                LogTo.Information("Not folders search");
+                LogTo.Information("No folders to search");
                 return new List<File>().GetEnumerator();
             }
 
