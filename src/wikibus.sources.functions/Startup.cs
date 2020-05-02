@@ -5,9 +5,6 @@ using Argolis.Hydra.Models;
 using Argolis.Models;
 using Brochures.Wikibus.Org;
 using CloudinaryDotNet;
-using Google.Apis.Auth.OAuth2;
-using Google.Apis.Drive.v3;
-using Google.Apis.Services;
 using ImageMagick;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
@@ -20,6 +17,7 @@ using Serilog;
 using Wikibus.Common;
 using wikibus.images.Cloudinary;
 using Wikibus.Sources.EF;
+using Wikibus.Sources.Functions.Dependencies;
 using Wikibus.Sources.Images;
 using wikibus.storage;
 using wikibus.storage.azure;
@@ -88,12 +86,11 @@ namespace Wikibus.Sources.Functions
             builder.Services.AddSingleton<ICloudinarySettings, Settings>();
             builder.Services.AddSingleton<IAzureSettings, Settings>();
             builder.Services.AddSingleton<ManagementClientFactory>();
-            builder.Services.AddScoped<IDriveServiceFacade, DriveServiceFacade>();
             builder.Services.AddScoped<ISourcesPersistence, SourcesPersistence>();
             builder.Services.AddScoped<IPdfService, PdfService>();
             builder.Services.AddScoped<IWishlistPersistence, WishlistPersistence>();
 
-            if (configuration["ASPNETCORE_ENVIRONMENT"] == "Development")
+            if (configuration.IsDevelopment())
             {
                 builder.Services.AddSingleton<IStorageQueue, NullStorageQueue>();
                 builder.Services.AddSingleton<IFileStorage, LocalFileStorage>();
@@ -104,18 +101,7 @@ namespace Wikibus.Sources.Functions
                 builder.Services.AddSingleton<IFileStorage, BlobFileStorage>();
             }
 
-            builder.Services.AddScoped(_ =>
-            {
-                var credential = GoogleCredential
-                    .FromFile("/Users/tomaszpluskiewicz/Downloads/wikibus-org-76fb423963bb.json")
-                    .CreateScoped("https://www.googleapis.com/auth/drive");
-
-                return new DriveService(new BaseClientService.Initializer
-                {
-                    HttpClientInitializer = credential,
-                    ApplicationName = "Wikibus Drive robot Azure Function"
-                });
-            });
+            builder.Services.RegisterGoogleDrive(configuration);
         }
     }
 }
