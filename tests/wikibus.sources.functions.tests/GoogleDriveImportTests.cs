@@ -45,7 +45,7 @@ namespace Wikibus.Sources.Functions.Tests
             this.drive.FindFiles(Arg.Any<IEnumerable<string>>()).Returns(this.TestFiles());
 
             // when
-            await this.sut.Run();
+            await this.sut.DoImport();
 
             // then
             await this.persistence
@@ -68,7 +68,7 @@ namespace Wikibus.Sources.Functions.Tests
             this.drive.FindFiles(Arg.Any<IEnumerable<string>>()).Returns(this.TestFiles());
 
             // when
-            await this.sut.Run();
+            await this.sut.DoImport();
 
             // then
             await this.persistence

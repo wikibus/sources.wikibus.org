@@ -31,10 +31,10 @@ namespace Wikibus.Sources.Functions
         [FunctionName("GoogleDriveImport")]
         public Task Run([TimerTrigger("0 0 * * * *")] TimerInfo timer)
         {
-            return this.Run();
+            return this.DoImport();
         }
 
-        public async Task Run()
+        public async Task DoImport()
         {
             var maxTime = DateTime.Now.AddMinutes(4);
 
