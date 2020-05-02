@@ -264,7 +264,7 @@ namespace Wikibus.Sources.EF
 
                 if (filters.Contributor != null)
                 {
-                    var auth0Id = filters.Contributor.Segments.Last();
+                    var auth0Id = Uri.UnescapeDataString(filters.Contributor.Segments.Last());
 
                     LogTo.Debug("Filtering brochures of user {0}", auth0Id);
                     brochures = brochures.Where(b => b.User == auth0Id);
