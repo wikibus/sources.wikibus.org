@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/saintedlama/versionize) for commit guidelines.
 
-<a name="0.11.0"></a>
+<a name="0.11.1"></a>
+## 0.11.1 (2020-5-2)
+
+### Bug Fixes
+
+* user id has to be unescaped
+
 ## 0.11.0 (2020-5-2)
 
 ### Bug Fixes
