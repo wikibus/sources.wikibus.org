@@ -9,7 +9,7 @@ PREFIX schema: <http://schema.org/>
 
 HEADERS {
     X-Permission "write:sources"
-    X-User "john-doe"
+    X-User "find-me"
 }
 
 With Class api:EntryPoint {
@@ -54,7 +54,7 @@ With Class wbo:BrochureCollection {
     }
 
     Expect Link hydra:search (
-        api:contributor = "https://users.wikibus.org/user/john-doe"
+        api:contributor = "https://users.wikibus.org/user/find-me"
     ) {
         Expect Property hydra:totalItems 1
     }
