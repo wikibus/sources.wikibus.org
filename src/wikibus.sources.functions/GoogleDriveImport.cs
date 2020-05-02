@@ -44,7 +44,7 @@ namespace Wikibus.Sources.Functions
 
             var folders = toScan.Select(item => item.DriveImportFolder);
 
-            using (var files = await this.drive.FindFiles(folders))
+            using (var files = await this.drive.FindFiles(folders.ToArray()))
             {
                 while (DateTime.Now < maxTime && files.MoveNext())
                 {

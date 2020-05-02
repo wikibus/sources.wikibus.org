@@ -11,7 +11,7 @@ namespace Wikibus.Sources.Functions
 {
     public interface IDriveServiceFacade
     {
-        Task<IEnumerator<File>> FindFiles(IEnumerable<string> folders);
+        Task<IEnumerator<File>> FindFiles(string[] folders);
 
         Task<Stream> GetFileContents(File file);
 
@@ -29,8 +29,16 @@ namespace Wikibus.Sources.Functions
             this.configuration = configuration;
         }
 
-        public async Task<IEnumerator<File>> FindFiles(IEnumerable<string> folders)
+        public async Task<IEnumerator<File>> FindFiles(string[] folders)
         {
+            if (!folders.Any())
+            {
+                LogTo.Information("Not folders search");
+                return new List<File>().GetEnumerator();
+            }
+
+            LogTo.Information("Searching for pdfs in {0} folders", folders.Length);
+
             var request = this.drive.Files.List();
             var parentsQuery = string.Join(" or ", folders.Select(folder => $"'{folder}' in parents"));
             request.Q = $"mimeType='application/pdf' and {parentsQuery}";

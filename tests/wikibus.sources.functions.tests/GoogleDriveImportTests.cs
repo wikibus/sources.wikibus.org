@@ -42,7 +42,7 @@ namespace Wikibus.Sources.Functions.Tests
             };
             var dbSet = users.AsQueryable().BuildMockDbSet();
             this.context.Users.Returns(dbSet);
-            this.drive.FindFiles(Arg.Any<IEnumerable<string>>()).Returns(this.TestFiles());
+            this.drive.FindFiles(Arg.Any<string[]>()).Returns(this.TestFiles());
 
             // when
             await this.sut.DoImport();
@@ -65,7 +65,7 @@ namespace Wikibus.Sources.Functions.Tests
             };
             var dbSet = users.AsQueryable().BuildMockDbSet();
             this.context.Users.Returns(dbSet);
-            this.drive.FindFiles(Arg.Any<IEnumerable<string>>()).Returns(this.TestFiles());
+            this.drive.FindFiles(Arg.Any<string[]>()).Returns(this.TestFiles());
 
             // when
             await this.sut.DoImport();
