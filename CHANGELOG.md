@@ -2,7 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/saintedlama/versionize) for commit guidelines.
 
-<a name="0.10.0"></a>
+<a name="0.11.0"></a>
+## 0.11.0 (2020-5-2)
+
+### Bug Fixes
+
+* files were not correctly downloaded from google
+* drive import should skip when no folders
+
+### Features
+
+* filtering brochures by contributor
+* endpoint to get all contributors
+* automatically set page count from pdf
+* automatically imports brochures from google drive
+
 ## 0.10.0 (2020-4-25)
 
 ### Features
