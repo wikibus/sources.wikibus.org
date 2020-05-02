@@ -29,7 +29,7 @@ namespace Wikibus.Sources.Functions
         }
 
         [FunctionName("GoogleDriveImport")]
-        public Task Run([TimerTrigger("0 0 * * * *")] TimerInfo timer)
+        public Task Run([TimerTrigger("0 0 * * * *", RunOnStartup = true)] TimerInfo timer)
         {
             return this.DoImport();
         }
