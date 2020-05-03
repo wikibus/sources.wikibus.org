@@ -63,37 +63,44 @@ namespace Wikibus.Sources.Functions
                 return;
             }
 
-            var pdfContents = await this.Client.GetStreamAsync(pdf.BlobUri);
-
-            var settings = new MagickReadSettings
+            var pdfRequestStream = await this.Client.GetStreamAsync(pdf.BlobUri);
+            using (var pdfContents = new MemoryStream())
             {
-                Density = new Density(300, 300),
-                FrameCount = 1,
-                FrameIndex = 0,
-            };
-
-            using (MagickImageCollection images = new MagickImageCollection())
-            {
-                images.Read(pdfContents, settings);
-
-                var image = images.First();
-                using (var imageStream = new MemoryStream())
-                {
-                    image.Format = MagickFormat.Jpeg;
-                    image.Write(imageStream);
-                    imageStream.Seek(0, SeekOrigin.Begin);
-
-                    await this.imageService.AddImage(sourceId, $"{sourceId}_cover", imageStream);
-                    await this.sourcesContext.SaveChangesAsync();
-                }
-            }
-
-            if (!source.Pages.HasValue)
-            {
+                await pdfRequestStream.CopyToAsync(pdfContents);
                 pdfContents.Seek(0, SeekOrigin.Begin);
-                var pdfDoc = PdfReader.Open(pdfContents);
-                source.Pages = pdfDoc.PageCount;
-                await this.persistence.SaveBrochure(source);
+
+                var settings = new MagickReadSettings
+                {
+                    Density = new Density(300, 300),
+                    FrameCount = 1,
+                    FrameIndex = 0,
+                };
+
+                using (MagickImageCollection images = new MagickImageCollection())
+                {
+                    images.Read(pdfContents, settings);
+
+                    var image = images.First();
+                    using (var imageStream = new MemoryStream())
+                    {
+                        image.Format = MagickFormat.Jpeg;
+                        image.Write(imageStream);
+                        imageStream.Seek(0, SeekOrigin.Begin);
+
+                        await this.imageService.AddImage(sourceId, $"{sourceId}_cover", imageStream);
+                        await this.sourcesContext.SaveChangesAsync();
+                    }
+                }
+
+                if (!source.Pages.HasValue)
+                {
+                    LogTo.Information("Brochure has no page count. Setting page count from PDF");
+
+                    pdfContents.Seek(0, SeekOrigin.Begin);
+                    var pdfDoc = PdfReader.Open(pdfContents);
+                    source.Pages = pdfDoc.PageCount;
+                    await this.persistence.SaveBrochure(source);
+                }
             }
         }
     }
