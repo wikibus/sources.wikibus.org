@@ -69,10 +69,9 @@ namespace Wikibus.Sources.EF
                               HasLegacyImage = b.Image.Bytes != null
                           }).SingleOrDefaultAsync();
 
-            LogTo.Debug("Loaded image {0}: {1}", id, source);
-
             if (source == null)
             {
+                LogTo.Debug("Brochure {0} brochure not found", id);
                 return null;
             }
 

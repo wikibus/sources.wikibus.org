@@ -1,29 +1,27 @@
-using System.Linq;
-using Anotar.Serilog;
-using PdfSharp.Pdf.IO;
-using Wikibus.Sources.EF;
-
 namespace Wikibus.Sources.Functions
 {
     using System;
     using System.IO;
+    using System.Linq;
     using System.Net.Http;
     using System.Threading.Tasks;
+    using Anotar.Serilog;
     using Argolis.Models;
+    using EF;
     using Events;
     using ImageMagick;
     using Images;
     using Microsoft.Azure.WebJobs;
-    using Microsoft.Extensions.Logging;
-    using Sources;
+    using PdfSharp.Pdf.IO;
 
-    public class ExtractPages
+    public class ExtractPages : IDisposable
     {
         private readonly ISourcesRepository sources;
         private readonly ISourceImageService imageService;
         private readonly IUriTemplateMatcher matcher;
         private readonly ISourceContext sourcesContext;
         private readonly ISourcesPersistence persistence;
+        private readonly string tempFile = Path.GetTempFileName();
 
         public ExtractPages(
             ISourcesRepository sources,
@@ -63,20 +61,24 @@ namespace Wikibus.Sources.Functions
                 return;
             }
 
-            var pdfRequestStream = await this.Client.GetStreamAsync(pdf.BlobUri);
-            using (var pdfContents = new MemoryStream())
+            using (var pdfRequestStream = await this.Client.GetStreamAsync(pdf.BlobUri))
             {
-                await pdfRequestStream.CopyToAsync(pdfContents);
-                pdfContents.Seek(0, SeekOrigin.Begin);
-
-                var settings = new MagickReadSettings
+                using (var pdfFile = File.Create(this.tempFile))
                 {
-                    Density = new Density(300, 300),
-                    FrameCount = 1,
-                    FrameIndex = 0,
-                };
+                    await pdfRequestStream.CopyToAsync(pdfFile);
+                }
+            }
 
-                using (MagickImageCollection images = new MagickImageCollection())
+            var settings = new MagickReadSettings
+            {
+                Density = new Density(300, 300),
+                FrameCount = 1,
+                FrameIndex = 0,
+            };
+
+            using (MagickImageCollection images = new MagickImageCollection())
+            {
+                using (var pdfContents = File.OpenRead(this.tempFile))
                 {
                     images.Read(pdfContents, settings);
 
@@ -91,16 +93,27 @@ namespace Wikibus.Sources.Functions
                         await this.sourcesContext.SaveChangesAsync();
                     }
                 }
+            }
 
-                if (!source.Pages.HasValue)
+            if (!source.Pages.HasValue)
+            {
+                LogTo.Information("Brochure has no page count. Setting page count from PDF");
+
+                using (var pdfContents = File.OpenRead(this.tempFile))
                 {
-                    LogTo.Information("Brochure has no page count. Setting page count from PDF");
-
-                    pdfContents.Seek(0, SeekOrigin.Begin);
                     var pdfDoc = PdfReader.Open(pdfContents);
                     source.Pages = pdfDoc.PageCount;
                     await this.persistence.SaveBrochure(source);
                 }
+            }
+        }
+
+        public void Dispose()
+        {
+            if (File.Exists(this.tempFile))
+            {
+                LogTo.Information("Removing temp PDF file");
+                File.Delete(this.tempFile);
             }
         }
     }
