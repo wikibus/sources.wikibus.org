@@ -2,7 +2,9 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/saintedlama/versionize) for commit guidelines.
 
-<a name="0.12.0"></a>
+<a name="0.12.1"></a>
+## 0.12.1 (2020-5-3)
+
 ## 0.12.0 (2020-5-3)
 
 ### Bug Fixes
