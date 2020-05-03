@@ -93,7 +93,7 @@ namespace Wikibus.Sources.Functions
 
             var collection = new Collection<Person>
             {
-                Id = new Uri($"{this.configuration["wikibus:usersUrl"]}user/contributors"),
+                Id = new Uri($"{this.configuration["wikibus:usersUrl"]}contributors"),
                 Members = members,
                 TotalItems = users.Paging.Total,
             };
