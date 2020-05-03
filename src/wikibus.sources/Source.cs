@@ -26,7 +26,7 @@ namespace Wikibus.Sources
         private Language[] languages = new Language[0];
         private Uri id;
         private Uri content;
-        private int contentSize;
+        private int? contentSize;
 
         /// <summary>
         /// Gets or sets the identifier.
@@ -102,7 +102,7 @@ namespace Wikibus.Sources
             new Uri($"{this.Id}/file"),
             "Download PDF",
             MimeMapping.KnownMimeTypes.Pdf,
-            this.contentSize,
+            this.contentSize ?? 0,
             this.content);
 
         [Range(Schema.Person)]
@@ -173,6 +173,12 @@ namespace Wikibus.Sources
         public bool OwnedBy(ClaimsPrincipal user)
         {
             return user.GetNameClaim() == this.User;
+        }
+
+        public void RemoveContent()
+        {
+            this.content = null;
+            this.contentSize = null;
         }
     }
 }

@@ -42,6 +42,14 @@ namespace Wikibus.Nancy.Hydra
                     .Expects((IriRef)Api.PdfUpload)
                     .TypedAs((IriRef)Schema.TransferAction);
             }
+
+            if (context.HasPermission(Permissions.AdminSources))
+            {
+                this.Property(s => s.Content)
+                    .SupportsDelete()
+                    .Title("Remove PDF")
+                    .TypedAs((IriRef)Schema.DeleteAction);
+            }
         }
     }
 }

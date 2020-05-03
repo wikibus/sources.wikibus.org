@@ -32,6 +32,8 @@ namespace Wikibus.Sources.Nancy
                 await this.PutSingle(brochure => persistence.SaveBrochure(brochure), repository.GetBrochure));
             this.Post<SourceContent>(
                 async r => await this.UploadPdf((int)r.id, repository.GetBrochure, brochure => persistence.SaveBrochure(brochure, true)));
+            this.Delete<SourceContent>(
+                async r => await this.DeletePdf((int)r.id, repository.GetBrochure, brochure => persistence.SaveBrochure(brochure, true)));
             using (this.Templates)
             {
                 this.Post<Collection<Brochure>>(async r =>
@@ -83,6 +85,22 @@ namespace Wikibus.Sources.Nancy
             await saveResource(brochure);
 
             return await getResource(brochure.Id);
+        }
+
+        private async Task<dynamic> DeletePdf(
+            int id,
+            Func<Uri, Task<Brochure>> getResource,
+            Func<Brochure, Task> saveResource)
+        {
+            this.RequiresPermissions(Permissions.AdminSources);
+
+            var brochureId = this.expander.ExpandAbsolute<Brochure>(new { id });
+            var resource = await getResource(brochureId);
+
+            resource.RemoveContent();
+            await saveResource(resource);
+
+            return this.Response.AsRedirect(brochureId.ToString());
         }
 
         private async Task<dynamic> UploadPdf(
