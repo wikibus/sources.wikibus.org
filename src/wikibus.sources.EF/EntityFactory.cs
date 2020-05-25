@@ -182,16 +182,18 @@ namespace Wikibus.Sources.EF
         private void CreateImageLinks<TEntity>(Source source, EntityWrapper<TEntity> entity)
             where TEntity : SourceEntity
         {
-            var images = entity.Entity.Images.Select((image, index) => new Image
-            {
-                Id = $"{this.configuration.BaseResourceNamespace}image/{image.ExternalId}",
-                ContentUrl = image.OriginalUrl,
-                OrderIndex = image.OrderIndex,
-                Thumbnail = new Image
+            var images = entity.Entity.Images
+                .OrderBy(i => i.OrderIndex)
+                .Select((image, index) => new Image
                 {
-                    ContentUrl = image.ThumbnailUrl
-                }
-            }).ToArray();
+                    Id = $"{this.configuration.BaseResourceNamespace}image/{image.ExternalId}",
+                    ContentUrl = image.OriginalUrl,
+                    OrderIndex = image.OrderIndex,
+                    Thumbnail = new Image
+                    {
+                        ContentUrl = image.ThumbnailUrl
+                    }
+                }).ToArray();
 
             if (entity.HasLegacyImage)
             {
