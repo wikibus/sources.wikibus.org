@@ -20,7 +20,8 @@ namespace Wikibus.Sources.EF
             LogTo.Information("User {0} adds source {1} to wishlist", userId, brochureId);
 
             var existingItems = from wi in this.context.WishlistItems
-                where (wi.SourceId == brochureId && wi.User == userId) || wi.Brochure.ContentSize != null
+                where wi.SourceId == brochureId
+                where wi.User == userId || wi.Brochure.ContentSize != null
                 select wi;
 
             if (await existingItems.AnyAsync())
