@@ -2,7 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/saintedlama/versionize) for commit guidelines.
 
-<a name="0.12.2"></a>
+<a name="0.12.3"></a>
+## 0.12.3 (2020-5-25)
+
+### Bug Fixes
+
+* order images
+* unable to add wishlist items
+
 ## 0.12.2 (2020-5-3)
 
 ### Bug Fixes
