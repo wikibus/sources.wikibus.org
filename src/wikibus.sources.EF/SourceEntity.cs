@@ -31,6 +31,9 @@ namespace Wikibus.Sources.EF
 
         public string User { get; set; }
 
+        [UsedImplicitly]
+        public byte[] Updated { get; set; }
+
         public IList<ImageEntity> Images { get; set; } = new List<ImageEntity>();
     }
 }

@@ -110,7 +110,7 @@ namespace Wikibus.Sources.EF
             var books = this.context.Books.Include(b => b.Images);
             return await books.GetCollectionPage<Book, BookEntity, SearchableCollection<Book>>(
                 identifier,
-                entity => entity.BookTitle,
+                entities => entities.OrderByDescending(b => b.BookTitle),
                 this.FilterBooks(filters),
                 page,
                 pageSize,
@@ -123,7 +123,9 @@ namespace Wikibus.Sources.EF
             var brochures = this.context.Brochures.Include(b => b.Images);
             return await brochures.GetCollectionPage<Brochure, BrochureEntity, BrochureCollection>(
                 identifier,
-                entity => entity.FolderName,
+                collection => collection
+                    .OrderByDescending(b => b.Updated)
+                    .ThenByDescending(b => b.Id),
                 this.FilterBrochures(filters),
                 page,
                 pageSize,

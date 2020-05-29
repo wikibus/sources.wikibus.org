@@ -87,6 +87,10 @@ namespace Wikibus.Sources.EF
 
             modelBuilder.Entity<UserEntity>()
                 .ToTable("Users", "Sources");
+
+            modelBuilder.Entity<SourceEntity>()
+                .Property(s => s.Updated)
+                .ValueGeneratedOnAddOrUpdate();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

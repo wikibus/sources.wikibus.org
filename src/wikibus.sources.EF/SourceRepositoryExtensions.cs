@@ -11,7 +11,7 @@ namespace Wikibus.Sources.EF
         public static async Task<TCollection> GetCollectionPage<T, TEntity, TCollection>(
             this IQueryable<TEntity> dbSet,
             Uri identifier,
-            Expression<Func<TEntity, object>> ordering,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> order,
             Func<IQueryable<TEntity>, IQueryable<TEntity>> applyFilters,
             int page,
             int pageSize,
@@ -19,7 +19,7 @@ namespace Wikibus.Sources.EF
             where TEntity : class, IHasImage
             where TCollection : SearchableCollection<T>, new()
         {
-            var entireCollection = applyFilters(dbSet.AsNoTracking()).OrderBy(ordering);
+            var entireCollection = order(applyFilters(dbSet.AsNoTracking()));
             var pageOfBrochures = entireCollection.Skip((page - 1) * pageSize).Take(pageSize);
             var entityWrappers = pageOfBrochures.Select(entity => new EntityWrapper<TEntity>
             {
