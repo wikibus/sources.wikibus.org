@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/saintedlama/versionize) for commit guidelines.
 
-<a name="0.13.0"></a>
+<a name="0.14.0"></a>
+## 0.14.0 (2020-8-6)
+
+### Features
+
+* also include raw id
+
 ## 0.13.0 (2020-5-29)
 
 ### Features
