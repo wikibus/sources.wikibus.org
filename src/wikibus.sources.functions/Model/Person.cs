@@ -13,6 +13,8 @@ namespace Wikibus.Sources.Functions.Model
 
         public string Name { get; set; }
 
+        public string Identifier { get; set; }
+
         public ImageObject Image { get; set; }
 
         [JsonProperty]

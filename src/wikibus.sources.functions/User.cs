@@ -55,6 +55,7 @@ namespace Wikibus.Sources.Functions
             var person = new Person
             {
                 Id = new Uri($"{this.configuration["wikibus:usersUrl"]}user/{id}"),
+                Identifier = id,
                 Name = user.FullName,
                 Image = new ImageObject
                 {
@@ -89,6 +90,7 @@ namespace Wikibus.Sources.Functions
             {
                 Id = new Uri($"{this.configuration["wikibus:usersUrl"]}user/{user.UserId}"),
                 Name = user.FullName,
+                Identifier = user.UserId,
             }).ToArray();
 
             var collection = new Collection<Person>
