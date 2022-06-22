@@ -15,7 +15,7 @@
       <PackageReference Include="MimeMapping" Version="1.0.1.26" />
       <PackageReference Include="Nancy" Version="2.0.0" />
       <PackageReference Include="Nancy.Routing.UriTemplates" Version="2.0" />
-      <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
       <PackageReference Include="NullGuard.Fody" Version="2.2.0" />
       <PackageReference Include="Rdf.Vocabularies" Version="1.4" />
       <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">
