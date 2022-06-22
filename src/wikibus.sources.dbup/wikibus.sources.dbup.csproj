@@ -10,7 +10,7 @@
     <ItemGroup>
         <PackageReference Include="dbup-diy-cli" Version="0.3.0-netstandard0002" />
         <PackageReference Include="dbup-diy-cli.EntityFramework" Version="0.3.0-netstandard0002" />
-        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     </ItemGroup>
 
     <ItemGroup>
