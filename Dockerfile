@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:sdk AS build-env
+FROM mcr.microsoft.com/dotnet/sdk:2.1 AS build-env
 WORKDIR /app
 
 RUN mkdir /output
@@ -9,7 +9,7 @@ COPY . /app
 RUN dotnet publish src/app --configuration Release --output /output
 
 # Build runtime image
-FROM microsoft/dotnet:aspnetcore-runtime
+FROM mcr.microsoft.com/dotnet/runtime:2.1-focal
 
 RUN apt-get update
 RUN apt-get install -y ghostscript
