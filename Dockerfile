@@ -1,6 +1,8 @@
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-env
 WORKDIR /app
 
+RUN apt-get update && apt-get install --reinstall ca-certificates -y
+
 RUN mkdir /output
 
 # Copy project and publish
