@@ -15,3 +15,9 @@ services:
     volumes:
       - ~/.lando/certs/lndo.site.crt:/lndo.site.crt
       - ./e2e-tests:/tests
+  app:
+    env_file:
+      - .env
+    build: .
+    ports:
+      - "8080:17899"

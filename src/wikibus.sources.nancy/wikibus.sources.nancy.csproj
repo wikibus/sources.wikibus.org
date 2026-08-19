@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <Version>0.14.0</Version>
-        <TargetFramework>netstandard2.0</TargetFramework>
+        <TargetFramework>net9.0</TargetFramework>
         <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
         <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     </PropertyGroup>

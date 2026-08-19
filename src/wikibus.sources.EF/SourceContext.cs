@@ -59,11 +59,11 @@ namespace Wikibus.Sources.EF
 
             modelBuilder.Entity<ImageEntity>()
                 .Property(p => p.Id)
-                .ForSqlServerUseSequenceHiLo("ImagesSequenceHiLo", "Sources");
+                .UseHiLo("ImagesSequenceHiLo", "Sources");
 
             modelBuilder.Entity<SourceEntity>()
                 .Property(p => p.Id)
-                .ForSqlServerUseSequenceHiLo("SourcesSequenceHiLo", "Sources");
+                .UseHiLo("SourcesSequenceHiLo", "Sources");
 
             modelBuilder.Entity<MagazineEntity>()
                 .HasMany(t => t.Issues).WithOne(issue => issue.Magazine).IsRequired()

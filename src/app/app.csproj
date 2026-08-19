@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <Version>0.14.0</Version>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net9.0</TargetFramework>
         <RootNamespace>Brochures.Wikibus.Org</RootNamespace>
     </PropertyGroup>
 

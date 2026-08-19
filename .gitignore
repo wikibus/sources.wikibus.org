@@ -9,3 +9,4 @@ docker-compose.override.yml
 local.settings.json
 .vs
 .vscode
+.env
