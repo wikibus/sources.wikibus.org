@@ -46,6 +46,7 @@ namespace Wikibus.Sources.EF
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<SourceEntity>()
+                .ToTable(tb => tb.HasTrigger("TRIGGER_DATE_UPDATED"))
                 .HasDiscriminator<string>("SourceType")
                 .HasValue<BookEntity>("book")
                 .HasValue<BrochureEntity>("folder")
@@ -55,6 +56,7 @@ namespace Wikibus.Sources.EF
                 .HasMany(s => s.Images).WithOne().HasForeignKey("SourceId");
 
             modelBuilder.Entity<ImageEntity>()
+                .ToTable(tb => tb.HasTrigger("RemoveLegacyImage"))
                 .ToTable("Images", "Sources");
 
             modelBuilder.Entity<ImageEntity>()
